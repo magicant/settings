@@ -1,38 +1,21 @@
 #!/bin/sh
 
 makelink () {
-	if
-		if [ -L ~/"$2" ]; then
-			printf "~/$2 already exists as a symbolic link. "
-			false
-		elif [ -e ~/"$2" ]; then
-			printf "~/$2 already exists. overwrite? [y/n]: "
-			read input
-			case "$input" in
-				(Y*|y*) true;;
-				(*)     false;;
-			esac
-		fi
-	then
-		prefix=""
-		t="$(dirname "$2")"
-		until [ x"$t" = x"." ]; do
-			prefix="$prefix../"
-			t="$(dirname "$t")"
-		done
-		if mkdir -p "$(dirname ~/"$2")"; then
-			echo ln -fs "$prefix${PWD#${HOME%/}/}/$1" ~/"$2"
-			ln -fs "$prefix${PWD#${HOME%/}/}/$1" ~/"$2"
-		fi
-	else
-		printf "Skipping $2\n"
-	fi
+	prefix=""
+	t="$(dirname "$2")"
+	until [ x"$t" = x"." ]; do
+		prefix="$prefix../"
+		t="$(dirname "$t")"
+	done
+	mkdir -p "$(dirname ~/"$2")" &&
+	ln -s "$prefix${PWD#${HOME%/}/}/$1" ~/"$2" &&
+	echo ~/"$2" "->" "$prefix${PWD#${HOME%/}/}/$1"
 }
 
 cd "$(dirname $0)"
 if [ x"$PWD" = x"${PWD#$HOME}" ]; then
 	printf "We're not in the home directory! Aborting.\n"
-	exit 2
+	exit 1
 fi
 
 makelink bashrc .bashrc
@@ -41,5 +24,12 @@ makelink dircolors .dircolors
 makelink inputrc .inputrc
 makelink lesspipe.sh bin/lesspipe.sh
 top --version 2>/dev/null | grep -q procps && makelink toprc .toprc
-makelink vimrc .vimrc
 makelink yashrc .yashrc
+
+if command -v vim >/dev/null 2>&1; then
+	makelink vimrc .vimrc
+	makelink vim/filetype.vim .vim/filetype.vim
+	./vim/setup.sh
+fi
+
+exit 0
