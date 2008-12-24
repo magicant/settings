@@ -1,0 +1,113 @@
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+# The keywords COLOR, OPTIONS, and EIGHTBIT (honored by the
+# slackware version of dircolors) are recognized but ignored.
+# Below, there should be one TERM entry for each termtype that is colorizable
+TERM linux
+TERM linux-c
+TERM mach-color
+TERM console
+TERM con132x25
+TERM con132x30
+TERM con132x43
+TERM con132x60
+TERM con80x25
+TERM con80x28
+TERM con80x30
+TERM con80x43
+TERM con80x50
+TERM con80x60
+TERM cygwin
+TERM dtterm
+TERM putty
+TERM putty-16color
+TERM putty-256color
+TERM putty-vt100
+TERM xterm
+TERM xterm-color
+TERM xterm-16color
+TERM xterm-256color
+TERM xterm-debian
+TERM rxvt
+TERM screen
+TERM screen-bce
+TERM screen-w
+TERM vt100
+TERM Eterm
+# Below are the color init strings for the basic file types. A color init
+# string consists of one or more of the following numeric codes:
+# Attribute codes:
+# 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+# Text color codes:
+# 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
+# Background color codes:
+# 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
+NORMAL 00 # global default, although everything should be something.
+FILE 00 # normal file
+DIR 01;34 # directory
+LINK 01;36 # symbolic link. (If you set this to 'target' instead of a
+ # numerical value, the color is as for the file pointed to.)
+FIFO 33 # pipe
+SOCK 01;35 # socket
+DOOR 01;35 # door
+BLK 33;01 # block device driver
+CHR 33;01 # character device driver
+ORPHAN 40;31;01 # symlink to nonexistent file
+SETUID 37;41 # file that is setuid (u+s)
+SETGID 30;43 # file that is setgid (g+s)
+STICKY_OTHER_WRITABLE 30;42 # dir that is sticky and other-writable (+t,o+w)
+OTHER_WRITABLE 34;42 # dir that is other-writable (o+w) and not sticky
+STICKY 37;44 # dir with the sticky bit set (+t) and not other-writable
+# This is for files with execute permission:
+EXEC 01;32
+# List any file extensions like '.gz' or '.tar' that you would like ls
+# to colorize below. Put the extension, a space, and the color init string.
+# (and any comments you want to add after a '#')
+# If you use DOS-style suffixes, you may want to uncomment the following:
+.cmd 32 # executables (bright green)
+.exe 32
+.com 32
+.btm 32
+.bat 32
+.tar 31 # archives or compressed (bright red)
+.tgz 31
+.arj 31
+.taz 31
+.lzh 31
+.zip 31
+.z 31
+.Z 31
+.gz 31
+.bz2 31
+.deb 31
+.rpm 31
+.jar 31
+# image formats
+.jpg 33
+.jpeg 33
+.gif 33
+.bmp 33
+.pbm 33
+.pgm 33
+.ppm 33
+.tga 33
+.xbm 33
+.xpm 33
+.tif 33
+.tiff 33
+.png 33
+.mov 33
+.mpg 33
+.mpeg 33
+.avi 33
+.fli 33
+.gl 33
+.dl 33
+.xcf 33
+.xwd 33
+# audio formats
+.flac 33
+.mp3 33
+.mpc 33
+.ogg 33
+.wav 33

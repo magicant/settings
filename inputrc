@@ -1,0 +1,11 @@
+set input-meta on
+set convert-meta off
+set output-meta on
+
+set completion-ignore-case on
+set expand-tilde off
+
+set match-hidden-files off
+set mark-symlinked-directories on
+
+"\C-L": redraw-current-line

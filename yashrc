@@ -1,0 +1,82 @@
+# magicant's .yashrc
+
+if [ -r /etc/yashrc ]; then
+	. /etc/yashrc
+fi
+
+set -o autocd -o braceexpand -o extendedglob -o noclobber -o nounset
+
+if alias -g >/dev/null 2>&1; then  # check if alias is enabled
+	alias cp='cp -i'  # IMPORTANT!
+	alias mv='mv -i'
+	alias rm='rm -i'
+
+	alias -- -='cd -'
+	alias gr='grep'
+	alias he='head'
+	alias le='less'
+	alias ll='ls -l'
+	alias la='ll -a'
+	alias r='fc -s'
+	alias so='sort'
+	alias ta='tail'
+	alias tree='tree -C'
+	alias -g G='|grep'
+	alias -g H='|head'
+	alias -g L='|less'
+	alias -g N='>/dev/null 2>&1'
+	alias -g S='|sort'
+	alias -g T='|tail'
+
+	if ls --color=tty -d . >&2; then
+		alias ls='ls --color=tty'
+	fi 2>/dev/null
+
+	if grep -Ei "utf-?8" <<-END >/dev/null; then
+			${LC_ALL:-${LC_CTYPE:-${LANG:-}}}
+			END
+		if command -v nkf >/dev/null 2>&1; then
+			alias nkf='nkf -w'
+		fi
+	fi
+
+	if command -v vim >/dev/null 2>&1; then
+		alias vi='vim'
+		alias vl='vimless'
+		alias -g V='|vimless'
+	fi
+fi
+
+if [ "$(id -u)" -eq 0 ]; then
+	dc=r  # red for root
+else
+	dc=   # normal
+fi
+if [ -n "${SSH_CONNECTION-}" ]; then
+	hc=y  # yellow in remote host
+else
+	hc=g  # green for local
+fi
+PS1='\f'"$hc"'o.${LOGNAME}@${HOSTNAME%%.*} \fo.${${${PWD/#~/\~}##*/}:-$PWD} \fo'"$dc"'\$\f '
+PS2='\f'"$dc"'o.>\f '
+#PS1='${LOGNAME}@${HOSTNAME%%.*} ${${${PWD/#~/\~}##*/}:-$PWD} \$ '
+#PS2='> '
+PS4='+ '
+unset dc hc
+# TODO title string
+PROMPT_COMMAND='printf "%b" '\''\033]0;yash '"$YASH_VERSION"'\007'\'' >/dev/tty'
+HISTFILE="$HOME/.yash_history" HISTSIZT=1000
+MAILCHECK=60
+FCEDIT=${EDITOR-vi}
+{ SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
+export SHLVL
+HOSTNAME=${HOSTNAME:-$(uname -n)}
+
+mkdircd() {
+	mkdir -p "$@" && cd "$1"
+}
+
+
+if [ -r ~/.yashrc_local ]; then
+	. ~/.yashrc_local
+fi

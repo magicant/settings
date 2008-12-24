@@ -1,0 +1,7 @@
+# magicant's colordiff initialization file
+
+plain=normal
+newtext=cyan
+oldtext=magenta
+diffstuff=green
+cvsstuff=darkwhite
