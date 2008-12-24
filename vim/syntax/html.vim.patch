@@ -1,0 +1,154 @@
+--- /usr/share/vim/vim71/syntax/html.vim	2008-07-21 22:46:40.000000000 +0900
++++ /home/ywtnb/.vim/syntax/html.vim	2007-04-15 15:30:56.000000000 +0900
+@@ -2,7 +2,9 @@
+ " Language:	HTML
+ " Maintainer:	Claudio Fleiner <claudio@fleiner.com>
+ " URL:		http://www.fleiner.com/vim/syntax/html.vim
+-" Last Change:  2006 Jun 19
++
++" Modifier:	magicant <magicant.starmen@nifty.com>
++" Last Change:  2007 Apr 15
+ 
+ " Please check :help html.vim for some comments and a description of the options
+ 
+@@ -29,18 +31,18 @@
+ syn case ignore
+ 
+ " mark illegal characters
+-syn match htmlError "[<>&]"
++"syn match htmlError "<>&"
+ 
+ 
+ " tags
+ syn region  htmlString   contained start=+"+ end=+"+ contains=htmlSpecialChar,javaScriptExpression,@htmlPreproc
+ syn region  htmlString   contained start=+'+ end=+'+ contains=htmlSpecialChar,javaScriptExpression,@htmlPreproc
+ syn match   htmlValue    contained "=[\t ]*[^'" \t>][^ \t>]*"hs=s+1   contains=javaScriptExpression,@htmlPreproc
+-syn region  htmlEndTag             start=+</+      end=+>+ contains=htmlTagN,htmlTagError
+-syn region  htmlTag                start=+<[^/]+   end=+>+ contains=htmlTagN,htmlString,htmlArg,htmlValue,htmlTagError,htmlEvent,htmlCssDefinition,@htmlPreproc,@htmlArgCluster
+-syn match   htmlTagN     contained +<\s*[-a-zA-Z0-9]\++hs=s+1 contains=htmlTagName,htmlSpecialTagName,@htmlTagNameCluster
+-syn match   htmlTagN     contained +</\s*[-a-zA-Z0-9]\++hs=s+2 contains=htmlTagName,htmlSpecialTagName,@htmlTagNameCluster
+-syn match   htmlTagError contained "[^>]<"ms=s+1
++syn region  htmlEndTag             start=+</[a-zA-Z>]\@=+ end=+>\|<\@=+ contains=htmlTagN,htmlTagError
++syn region  htmlTag                start=+<[a-zA-Z>]\@=+  end=+>\|<\@=+ contains=htmlTagN,htmlString,htmlArg,htmlValue,htmlTagError,htmlEvent,htmlCssDefinition,@htmlPreproc,@htmlArgCluster
++syn match   htmlTagN     contained +<[-a-zA-Z0-9]\++hs=s+1 contains=htmlTagName,htmlSpecialTagName,@htmlTagNameCluster
++syn match   htmlTagN     contained +</[-a-zA-Z0-9]\++hs=s+2 contains=htmlTagName,htmlSpecialTagName,@htmlTagNameCluster
++"syn match   htmlTagError contained "[^>]<"ms=s+1
+ 
+ 
+ " tag names
+@@ -94,7 +96,7 @@
+ syn keyword htmlArg contained summary tabindex valuetype version
+ 
+ " special characters
+-syn match htmlSpecialChar "&#\=[0-9A-Za-z]\{1,8};"
++syn match htmlSpecialChar "&#\=[0-9A-Za-z]\{1,8};\="
+ 
+ " Comments (the real ones or the old netscape ones)
+ if exists("html_wrong_comments")
+@@ -119,43 +121,43 @@
+   " rendering
+   syn cluster htmlTop contains=@Spell,htmlTag,htmlEndTag,htmlSpecialChar,htmlPreProc,htmlComment,htmlLink,javaScript,@htmlPreproc
+ 
+-  syn region htmlBold start="<b\>" end="</b>"me=e-4 contains=@htmlTop,htmlBoldUnderline,htmlBoldItalic
+-  syn region htmlBold start="<strong\>" end="</strong>"me=e-9 contains=@htmlTop,htmlBoldUnderline,htmlBoldItalic
+-  syn region htmlBoldUnderline contained start="<u\>" end="</u>"me=e-4 contains=@htmlTop,htmlBoldUnderlineItalic
+-  syn region htmlBoldItalic contained start="<i\>" end="</i>"me=e-4 contains=@htmlTop,htmlBoldItalicUnderline
+-  syn region htmlBoldItalic contained start="<em\>" end="</em>"me=e-5 contains=@htmlTop,htmlBoldItalicUnderline
+-  syn region htmlBoldUnderlineItalic contained start="<i\>" end="</i>"me=e-4 contains=@htmlTop
+-  syn region htmlBoldUnderlineItalic contained start="<em\>" end="</em>"me=e-5 contains=@htmlTop
+-  syn region htmlBoldItalicUnderline contained start="<u\>" end="</u>"me=e-4 contains=@htmlTop,htmlBoldUnderlineItalic
+-
+-  syn region htmlUnderline start="<u\>" end="</u>"me=e-4 contains=@htmlTop,htmlUnderlineBold,htmlUnderlineItalic
+-  syn region htmlUnderlineBold contained start="<b\>" end="</b>"me=e-4 contains=@htmlTop,htmlUnderlineBoldItalic
+-  syn region htmlUnderlineBold contained start="<strong\>" end="</strong>"me=e-9 contains=@htmlTop,htmlUnderlineBoldItalic
+-  syn region htmlUnderlineItalic contained start="<i\>" end="</i>"me=e-4 contains=@htmlTop,htmlUnderlineItalicBold
+-  syn region htmlUnderlineItalic contained start="<em\>" end="</em>"me=e-5 contains=@htmlTop,htmlUnderlineItalicBold
+-  syn region htmlUnderlineItalicBold contained start="<b\>" end="</b>"me=e-4 contains=@htmlTop
+-  syn region htmlUnderlineItalicBold contained start="<strong\>" end="</strong>"me=e-9 contains=@htmlTop
+-  syn region htmlUnderlineBoldItalic contained start="<i\>" end="</i>"me=e-4 contains=@htmlTop
+-  syn region htmlUnderlineBoldItalic contained start="<em\>" end="</em>"me=e-5 contains=@htmlTop
+-
+-  syn region htmlItalic start="<i\>" end="</i>"me=e-4 contains=@htmlTop,htmlItalicBold,htmlItalicUnderline
+-  syn region htmlItalic start="<em\>" end="</em>"me=e-5 contains=@htmlTop
+-  syn region htmlItalicBold contained start="<b\>" end="</b>"me=e-4 contains=@htmlTop,htmlItalicBoldUnderline
+-  syn region htmlItalicBold contained start="<strong\>" end="</strong>"me=e-9 contains=@htmlTop,htmlItalicBoldUnderline
+-  syn region htmlItalicBoldUnderline contained start="<u\>" end="</u>"me=e-4 contains=@htmlTop
+-  syn region htmlItalicUnderline contained start="<u\>" end="</u>"me=e-4 contains=@htmlTop,htmlItalicUnderlineBold
+-  syn region htmlItalicUnderlineBold contained start="<b\>" end="</b>"me=e-4 contains=@htmlTop
+-  syn region htmlItalicUnderlineBold contained start="<strong\>" end="</strong>"me=e-9 contains=@htmlTop
+-
+-  syn region htmlLink start="<a\>\_[^>]*\<href\>" end="</a>"me=e-4 contains=@Spell,htmlTag,htmlEndTag,htmlSpecialChar,htmlPreProc,htmlComment,javaScript,@htmlPreproc
+-  syn region htmlH1 start="<h1\>" end="</h1>"me=e-5 contains=@htmlTop
+-  syn region htmlH2 start="<h2\>" end="</h2>"me=e-5 contains=@htmlTop
+-  syn region htmlH3 start="<h3\>" end="</h3>"me=e-5 contains=@htmlTop
+-  syn region htmlH4 start="<h4\>" end="</h4>"me=e-5 contains=@htmlTop
+-  syn region htmlH5 start="<h5\>" end="</h5>"me=e-5 contains=@htmlTop
+-  syn region htmlH6 start="<h6\>" end="</h6>"me=e-5 contains=@htmlTop
+-  syn region htmlHead start="<head\>" end="</head>"me=e-7 end="<body\>"me=e-5 end="<h[1-6]\>"me=e-3 contains=htmlTag,htmlEndTag,htmlSpecialChar,htmlPreProc,htmlComment,htmlLink,htmlTitle,javaScript,cssStyle,@htmlPreproc
+-  syn region htmlTitle start="<title\>" end="</title>"me=e-8 contains=htmlTag,htmlEndTag,htmlSpecialChar,htmlPreProc,htmlComment,javaScript,@htmlPreproc
++  syn region htmlBold start="<b\>" end="</b\>"me=e-3 contains=@htmlTop,htmlBoldUnderline,htmlBoldItalic
++  syn region htmlBold start="<strong\>" end="</strong\>"me=e-8 contains=@htmlTop,htmlBoldUnderline,htmlBoldItalic
++  syn region htmlBoldUnderline contained start="<u\>" end="</u\>"me=e-3 contains=@htmlTop,htmlBoldUnderlineItalic
++  syn region htmlBoldItalic contained start="<i\>" end="</i\>"me=e-3 contains=@htmlTop,htmlBoldItalicUnderline
++  syn region htmlBoldItalic contained start="<em\>" end="</em\>"me=e-4 contains=@htmlTop,htmlBoldItalicUnderline
++  syn region htmlBoldUnderlineItalic contained start="<i\>" end="</i\>"me=e-3 contains=@htmlTop
++  syn region htmlBoldUnderlineItalic contained start="<em\>" end="</em\>"me=e-4 contains=@htmlTop
++  syn region htmlBoldItalicUnderline contained start="<u\>" end="</u\>"me=e-3 contains=@htmlTop,htmlBoldUnderlineItalic
++
++  syn region htmlUnderline start="<u\>" end="</u\>"me=e-3 contains=@htmlTop,htmlUnderlineBold,htmlUnderlineItalic
++  syn region htmlUnderlineBold contained start="<b\>" end="</b\>"me=e-3 contains=@htmlTop,htmlUnderlineBoldItalic
++  syn region htmlUnderlineBold contained start="<strong\>" end="</strong\>"me=e-8 contains=@htmlTop,htmlUnderlineBoldItalic
++  syn region htmlUnderlineItalic contained start="<i\>" end="</i\>"me=e-3 contains=@htmlTop,htmlUnderlineItalicBold
++  syn region htmlUnderlineItalic contained start="<em\>" end="</em\>"me=e-4 contains=@htmlTop,htmlUnderlineItalicBold
++  syn region htmlUnderlineItalicBold contained start="<b\>" end="</b\>"me=e-3 contains=@htmlTop
++  syn region htmlUnderlineItalicBold contained start="<strong\>" end="</strong\>"me=e-8 contains=@htmlTop
++  syn region htmlUnderlineBoldItalic contained start="<i\>" end="</i\>"me=e-3 contains=@htmlTop
++  syn region htmlUnderlineBoldItalic contained start="<em\>" end="</em\>"me=e-4 contains=@htmlTop
++
++  syn region htmlItalic start="<i\>" end="</i\>"me=e-3 contains=@htmlTop,htmlItalicBold,htmlItalicUnderline
++  syn region htmlItalic start="<em\>" end="</em\>"me=e-4 contains=@htmlTop
++  syn region htmlItalicBold contained start="<b\>" end="</b\>"me=e-3 contains=@htmlTop,htmlItalicBoldUnderline
++  syn region htmlItalicBold contained start="<strong\>" end="</strong\>"me=e-8 contains=@htmlTop,htmlItalicBoldUnderline
++  syn region htmlItalicBoldUnderline contained start="<u\>" end="</u\>"me=e-3 contains=@htmlTop
++  syn region htmlItalicUnderline contained start="<u\>" end="</u\>"me=e-3 contains=@htmlTop,htmlItalicUnderlineBold
++  syn region htmlItalicUnderlineBold contained start="<b\>" end="</b\>"me=e-3 contains=@htmlTop
++  syn region htmlItalicUnderlineBold contained start="<strong\>" end="</strong\>"me=e-8 contains=@htmlTop
++
++  syn region htmlLink start="<a\>\_[^>]*\<href\>" end="</a\>"me=e-3 contains=@Spell,htmlTag,htmlEndTag,htmlSpecialChar,htmlPreProc,htmlComment,javaScript,@htmlPreproc
++  syn region htmlH1 start="<h1\>" end="</h1\>"me=e-4 contains=@htmlTop
++  syn region htmlH2 start="<h2\>" end="</h2\>"me=e-4 contains=@htmlTop
++  syn region htmlH3 start="<h3\>" end="</h3\>"me=e-4 contains=@htmlTop
++  syn region htmlH4 start="<h4\>" end="</h4\>"me=e-4 contains=@htmlTop
++  syn region htmlH5 start="<h5\>" end="</h5\>"me=e-4 contains=@htmlTop
++  syn region htmlH6 start="<h6\>" end="</h6\>"me=e-4 contains=@htmlTop
++  syn region htmlHead start="<head\>" end="</head\>"me=e-6 end="<body\>"me=e-5 end="<h[1-6]\>"me=e-3 end="<div\>"me=e-4 end="<p\>"me=e-2 contains=htmlTag,htmlEndTag,htmlSpecialChar,htmlPreProc,htmlComment,htmlLink,htmlTitle,javaScript,cssStyle,@htmlPreproc
++  syn region htmlTitle start="<title\>" end="</title\>"me=e-7 contains=htmlTag,htmlEndTag,htmlSpecialChar,htmlPreProc,htmlComment,javaScript,@htmlPreproc
+ endif
+ 
+ syn keyword htmlTagName         contained noscript
+@@ -164,7 +166,7 @@
+   " JAVA SCRIPT
+   syn include @htmlJavaScript syntax/javascript.vim
+   unlet b:current_syntax
+-  syn region  javaScript start=+<script[^>]*>+ keepend end=+</script>+me=s-1 contains=@htmlJavaScript,htmlCssStyleComment,htmlScriptTag,@htmlPreproc
++  syn region  javaScript start=+<script[^>]*>+ keepend end=+</+me=s-1 contains=@htmlJavaScript,htmlCssStyleComment,htmlScriptTag,@htmlPreproc
+   syn region  htmlScriptTag     contained start=+<script+ end=+>+       contains=htmlTagN,htmlString,htmlArg,htmlValue,htmlTagError,htmlEvent
+   HtmlHiLink htmlScriptTag htmlTag
+ 
+@@ -199,7 +201,7 @@
+   syn keyword htmlArg           contained media
+   syn include @htmlCss syntax/css.vim
+   unlet b:current_syntax
+-  syn region cssStyle start=+<style+ keepend end=+</style>+ contains=@htmlCss,htmlTag,htmlEndTag,htmlCssStyleComment,@htmlPreproc
++  syn region cssStyle start=+<style+ keepend end=+</+ contains=@htmlCss,htmlTag,htmlEndTag,htmlCssStyleComment,@htmlPreproc
+   syn match htmlCssStyleComment contained "\(<!--\|-->\)"
+   syn region htmlCssDefinition matchgroup=htmlArg start='style="' keepend matchgroup=htmlString end='"' contains=css.*Attr,css.*Prop,cssComment,cssLength,cssColor,cssURL,cssImportant,cssError,cssString,@htmlPreproc
+   HtmlHiLink htmlStyleArg htmlString
+@@ -224,6 +226,7 @@
+   HtmlHiLink htmlEndTag                  Identifier
+   HtmlHiLink htmlArg                     Type
+   HtmlHiLink htmlTagName                 htmlStatement
++  HtmlHiLink htmlTagN                    htmlError
+   HtmlHiLink htmlSpecialTagName          Exception
+   HtmlHiLink htmlValue                     String
+   HtmlHiLink htmlSpecialChar             Special
