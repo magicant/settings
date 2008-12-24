@@ -20,8 +20,10 @@ makelink () {
 			prefix="$prefix../"
 			t="$(dirname "$t")"
 		done
-		echo ln -fs "$prefix${PWD#${HOME%/}/}/$1" ~/"$2"
-		ln -fs "$prefix${PWD#${HOME%/}/}/$1" ~/"$2"
+		if mkdir -p "$(dirname ~/"$2")"; then
+			echo ln -fs "$prefix${PWD#${HOME%/}/}/$1" ~/"$2"
+			ln -fs "$prefix${PWD#${HOME%/}/}/$1" ~/"$2"
+		fi
 	else
 		printf "Skipping $2\n"
 	fi
