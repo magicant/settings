@@ -1,7 +1,7 @@
 export TERM
 while ! tput longname >/dev/null 2>&1; do
 	case "$TERM" in
-		*-?*color) TERM=${TERM%%-*}-color;
+		*-?*color) TERM=${TERM%%-*}-color;;
 		*-*)       TERM=${TERM%%-*};;
 		xterm)     break;;
 		*)         TERM=xterm;;
