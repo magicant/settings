@@ -4,8 +4,10 @@
 
 if [ -r /etc/bashrc ]; then
 	. /etc/bashrc
+	unalias -a
 elif [ -r /etc/bash.bashrc ]; then
 	. /etc/bash.bashrc
+	unalias -a
 fi
 
 # Interactive?

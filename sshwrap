@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if ! [ x"${SSH_AUTH_SOCK:+set}" = x"set" ]; then
+	SSH_AUTH_SOCK=~/.ssh/@$(uname -n)
+	if ! [ -e "$SSH_AUTH_SOCK" ]; then
+		(umask 022; ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null) || exit
+	fi
+	export SSH_AUTH_SOCK
+fi
+if [ x"${SSH_AUTH_SOCK:+set}" = x"set" ] && ! ssh-add -l >/dev/null 2>&1; then
+	ssh-add -t 1d || exit
+fi
+exec "/usr/bin/${0##*/}" "$@"
