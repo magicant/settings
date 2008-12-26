@@ -5,6 +5,7 @@ set fileencodings=utf-8,ucs-bom,cp932,euc-jp,iso-2022-jp,ucs-2le,ucs-2
 set nobackup hidden confirm
 
 highlight Normal guibg=Black guifg=White
+set guioptions-=T guicursor+=a:blinkwait500-blinkon500-blinkoff500
 
 set background=dark
 filetype plugin indent on

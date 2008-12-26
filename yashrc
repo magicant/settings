@@ -57,14 +57,12 @@ if [ -n "${SSH_CONNECTION-}" ]; then
 else
 	hc=g  # green for local
 fi
-PS1='\f'"$hc"'o.${LOGNAME}@${HOSTNAME%%.*} \fo.${${${PWD/#~/\~}##*/}:-$PWD} \fo'"$dc"'\$\f '
+PS1='\f'"$hc"'o.${LOGNAME}@${HOSTNAME%%.*} \fo.${${${PWD/#~/\~}##*/}:-$PWD} \fo'"$dc"'.\$\f '
 PS2='\f'"$dc"'o.>\f '
-#PS1='${LOGNAME}@${HOSTNAME%%.*} ${${${PWD/#~/\~}##*/}:-$PWD} \$ '
-#PS2='> '
 PS4='+ '
 unset dc hc
 # TODO title string
-PROMPT_COMMAND='printf "%b" '\''\033]0;yash '"$YASH_VERSION"'\007'\'' >/dev/tty'
+PROMPT_COMMAND='printf "%b" '\''\033]0;'\''"${LOGNAME}@${HOSTNAME%%.*}:${PWD/#~/\~}"'\''\007'\'' >/dev/tty'
 HISTFILE="$HOME/.yash_history" HISTSIZT=1000
 MAILCHECK=60
 FCEDIT=${EDITOR-vi}
