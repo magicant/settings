@@ -4,6 +4,7 @@ applypatch () {
 	if [ -e ~/.vim/"$1" ]; then
 		echo "~/.vim/$1 already exists"
 	else
+		mkdir -p "$(dirname ~/.vim/"$1")" &&
 		cp "$VIMRUNTIME/$1" ~/.vim/"$1" &&
 		(cd "$(dirname ~/.vim/"$1")" && patch) <"$1.patch" &&
 		echo "~/.vim/$1 successfully patched" 
@@ -17,8 +18,11 @@ if [ x"$PWD" = x"${PWD#$HOME}" ]; then
 fi
 
 VIMRUNTIME=$(echo '!echo $VIMRUNTIME' | vim -e -s)
+if [ -z "$VIMRUNTIME" ]; then
+	printf "cannot find \$VIMRUNTIME."
+	exit 1
+fi
 
-mkdir -p ~/.vim
 applypatch indent/html.vim
 applypatch macros/less.vim
 applypatch syntax/html.vim
