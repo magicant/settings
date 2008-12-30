@@ -7,6 +7,8 @@ fi
 set -o autocd -o braceexpand -o extendedglob -o noclobber -o nounset
 
 if alias -g >/dev/null 2>&1; then  # check if alias is enabled
+	: ${PAGER:=more}
+
 	alias cp='cp -i'  # IMPORTANT!
 	alias mv='mv -i'
 	alias rm='rm -i'
@@ -14,7 +16,7 @@ if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 	alias -- -='cd -'
 	alias gr='grep'
 	alias he='head'
-	alias le='less'
+	alias le='$PAGER'
 	alias ll='ls -l'
 	alias la='ll -a'
 	alias r='fc -s'
@@ -23,7 +25,7 @@ if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 	alias tree='tree -C'
 	alias -g G='|grep'
 	alias -g H='|head'
-	alias -g L='|less'
+	alias -g L='|$PAGER'
 	alias -g N='>/dev/null 2>&1'
 	alias -g S='|sort'
 	alias -g T='|tail'
@@ -32,9 +34,7 @@ if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 		alias ls='ls --color=tty'
 	fi 2>/dev/null
 
-	if grep -Ei "utf-?8" <<-END >/dev/null; then
-			${LC_ALL:-${LC_CTYPE:-${LANG:-}}}
-			END
+	if echo "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" | grep -Eiq "utf-?8"; then
 		if command -v nkf >/dev/null 2>&1; then
 			alias nkf='nkf -w'
 		fi
@@ -65,7 +65,7 @@ unset dc hc
 PROMPT_COMMAND='printf "%b" '\''\033]0;'\''"${LOGNAME}@${HOSTNAME%%.*}:${PWD/#~/\~}"'\''\007'\'' >/dev/tty'
 HISTFILE="$HOME/.yash_history" HISTSIZT=1000
 MAILCHECK=60
-FCEDIT=${EDITOR-vi}
+FCEDIT=${EDITOR:-vi}
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
 HOSTNAME=${HOSTNAME:-$(uname -n)}

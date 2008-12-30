@@ -13,6 +13,8 @@ fi
 # Interactive?
 if [ x"${PS1+set}" = x"set" ]; then
 
+	: ${PAGER:=more}
+
 	alias cp='cp -i'  # IMPORTANT!
 	alias mv='mv -i'  # IMPORTANT!
 	alias rm='rm -i'  # IMPORTANT!
@@ -21,7 +23,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 	alias gr='grep'
 	alias he='head'
 	alias la='ll -a'
-	alias le='less'
+	alias le='$PAGER'
 	alias ll='ls -l'
 	alias r='fc -s'
 	alias so='sort'
@@ -32,7 +34,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 		alias ls='ls --color=tty'
 	fi >/dev/null 2>&1
 
-	if echo "${LC_ALL:-${LC_CTYPE:-$LANG}}" | grep -Ei "utf-?8" >/dev/null; then
+	if echo "${LC_ALL:-${LC_CTYPE:-$LANG}}" | grep -Eiq "utf-?8"; then
 		if command -v nkf >/dev/null 2>&1; then
 			alias nkf='nkf -w'
 		fi
