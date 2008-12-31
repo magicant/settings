@@ -2,8 +2,12 @@
 
 checkopt() {
 	case "$1" in
-		-t|-h|-\?|--help) false;;
-		*)                true;;
+		-h|-\?|--help)
+			false;;
+		-f|-t)        
+			test x"${0##*/}" != x"scp";;
+		*)
+			true;;
 	esac
 }
 
