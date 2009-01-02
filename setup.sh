@@ -19,8 +19,8 @@ if [ x"$PWD" = x"${PWD#$HOME}" ]; then
 fi
 
 makelink bashrc .bashrc
-makelink colordiffrc .colordiffrc
-makelink dircolors .dircolors
+command -v colordiff >/dev/null 2>&1 && makelink colordiffrc .colordiffrc
+command -v dircolors >/dev/null 2>&1 && makelink dircolors .dircolors
 makelink inputrc .inputrc
 makelink lesspipe.sh bin/lesspipe.sh
 top --version 2>/dev/null | grep -q procps && makelink toprc .toprc
