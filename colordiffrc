@@ -2,6 +2,6 @@
 
 plain=normal
 newtext=cyan
-oldtext=magenta
+oldtext=red
 diffstuff=green
 cvsstuff=darkwhite
