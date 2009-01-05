@@ -2,6 +2,7 @@
 
 set encoding=utf-8
 set fileencodings=utf-8,ucs-bom,cp932,euc-jp,iso-2022-jp,ucs-2le,ucs-2
+set iminsert=0 imsearch=-1
 set nobackup hidden confirm
 
 highlight Normal guibg=Black guifg=White
@@ -14,6 +15,7 @@ syntax on
 set nohlsearch incsearch noshowmatch ignorecase smartcase
 set nolist listchars=eol:$,tab:>.
 
+set backspace=indent,eol,start
 set autoindent smartindent cindent
 set tabstop=4 shiftwidth=4
 set formatoptions+=tcroqlB formatoptions-=M
@@ -80,4 +82,6 @@ let tex_flavor="platex"
 
 if filereadable($HOME."/.vimrc_local")
 	source ~/.vimrc_local
+elseif filereadable($HOME."/_vimrc_local")
+	source ~/_vimrc_local
 endif

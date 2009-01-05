@@ -2,6 +2,8 @@
 
 if [ -r /etc/yashrc ]; then
 	. /etc/yashrc
+elif [ -r /etc/yash.yashrc ]; then
+	. /etc/yash.yashrc
 fi
 
 set -o autocd -o braceexpand -o extendedglob -o noclobber -o nounset
@@ -47,6 +49,8 @@ if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 	fi
 fi
 
+{ SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
+export SHLVL
 if [ "$(id -u)" -eq 0 ]; then
 	dc=r  # red for root
 else
@@ -57,7 +61,7 @@ if [ -n "${SSH_CONNECTION-}" ]; then
 else
 	hc=g  # green for local
 fi
-PS1='\f'"$hc"'o.${LOGNAME}@${HOSTNAME%%.*} \fo.${${${PWD/#~/\~}##*/}:-$PWD} \fo'"$dc"'.\$\f '
+PS1='\f'"$hc"'o.${LOGNAME}@${HOSTNAME%%.*} \fo.${${${PWD/#~/\~}##*/}:-$PWD} '"${SHLVL:/1/}"'\fo'"$dc"'.\$\f '
 PS2='\f'"$dc"'o.>\f '
 PS4='+ '
 unset dc hc
@@ -66,10 +70,12 @@ PROMPT_COMMAND='printf "%b" '\''\033]0;'\''"${LOGNAME}@${HOSTNAME%%.*}:${PWD/#~/
 HISTFILE="$HOME/.yash_history" HISTSIZT=1000
 MAILCHECK=60
 FCEDIT=${EDITOR:-vi}
-{ SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
-export SHLVL
 HOSTNAME=${HOSTNAME:-$(uname -n)}
 
+echol()
+if [ $# -gt 0 ]; then
+	printf '%s\n' "$@"
+fi
 mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }

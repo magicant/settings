@@ -21,7 +21,7 @@ if [ $# -gt 0 ] && checkopt "$1"; then
 	fi
 	if [ x"${SSH_AUTH_SOCK:+set}" = x"set" ] && ! ssh-add -l >/dev/null 2>&1
 	then
-		ssh-add -t 1d || exit
+		({ command exec </dev/tty; } 2>/dev/null; ssh-add -t 1d) || exit
 	fi
 fi
 exec "/usr/bin/${0##*/}" "$@"

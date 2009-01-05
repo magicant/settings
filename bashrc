@@ -45,15 +45,20 @@ if [ x"${PS1+set}" = x"set" ]; then
 		alias vl='vimless'
 	fi
 
+	if [ ${SHLVL:-0} -gt 1 ]; then
+		shlvl=$SHLVL
+	else
+		shlvl=
+	fi
 	if [ "$(tput colors 2>/dev/null)" -ge 8 ] 2>/dev/null; then
 		if [ "$EUID" -eq 0 ]; then  # red for root
-			PS1='\[\e[1;4;31m\]\W \$\[\e[0m\] '
+			PS1='\[\e[1;4;31m\]\W '"$shlvl"'\$\[\e[0m\] '
 			PS2='\[\e[1;4;31m\]>\[\e[0m\] '
 		elif [ -n "${SSH_CONNECTION}" ]; then  # yellow in remote host
-			PS1='\[\e[1;4;33m\]\W \$\[\e[0m\] '
+			PS1='\[\e[1;4;33m\]\W '"$shlvl"'\$\[\e[0m\] '
 			PS2='\[\e[1;4;33m\]>\[\e[0m\] '
 		else  # green for normal
-			PS1='\[\e[1;4;32m\]\W \$\[\e[0m\] '
+			PS1='\[\e[1;4;32m\]\W '"$shlvl"'\$\[\e[0m\] '
 			PS2='\[\e[1;4;32m\]>\[\e[0m\] '
 		fi
 		PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "$USER" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
@@ -62,6 +67,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 		PS2='> '
 		unset PROMPT_COMMAND
 	fi
+	unset shlvl
 
 	if [ -z "$BASH_COMPLETION" ]; then
 		if [ -r /etc/bash_completion ]; then
@@ -92,11 +98,12 @@ if [ x"${PS1+set}" = x"set" ]; then
 	unset LINES COLUMNS
 	set -o braceexpand -o noclobber
 
+	echol()
+	if [ $# -gt 0 ]; then
+		printf '%s\n' "$@"
+	fi
 	mkdircd() {
 		mkdir -p "$@" && cd "$1"
-	}
-	stop() {
-		kill -STOP "$@"
 	}
 
 	# sharing history
