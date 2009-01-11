@@ -8,6 +8,8 @@ fi
 
 set -o autocd -o braceexpand -o extendedglob -o noclobber -o nounset
 
+termcolor=$(tput colors 2>/dev/null)
+
 if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 	: ${PAGER:=more}
 
@@ -32,9 +34,9 @@ if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 	alias -g S='|sort'
 	alias -g T='|tail'
 
-	if ls --color=tty -d . >&2; then
+	if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
 		alias ls='ls --color=tty'
-	fi 2>/dev/null
+	fi
 
 	if echo "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" | grep -Eiq "utf-?8"; then
 		if command -v nkf >/dev/null 2>&1; then
@@ -51,7 +53,7 @@ fi
 
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
-HISTFILE="$HOME/.yash_history" HISTSIZT=1000
+HISTFILE=~/.yash_history HISTSIZT=1000
 MAILCHECK=60
 FCEDIT=${EDITOR:-vi}
 HOSTNAME=${HOSTNAME:-$(uname -n)}
@@ -70,7 +72,7 @@ PS1='\f'"$hc"'o.${LOGNAME}@${HOSTNAME%%.*} \fo.${${${PWD/#~/\~}##*/}:-$PWD} ${SH
 PS2='\f'"$dc"'o.>\f '
 PS4='+ '
 unset dc hc
-if [ "$(tput colors)" -ge 8 ]; then
+if [ "$termcolor" -ge 8 ]; then
 	PS1='\[\e]0;${LOGNAME}@${HOSTNAME%%.*}:${PWD/#~/\~}\a\]'$PS1
 fi
 
@@ -86,3 +88,5 @@ mkdircd() {
 if [ -r ~/.yashrc_local ]; then
 	. ~/.yashrc_local
 fi
+
+unset termcolor
