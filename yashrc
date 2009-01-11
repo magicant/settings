@@ -51,6 +51,11 @@ fi
 
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
+HISTFILE="$HOME/.yash_history" HISTSIZT=1000
+MAILCHECK=60
+FCEDIT=${EDITOR:-vi}
+HOSTNAME=${HOSTNAME:-$(uname -n)}
+
 if [ "$(id -u)" -eq 0 ]; then
 	dc=r  # red for root
 else
@@ -61,16 +66,13 @@ if [ -n "${SSH_CONNECTION-}" ]; then
 else
 	hc=g  # green for local
 fi
-PS1='\f'"$hc"'o.${LOGNAME}@${HOSTNAME%%.*} \fo.${${${PWD/#~/\~}##*/}:-$PWD} '"${SHLVL:/1/}"'\fo'"$dc"'.\$\f '
+PS1='\f'"$hc"'o.${LOGNAME}@${HOSTNAME%%.*} \fo.${${${PWD/#~/\~}##*/}:-$PWD} ${SHLVL:/1}\fo'"$dc"'.\$\f '
 PS2='\f'"$dc"'o.>\f '
 PS4='+ '
 unset dc hc
-# TODO title string
-PROMPT_COMMAND='printf "%b" '\''\033]0;'\''"${LOGNAME}@${HOSTNAME%%.*}:${PWD/#~/\~}"'\''\007'\'' >/dev/tty'
-HISTFILE="$HOME/.yash_history" HISTSIZT=1000
-MAILCHECK=60
-FCEDIT=${EDITOR:-vi}
-HOSTNAME=${HOSTNAME:-$(uname -n)}
+if [ "$(tput colors)" -ge 8 ]; then
+	PS1='\[\e]0;${LOGNAME}@${HOSTNAME%%.*}:${PWD/#~/\~}\a\]'$PS1
+fi
 
 echol()
 if [ $# -gt 0 ]; then
