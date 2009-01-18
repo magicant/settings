@@ -30,6 +30,7 @@ if command -v vim >/dev/null 2>&1; then
 	makelink vimrc .vimrc
 	makelink vimless bin/vimless
 	makelink vim/filetype.vim .vim/filetype.vim
+	makelink vim/syntax/sh.vim .vim/syntax/sh.vim
 	./vim/setup.sh
 fi
 

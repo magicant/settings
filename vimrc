@@ -70,8 +70,6 @@ map N ?<Return>
 
 " for :TOhtml
 let html_use_css=1
-" for [sh] filetype
-let is_kornshell=1
 " for [c] filetype
 let c_no_curly_error=1
 let c_gnu=1

@@ -1,0 +1,292 @@
+exit
+
+! false
+! ! ! error
+
+! echo 1 | ! error
+
+if true; then
+	echo 1 && { echo } { ; } || :&
+elif ! true; then
+	echo 2
+	echo 3 3>/dev/null;
+	4</dev/null 5>>"foo" 6<>'bar';
+	<redir if not if
+else
+	false
+	# comment test FIXME TODO XXX
+fi >redir-ok;
+if true; then
+	echo 1
+	if false; then echo 2; fi
+	if false; then echo 2; elif true; then echo 3; else echo 4; fi
+	echo 2 # comment 
+elif true; then
+	echo 2
+	if false; then echo 2; fi
+	if false; then echo 2; elif true; then echo 3; else echo 4; fi
+	echo 3; #### comment test
+elif :; then
+	:
+else
+	false
+	if false; then echo 2; fi
+	if false; then echo 2; elif true; then echo 3; else echo 4; fi
+	echo 3;
+fi
+if if true; then true; fi then echo 1; fi
+if if true; then true; fi; then echo 1; fi
+if [ -s "" ]; then true; fi; if [ -s '' ]; then false; fi>/dev/null;
+
+echo these are errors
+then echo
+elif true
+fi
+else exit
+
+for i
+in ini in
+do
+	echo
+done
+for foo in ksh-only { } do done
+{
+	for j
+	do
+		echo 1
+	done
+	for k { echo ksh-only; }
+}
+for s
+do :; done >/dev/null;
+for i in for do done; do echo $i; done
+for in in for do done; do echo $in XXX in-right-after-for; done
+for do do echo $do; done
+for error_if_posix; do echo $do; done
+for do in for do done; do echo $do XXX do-right-after-for; done
+for i in in in; do
+	echo
+done
+for i
+do echo $i; done
+for _        #comment
+	do       #comment
+		:    #comment
+	done     #comment
+for _        #comment
+	in a b c #comment
+	do       #comment
+		:    #comment
+	done     #comment
+for i
+do
+	for j
+	in \&\; "foo"
+	do
+		echo $i $j
+	done
+done
+for i do :; done; for _ do :; done>/dev/null;
+# ksh/bash only
+for (( i = 0; i < 10; i++ ))
+do
+	echo $i
+done
+for((;;))do break; done
+for (( i &= 0 | 1; $((i)) < $(echo 0); ((i)), i-- ))
+{
+	break
+}
+select i; do echo $i; done
+select in in in; do echo $i; done
+select do do echo $do; done
+
+while false
+do
+	echo 1
+done
+until true
+do
+	printf '%s\n' 1
+done
+while :;do :;done;until :;do :;done>/dev/null;
+for i
+do
+	while
+		until(:)do(:)done
+	do
+		until(:)do(:)done
+		for j
+		do :; done
+	done
+done
+
+case "$TERM" in
+(1|2|3) echo ok;;
+esac
+case "$TERM" in
+1|2|3) echo ok;;
+"$TERM")
+esac
+case $(echo 1) in
+1 | esac | 3 )
+	echo ok
+	;;
+?)
+	echo not-reached;;
+??)
+	echo not-reached ;;
+"''")
+	echo not-reached& ;;
+*) ;; esac
+	case - # comment
+	in     # comment
+	-) echo command ;;
+	*)     # comment
+	;;     # comment
+		   # comment
+	esac   # comment
+case case in esac; case in in esac>/dev/null;
+case error in
+) ;;
+s;3) echo;; ;;
+esac
+
+echo below are errors
+do
+	echo 0
+done
+in
+fi	fi
+} ) }) )} }& };
+esac
+fi
+;;;;;;;
+error;; error 2;;
+echo above are errors
+
+{ echo ok; }  {echo dummies; {: {- :} }: _}_ o} }-
+(echo ok)&  ( echo ok )>/dev/null </dev/null;
+{(echo ok;{ :;})}
+fi: esac:
+{{ }}
+	
+>/dev/null
+1>/dev/null 3>&2 5<&4>/dev/null >&6;
+11>/dev/null
+1\>/dev/null  1>>|9 4<<<"string"
+1>&2 \\\b\$\<\>\(\)\;\&\;\'\"\#; \#not a comment
+
+>
+>|
+>>
+>&
+>>| yash
+<
+<&
+<>
+<<< ksh,bash
+
+<<
+<<-
+
+<<END
+foo $(date) `command` $((1+3)) ${TERM}
+	END
+END
+cat - << END
+here-document contents
+END
+cat - <<-END
+	$(echo tabbed here-document)
+	END
+cat - <<-   end
+			another tabbed here-document
+			end
+
+cat - << "END;"
+$(dummy)
+END;
+cat << 'HERE'
+   HERE
+	HERE
+HERE
+cat - <<- "END"
+		$(dummy)
+		tabbed here-document
+	END
+cat - <<- 'END'
+		$(dummy)
+		tabbed here-document
+	END
+
+cat <<\END
+	another here-document   `dummy`
+END
+cat <<- \END
+		the last one   $((dummy))
+		END
+
+<(echo 1) ksh,bash,yash
+>(tee log) ksh,bash,yash
+
+>/dev/null if simple command;
+foo=assignment;
+foo1= foo2=2;
+TERM=xterm less /dev/null
+CC=cc make CFLAGS=-O2
+array=(1 2 3
+ksh/bash/yash only)
+
+myfunc ( )
+{
+	echo 0
+}
+myfunc()(:)
+error();
+function func() { ksh/bash only; }
+
+| loop pipe: yash only # comment
+! | loop pipe: yash only
+| ! error
+
+'echo' ' very long
+\
+" #$%&() { } ;
+quoted text
+'
+"\$\\\"\a\`\
+\x";
+echo `echo ok`
+echo `echo \`echo ok\``
+echo `echo \\\\\"hello\"\\\\`
+`echo echo
+echo`&
+echo "-`echo  "1" 2 3`-"
+echo $(echo 1 2 3)
+echo "-$(echo 1 2 3)-"
+echo $(if true; then echo "1"; else echo '2'; fi; echo `echo done`;)
+echo "$(echo "$(echo ok)")";
+echo $TERM $0 $1 $2 $9 $01 $10 $_0 $TERM0 $0TERM $PROMPT_COMMAND
+echo ${TERM} ${0} ${123} ${0}1 ${1}0 ${_0} ${TERM0} ${0}TERM ${PROMPT_COMMAND}
+echo $* $@ $# $? $$ $! $-
+echo errors posix-only $+ $; $&
+echo ${#ok}
+echo ksh-only ${@ok}
+echo ksh/bash-only ${!ok} ${!var*} ${var:1:2} ${var:$(echo 1):`echo 2`}
+echo yash-only ${`echo ok`} ${#${#TERM}} ${$(echo ok)##o}
+echo yash-only -${${{TERM}}}- -${#${#{#TERM}}}- -${{${TERM}}}- -${#{#${#TERM}}}-
+echo ${var:-ok} ${var-} ${var:-${var}"${3}123"''\} # } "${var-123}"
+echo ${var:+ok} ${var+} ${1:+"$@"}
+echo ${var:?ok} ${var?} ${var:?}
+echo ${var:=ok} ${var=} ${var:=$$}
+echo ${v\
+x#1\
+2line continuations}
+echo ksh/bash/yash-only ${var/123/456} ${var/123} ${var/} ${var/~/"~"}
+echo ksh/bash/yash-only ${var/123/456/789} ${var/#123/4/5} ${var/%1/2} ${v//1/2}
+echo ksh/bash/yash-only ${ary[1]} ${ary[1,3]}
+echo yash-only ${var:/123/456/789}
+echo $((123 + 456 % 7, 3)) $(($((4))+$(echo 3))) $(((1+2)*3))
+
+# vim: ft=sh
