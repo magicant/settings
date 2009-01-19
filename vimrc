@@ -3,6 +3,7 @@
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,iso-2022-jp,cp932,euc-jp,ucs-2le,ucs-2
 set iminsert=0 imsearch=-1
+set modeline modelines=5
 set nobackup hidden confirm
 
 highlight Normal guibg=Black guifg=White
@@ -36,7 +37,7 @@ set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
 
 set nocscopetag cscopequickfix=s-,c-,d-,i-,t-,e-
 
-set showcmd cmdheight=1 laststatus=2
+set showcmd cmdheight=1 laststatus=2 history=50
 set statusline=%n\ %f\ %h%m%r%w%y%=%-14.(%l/%L,%c%V%)\ %P
 set wildmenu
 set title
