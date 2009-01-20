@@ -18,15 +18,7 @@ endif
 
 " Set shell type {{{1
 let s:type = getline(1)
-if s:type =~# '^#!.*/yash\>'
-	let b:is_yash = 1
-	if exists("b:is_kornshell")
-		unlet b:is_kornshell
-	endif
-	if exists("b:is_bash")
-		unlet b:is_bash
-	endif
-elseif exists("b:is_bourneshell")
+if exists("b:is_bourneshell")
 	if exists("b:is_posix")
 		unlet b:is_posix
 	endif
@@ -38,6 +30,14 @@ elseif exists("b:is_bourneshell")
 	endif
 	if exists("b:is_yash")
 		unlet b:is_yash
+	endif
+elseif s:type =~# '^#!.*/yash\>'
+	let b:is_yash = 1
+	if exists("b:is_kornshell")
+		unlet b:is_kornshell
+	endif
+	if exists("b:is_bash")
+		unlet b:is_bash
 	endif
 elseif !exists("b:is_posix") && !exists("b:is_kornshell") && !exists("b:is_bash")
 	if exists("g:is_kornshell")
