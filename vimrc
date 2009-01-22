@@ -1,7 +1,7 @@
 " .vimrc of magicant
 
 set encoding=utf-8
-set fileencodings=ucs-bom,utf-8,iso-2022-jp,cp932,euc-jp,ucs-2le,ucs-2
+set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16,utf-16le
 set iminsert=0 imsearch=-1
 set modeline modelines=5
 set nobackup hidden confirm
