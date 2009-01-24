@@ -150,7 +150,7 @@ sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*
 
 " Simple command {{{1
 sy region shSimpleCmd transparent start=/[^[:blank:]|&;()]/ end=/$/ end=/[;&|)]/me=e-1 contains=@shWordsList,@shRedirsList,shAssign,shComment nextgroup=@shTrailersList
-sy match shAssign contained /\h\w*=\@=/ nextgroup=shAssignArray
+sy match shAssign contained /[^[:blank:]|&;<>()]\@<!\h\w*=\@=/ nextgroup=shAssignArray
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
 	sy region shAssignArray contained transparent matchgroup=shOperator start=/=(/hs=s+1 end=/)/ contains=@shWordsList,shComment
 endif
