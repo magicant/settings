@@ -19,7 +19,9 @@ if [ x"${PS1+set}" = x"set" ]; then
 	alias mv='mv -i'  # IMPORTANT!
 	alias rm='rm -i'  # IMPORTANT!
 
+	alias -- -='cd -'
 	alias ..='cd ..'
+	alias f='fg'
 	alias gr='grep'
 	alias he='head'
 	alias la='ll -a'

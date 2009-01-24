@@ -10,6 +10,14 @@ applypatch () {
 		echo "~/.vim/$1 successfully patched" 
 	fi
 }
+checkgetlatest () {
+	# $1 = ScriptID (decimal integer)
+	# $2 = Script name (any string, which may start with ":AutoInstall:")
+	if ! grep -q "^$1 " ~/.vim/GetLatest/GetLatestVimScripts.dat; then
+		echo GetLatestVimScripts.dat: "$1 1 $2"
+		echo "$1 1 $2" >>~/.vim/GetLatest/GetLatestVimScripts.dat
+	fi
+}
 
 cd "`dirname $0`"
 if echo "//$PWD" | grep -Fqv "//$HOME"; then
@@ -26,5 +34,14 @@ fi
 applypatch indent/html.vim
 applypatch macros/less.vim
 applypatch syntax/html.vim
+
+if [ ! -e ~/.vim/GetLatest/GetLatestVimScripts.dat ]; then
+	mkdir -p ~/.vim/GetLatest
+	echo 'ScriptID SourceID Filename
+--------------------------' >~/.vim/GetLatest/GetLatestVimScripts.dat
+fi
+checkgetlatest  294 ':AutoInstall: Align.vim'
+checkgetlatest  978 'ftplugin/svn.vim'
+checkgetlatest 1066 ':AutoInstall: cecutil.vim'
 
 exit 0

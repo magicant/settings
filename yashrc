@@ -18,11 +18,12 @@ if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 	alias rm='rm -i'
 
 	alias -- -='cd -'
+	alias f='fg'
 	alias gr='grep'
 	alias he='head'
+	alias la='ll -a'
 	alias le='$PAGER'
 	alias ll='ls -l'
-	alias la='ll -a'
 	alias r='fc -s'
 	alias so='sort'
 	alias ta='tail'
