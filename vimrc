@@ -11,7 +11,9 @@ set guioptions-=T guicursor+=a:blinkwait500-blinkon500-blinkoff500
 
 set background=dark
 filetype plugin indent on
-syntax on
+if has("syntax")
+	syntax enable
+endif
 
 set nohlsearch incsearch noshowmatch ignorecase smartcase
 set nolist listchars=eol:$,tab:>.
