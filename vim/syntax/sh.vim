@@ -60,7 +60,7 @@ syntax spell notoplevel
 sy cluster shWordsList contains=shDollarError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shArith
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
-sy cluster shCommandsList contains=@shErrorList,shComment,shSimpleCmd,shFunction,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase
+sy cluster shCommandsList contains=@shErrorList,shComment,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase
 sy cluster shTrailersList contains=shSeparator,shPipe,shAndOr,shTrailerRedir
 sy cluster shErrorList contains=shSepError,shThenError,shElifError,shElseError,shFiError,shDoError,shDoneError,shInError,shCaseError,shEsacError,shCurlyError,shParenError,shDTestError
 

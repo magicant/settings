@@ -9,10 +9,11 @@ makelink () {
 	done
 	mkdir -p "$(dirname ~/"$2")" &&
 	ln -s "$prefix${PWD#${HOME%/}/}/$1" ~/"$2" &&
-	echo ~/"$2" "->" "$prefix${PWD#${HOME%/}/}/$1"
+	echo "~/$2" "->" "$prefix${PWD#${HOME%/}/}/$1"
 }
 
 cd "$(dirname $0)"
+echo Home directory is "$HOME"
 if [ x"$PWD" = x"${PWD#$HOME}" ]; then
 	printf "We're not in the home directory! Aborting.\n"
 	exit 1
