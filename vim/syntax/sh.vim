@@ -57,7 +57,7 @@ syntax case match
 syntax spell notoplevel
 
 " Clusters {{{1
-sy cluster shWordsList contains=shDollarError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shArith
+sy cluster shWordsList contains=shDollarError,shWordParenError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shArith,shSpecialGlob
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
 sy cluster shCommandsList contains=@shErrorList,shComment,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase
@@ -70,6 +70,11 @@ sy cluster shErrorList contains=shSepError,shThenError,shElifError,shElseError,s
 if !exists("b:is_kornshell") && !exists("b:is_bash") && !exists("b:is_yash")
 	sy match shDollarError contained /\$/
 endif
+"if exists("b:is_bash")
+"	sy region shSpecialGlob contained start=/(/ end=/)/
+"else
+	sy match shWordParenError contained /(/
+"endif
 sy match shParamError contained /[^}[:alnum:]_@*#?$!:=+-]/
 sy match shLineCont   contained /\\\n/
 sy match shBackslash  contained /\\./
@@ -110,7 +115,7 @@ if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
 	sy region shParamModifier contained matchgroup=shParamOp start=/\[/ end=/]/ contains=@shWordsList
 endif
 if exists("b:is_posix")
-	sy region shArith contained matchgroup=shParameter start=/\$((/ end=/))/ contains=@shWordsList,shArithParen
+	sy region shArith contained matchgroup=shParameter start=/\$((\([^()]*))\@!\)\@!/ end=/))/ contains=@shWordsList,shArithParen
 	sy region shArithParen contained transparent start=/(/ end=/)/ contains=shArithParen
 endif
 sy region shComment start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo
@@ -300,6 +305,7 @@ hi def link shParamError		shError
 hi def link shParenError		shError
 hi def link shSepError			shError
 hi def link shThenError			shError
+hi def link shWordParenError	shError
 hi def link shDTestError		shError
 
 hi def link shLineCont			shOperator
@@ -316,6 +322,7 @@ hi def link shParamOp			shOperator
 hi def link shParamModifier		Normal
 hi def link shParamNest			shParameter
 hi def link shArith				Normal
+hi def link shSpecialGlob		shOperator
 
 hi def link shRedir				shOperator
 hi def link shRedirCmd			Normal
