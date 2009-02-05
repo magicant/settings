@@ -248,7 +248,7 @@ sy region shCaseIn contained transparent fold matchgroup=shConditional start=/[^
 sy region shCaseComment contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shCaseIn
 sy region shCasePattern contained transparent matchgroup=NONE start=/[^[:blank:]#|&;<>()]/ matchgroup=shOperator start=/(/ end=/)/ contains=@shWordsList,shSepError,shCasePipe skipwhite skipempty nextgroup=shCaseCommand,shCaseDSemi
 sy match shCasePipe contained /|/
-sy region shCaseCommand contained transparent matchgroup=NONE start=/[^[:blank:]|&;<>()]/ matchgroup=shSeparator end=/;;/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
+sy region shCaseCommand contained transparent matchgroup=NONE start=/[^[:blank:]|&;]/ matchgroup=shSeparator end=/;;/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
 sy match shCaseDSemi contained /;;/
 
 " [[ construct {{{2
