@@ -21,6 +21,7 @@ unalias -a
 #fi
 #if command -v dircolors >/dev/null 2>&1; then
 #	eval "$(dircolors --sh ~/.dircolors)"
+#	eval "$(TERM=xterm dircolors --sh ~/.dircolors)"
 #fi
 
 if [ -r ~/.bashrc ]; then
