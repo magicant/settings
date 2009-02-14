@@ -60,8 +60,8 @@ syntax spell notoplevel
 sy cluster shWordsList contains=shDollarError,shWordParenError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shArith,shSpecialGlob
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
-sy cluster shCommandsList contains=@shErrorList,shComment,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase
-sy cluster shTrailersList contains=shSeparator,shPipe,shAndOr,shTrailerRedir
+sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase
+sy cluster shTrailersList contains=shSeparator,shPipe,shTrailerLineCont,shAndOr,shTrailerRedir
 sy cluster shErrorList contains=shSepError,shThenError,shElifError,shElseError,shFiError,shDoError,shDoneError,shInError,shCaseError,shEsacError,shCurlyError,shParenError,shDTestError
 
 " Word {{{1
@@ -76,7 +76,6 @@ endif
 	sy match shWordParenError contained /(/
 "endif
 sy match shParamError contained /[^}[:alnum:]_@*#?$!:=+-]/
-sy match shLineCont   contained /\\\n/
 sy match shBackslash  contained /\\./
 sy region shSingleQuote contained matchgroup=shSingleQuoteMark start=/'/ end=/'/ contains=@Spell
 sy region shDoubleQuote contained matchgroup=shDoubleQuoteMark start=/"/ end=/"/ contains=@Spell,shLineCont,shBackslashDQ,shBackquote,shCmdSub,shParameter,shArith
@@ -159,6 +158,8 @@ sy match shAssign contained /[^[:blank:]|&;<>()]\@<!\h\w*=\@=/ nextgroup=shAssig
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
 	sy region shAssignArray contained transparent matchgroup=shOperator start=/=(/hs=s+1 end=/)/ contains=@shWordsList,shComment
 endif
+sy match shLineCont /\\\n/
+sy match shTrailerLineCont contained /\\\n/ nextgroup=@shTrailersList
 
 " Function definition {{{1
 sy match shFunctionNoParen contained /\h\w*\s*/ skipwhite skipempty nextgroup=shGroup
@@ -308,7 +309,6 @@ hi def link shThenError			shError
 hi def link shWordParenError	shError
 hi def link shDTestError		shError
 
-hi def link shLineCont			shOperator
 hi def link shBackslash			shSpecialChar
 hi def link shSingleQuote		shString
 hi def link shDoubleQuote		shString
@@ -327,6 +327,8 @@ hi def link shSpecialGlob		shOperator
 hi def link shRedir				shOperator
 hi def link shRedirCmd			Normal
 hi def link shRedirHere			shString
+hi def link shLineCont			shOperator
+hi def link shTrailerLineCont	shLineCont
 hi def link shAssign			shIdentifier
 hi def link shFunctionParen		shOperator
 hi def link shFunctionKW		shKeyword
