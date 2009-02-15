@@ -126,7 +126,7 @@ sy keyword shTodo contained FIXME TODO XXX
 if !exists("b:is_kornshell")
 	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?>[>&|]\?/
 	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?<[>&]\?/
-	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?[<>]&\d\+[^[:blank:]|&;<>()]\@!/
+	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?[<>]&\(\d\+\|-\)[^[:blank:]|&;<>()]\@!/
 	if exists("b:is_bash")
 		sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?<<</
 	endif
@@ -137,7 +137,7 @@ if !exists("b:is_kornshell")
 else
 	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\)\?>[>&|]\?/
 	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\)\?<[>&]\?/
-	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\)\?[<>]&\d\+[^[:blank:]|&;<>()]\@!/
+	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\)\?[<>]&\(\d\+\|-\)[^[:blank:]|&;<>()]\@!/
 	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\)\?<<</
 endif
 if exists("b:is_kornshell") || exists("b:is_bash")

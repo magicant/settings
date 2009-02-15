@@ -168,7 +168,15 @@ echo above are errors
 { echo ok; }  {echo dummies; {: {- :} }: _}_ o} }-
 (echo ok)&  ( echo ok )>/dev/null </dev/null;
 {(echo ok;{ :;})}
+:if
+-then
+if:
 fi: esac:
+for%
+if#
+case""
+esac!
+in$$
 {{ }}
 echo $0 | \
 while :; do :; done \
