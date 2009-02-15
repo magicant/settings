@@ -159,7 +159,7 @@ if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
 	sy region shAssignArray contained transparent matchgroup=shOperator start=/=(/hs=s+1 end=/)/ contains=@shWordsList,shComment
 endif
 sy match shLineCont /\\\n/
-sy match shTrailerLineCont contained /\\\n/ nextgroup=@shTrailersList
+sy match shTrailerLineCont contained /\\\n/ skipwhite nextgroup=@shTrailersList
 
 " Function definition {{{1
 sy match shFunctionNoParen contained /\h\w*\s*/ skipwhite skipempty nextgroup=shGroup
