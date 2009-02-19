@@ -111,7 +111,7 @@ endif
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
 	sy region shParamModifier contained matchgroup=shParamOp start="/[#%/]\?" end=/}\@=/ contains=@shWordsList,shParamSlash
 	sy region shParamSlash contained matchgroup=shParamOp start="/" end=/}\@=/ contains=@shWordsList
-	sy region shParamModifier contained matchgroup=shParamOp start=/\[/ end=/]/ contains=@shWordsList
+	sy region shParamModifier contained matchgroup=shParamOp start=/\[/ end=/]/ contains=@shWordsList,shArithParen
 endif
 if exists("b:is_posix")
 	sy region shArith contained matchgroup=shParameter start=/\$((\([^()]*))\@!\)\@!/ end=/))/ contains=@shWordsList,shArithParen
