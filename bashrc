@@ -98,6 +98,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 	shopt -u checkwinsize
 	unset LINES COLUMNS
 	set -o braceexpand -o noclobber
+	shopt -s autocd globstar 2>/dev/null
 
 	echol()
 	if [ $# -gt 0 ]; then

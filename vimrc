@@ -5,6 +5,7 @@ set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16,utf-16le
 set iminsert=0 imsearch=-1
 set modeline modelines=5
 set nobackup hidden confirm
+set suffixes+=.a
 
 highlight Normal guibg=Black guifg=White
 set guioptions-=T guicursor+=a:blinkwait500-blinkon500-blinkoff500
@@ -51,9 +52,8 @@ noremap j gj
 noremap gj j
 noremap k gk
 noremap gk k
-nmap <Down> j
-nmap <Up> k
-" XXX: 'wrap' が有効かどうかによって g0 にマップするか決めたいなぁ……
+map <Down> j
+map <Up> k
 noremap 0 g0
 noremap g0 0
 noremap $ g$
@@ -67,6 +67,8 @@ imap <Up> <C-O><Up>
 imap <C-@> <Esc>
 cmap <C-@> <C-C>
 vmap <C-@> <Esc>
+map  <C-Space> <C-@>
+map! <C-Space> <C-@>
 noremap Y y$
 map n /<Return>
 map N ?<Return>
