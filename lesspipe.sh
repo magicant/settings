@@ -1,42 +1,88 @@
-#!/bin/sh -
+#!/bin/sh
 
-lesspipe() {
-  unset DECOMPRESSOR
-  case "$1" in
-	*.[1-9n]|*.man|*.[1-9n].bz2|*.man.bz2|*.[1-9].gz|*.[1-9]x.gz|*.[1-9].man.gz)
-	case "$1" in
-	  *.gz)	DECOMPRESSOR="gunzip -c" ;;
-	  *.bz2)	DECOMPRESSOR="bunzip2 -c" ;;
-	  *)	DECOMPRESSOR="cat" ;;
+unset color
+case "${LESS-}" in
+  *R*) color=true ;;
+esac
+
+if [ -d "$1" ]; then
+  exec ls -al ${color+--color} -- "$1" || exit
+elif ! [ -f "$1" ]; then
+  exec cat -- "$1" || exit
+fi
+
+case "$1" in
+  /*) s1="$1" ;;
+  *)  s1="./$1" ;;
+esac
+case "$1" in
+  *.gz)   decomp="gunzip -c" ;;
+  *.bz2)  decomp="bzcat" ;;
+  *.[zZ]) decomp="zcat" ;;
+  *)      decomp="cat" ;;
+esac
+
+case "$1" in
+
+  # man page
+  *.[1-9n]     | *.man     | \
+  *.[1-9n].gz  | *.man.gz  | \
+  *.[1-9n].bz2 | *.man.bz2 | \
+  *.[0-9][a-z].gz )
+	case "$($decomp -- "$1" | file -)" in
+	  *troff*)
+		exec man -- "$s1" || exit
+		;;
+	  *text*)
+		exec $decomp -- "$1" || exit
+		;;
 	esac
-	if $DECOMPRESSOR -- "$1" | file - | grep -q troff; then
-	  if echo "$1" | grep -q ^/; then	#absolute path
-		man -- "$1" | cat -s
-	  else
-		man -- "./$1" | cat -s
-	  fi
-	else
-	  $DECOMPRESSOR -- "$1"
-	fi ;;
-	*.tar) tar tvf "$1" | sort -k6 ;;
-	*.tgz|*.tar.gz|*.tar.[zZ]) tar tzvf "$1" | sort -k6 ;;
-	*.tar.bz2|*.tbz2) tar tjvf - | sort -k6 ;;
-	*.[zZ]|*.gz) gzip -dc -- "$1" ;;
-	*.bz2) bzip2 -dc -- "$1" ;;
-	*.zip) zipinfo -- "$1" ;;
-	*.rpm) rpm -qpivl --changelog -- "$1" ;;
-	*.cpi|*.cpio) cpio -itv < "$1" ;;
-	*.gif|*.jpeg|*.jpg|*.pcd|*.png|*.tga|*.tiff|*.tif) identify -- "$1" ;;
-	*)
-	case `nkf --guess -- "$1"` in
-	  UTF-8|ASCII) ;;
-	  *)  nkf -wx --no-best-fit-chars -- "$1" ;;
-	esac
-  esac
+	;;
+
+  # archive
+  *.tar )                          exec tar -tv  -f "$1" | sort -k 6 ; exit ;;
+  *.tar.gz | *.tgz | *.tar.[zZ] )  exec tar -tvz -f "$1" | sort -k 6 ; exit ;;
+  *.tar.bz2 | *.tbz2 | *.tgz )     exec tar -tvj -f "$1" | sort -k 6 ; exit ;;
+  *.zip)            exec zipinfo -- "$1" || exit ;;
+  *.rpm)            exec rpm -qpivl --changelog "$s1" || exit ;;
+  *.cpio | *.cpi )  exec cpio -itv <"$1" || exit ;;
+  *.a )             exec ar -tv "$s1" || exit ;;
+  *.so )            exec readelf -edsA -- "$1" || exit ;;
+
+  # media
+  *.gif | *.jpeg | *.jpg | *.pcd | *.png | *.tga | *.tiff | *.tif )
+	exec identify -- "$1" || exit ;;
+
+esac
+
+
+# text
+opentext() {
+  if [ "$decomp" != "cat" ]; then
+	exec $decomp -- "$1"
+  fi
+  exit
 }
 
-if [ -d "$1" ] ; then
-  ls -alF --color -- "$1"
+case "$($decomp -- "$1" | nkf --guess 2>/dev/null)" in
+  UTF-8*)       from=UTF-8 ;;
+  EUC-JP*)      from=EUC-JP ;;
+  Shift_JIS*)   from=SHIFT_JIS ;;
+  ISO-2022-JP*) from=ISO-2022-JP ;;
+  *)  # no conversion
+	opentext ;;
+esac
+case "${LC_ALL:-${LC_CTYPE:-$LANG}}" in
+  *.UTF-8*  | *.UTF8*  | *.utf-8*  | *.utf8* )   to=UTF-8 ;;
+  *.EUC-JP* | *.EUCJP* | *.euc-jp* | *.eucjp* )  to=EUC-JP ;;
+  *)  # no conversion
+	opentext ;;
+esac
+if [ "$from" = "$to" ]; then
+  # no conversion
+  opentext
 else
-  lesspipe "$1" 2> /dev/null
+  $decomp -- "$1" | exec iconv -s -f "$from"
 fi
+
+# vim: ts=4 sw=2 sts=2
