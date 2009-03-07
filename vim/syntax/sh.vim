@@ -57,7 +57,7 @@ syntax case match
 syntax spell notoplevel
 
 " Clusters {{{1
-sy cluster shWordsList contains=shDollarError,shWordParenError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shArith,shSpecialGlob
+sy cluster shWordsList contains=shDollarError,shWordParenError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shArith,shExtGlob
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
 sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase
@@ -70,15 +70,19 @@ sy cluster shErrorList contains=shSepError,shThenError,shElifError,shElseError,s
 if !exists("b:is_kornshell") && !exists("b:is_bash") && !exists("b:is_yash")
 	sy match shDollarError contained /\$/
 endif
-"if exists("b:is_bash")
-"	sy region shSpecialGlob contained start=/(/ end=/)/
-"else
-	sy match shWordParenError contained /(/
-"endif
+if exists("b:is_kornshell")
+	sy region shExtGlob contained start=/[?*+@!]-\?(/ end=/)/ contains=shExtGlobExt
+	sy region shExtGlob contained start=/{[[:digit:],]*}-\?(/ end=/)/ contains=shExtGlobExt
+	sy region shExtGlobExt contained transparent start=/[%~](/ end=/)/
+elseif exists("b:is_bash")
+	sy region shExtGlob contained start=/[?*+@!](/ end=/)/
+endif
+sy match shSepError /[;&|]/
+sy match shWordParenError contained /(/
 sy match shParamError contained /[^}[:alnum:]_@*#?$!:=+-]/
 sy match shBackslash  contained /\\./
 sy region shSingleQuote contained matchgroup=shSingleQuoteMark start=/'/ end=/'/ contains=@Spell
-sy region shDoubleQuote contained matchgroup=shDoubleQuoteMark start=/"/ end=/"/ contains=@Spell,shLineCont,shBackslashDQ,shBackquote,shCmdSub,shParameter,shArith
+sy region shDoubleQuote contained matchgroup=shDoubleQuoteMark start=/"/ end=/"/ contains=@Spell,shDollarError,shLineCont,shBackslashDQ,shBackquote,shCmdSub,shParameter,shArith
 sy match shBackslashDQ contained /\\["`$\\]/
 sy region shBackquote contained start=/`/ end=/`/ contains=shBackslashBQ,shCmdSub,shParameter,shArith
 sy match shBackslashBQ contained /\\[$`\\]/
@@ -130,6 +134,9 @@ if !exists("b:is_kornshell")
 	if exists("b:is_bash") || exists("b:is_yash")
 		sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?<<</
 	endif
+	if exists("b:is_bash")
+		sy match shRedir contained /&>>\?/
+	endif
 	if exists("b:is_yash")
 		sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?>>|\(\d\+[^[:blank:]|&;<>()]\@!\)\?/
 		sy region shRedirCmd contained matchgroup=shRedir start=/\([^[:blank:]|&;<>()]\@<!\d\+\)\?[<>](/ end=/)/ contains=@shCommandsList
@@ -154,6 +161,9 @@ sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*
 
 " Simple command {{{1
 sy region shSimpleCmd transparent start=/[^[:blank:]|&;()]/ end=/$/ end=/[;&|)]/me=e-1 contains=@shWordsList,@shRedirsList,shAssign,shComment nextgroup=@shTrailersList
+if exists("b:is_bash")
+	sy region shSimpleCmd transparent start=/&>/ end=/$/ end=/[;&|)]/me=e-1 contains=@shWordsList,@shRedirsList,shAssign,shComment nextgroup=@shTrailersList
+endif
 sy match shAssign contained /[^[:blank:]|&;<>()]\@<!\h\w*=\@=/ nextgroup=shAssignArray
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
 	sy region shAssignArray contained transparent matchgroup=shOperator start=/=(/hs=s+1 end=/)/ contains=@shWordsList,shComment
@@ -173,9 +183,8 @@ if exists("b:is_bash")
 endif
 
 " Errors {{{1
-" shDollarError and shParamError are defined above.
-" shBangError is defined later.
-sy match shSepError   /[;&|]/
+" shDollarError, shSeparator, shWordParenError and shParamError are defined
+" above. shBangError is defined later.
 sy match shThenError  /[^[:blank:]|&;<>()]\@<!then[^[:blank:]|&;<>()]\@!/
 sy match shElifError  /[^[:blank:]|&;<>()]\@<!elif[^[:blank:]|&;<>()]\@!/
 sy match shElseError  /[^[:blank:]|&;<>()]\@<!else[^[:blank:]|&;<>()]\@!/
@@ -201,6 +210,9 @@ endif
 sy match shSeparator contained /;;\@!/
 sy match shSeparator contained /&/
 sy match shPipe /|/ skipwhite skipempty nextgroup=@shCommandsList,shBangError contained
+if exists("b:is_bash")
+	sy match shPipe /|&/ skipwhite skipempty nextgroup=@shCommandsList,shBangError contained
+endif
 sy match shAndOr contained /&&/ skipwhite skipempty nextgroup=@shCommandsList
 sy match shAndOr contained /||/ skipwhite skipempty nextgroup=@shCommandsList
 sy region shTrailerRedir transparent start=/\d*[<>]/ end=/$/ end=/[;&|)]/me=e-1 contains=@shWordsList,@shRedirsList,shComment nextgroup=@shTrailersList
@@ -244,8 +256,13 @@ sy region shCaseIn contained transparent fold matchgroup=shConditional start=/[^
 sy region shCaseComment contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shCaseIn
 sy region shCasePattern contained transparent matchgroup=NONE start=/[^[:blank:]#|&;<>()]/ matchgroup=shOperator start=/(/ end=/)/ contains=@shWordsList,shSepError,shCasePipe skipwhite skipempty nextgroup=shCaseCommand,shCaseDSemi
 sy match shCasePipe contained /|/
-sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;;/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
-sy match shCaseDSemi contained /;;/
+if !exists("b:is_bash")
+	sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;;/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
+	sy match shCaseDSemi contained /;;/
+else
+	sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;\(;\?&\|;\)/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
+	sy match shCaseDSemi contained /;\(;\?&\|;\)/
+endif
 
 " [[ construct {{{2
 if exists("b:is_kornshell") || exists("b:is_bash")
@@ -317,7 +334,7 @@ hi def link shParamOp			shOperator
 hi def link shParamModifier		Normal
 hi def link shParamNest			shParameter
 hi def link shArith				Normal
-hi def link shSpecialGlob		shOperator
+hi def link shExtGlob			shSpecialChar
 
 hi def link shRedir				shOperator
 hi def link shRedirCmd			Normal
