@@ -261,8 +261,6 @@ myfunc()(:)
 error();
 function func() { ksh/bash only; }
 
-| loop pipe: yash only # comment
-! | loop pipe: yash only
 | ! error
 
 'echo' ' very long

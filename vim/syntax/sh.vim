@@ -127,7 +127,7 @@ if !exists("b:is_kornshell")
 	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?>[>&|]\?/
 	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?<[>&]\?/
 	sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?[<>]&\(\d\+\|-\)[^[:blank:]|&;<>()]\@!/
-	if exists("b:is_bash")
+	if exists("b:is_bash") || exists("b:is_yash")
 		sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?<<</
 	endif
 	if exists("b:is_yash")
@@ -200,12 +200,7 @@ endif
 " Pipe, and-or list and asynchronous list {{{1
 sy match shSeparator contained /;;\@!/
 sy match shSeparator contained /&/
-if exists("b:is_yash")
-	sy match shPipe /|/ skipwhite skipempty nextgroup=@shCommandsList,shBangError
-	sy cluster shCommandsList add=shPipe
-else
-	sy match shPipe /|/ skipwhite skipempty nextgroup=@shCommandsList,shBangError contained
-endif
+sy match shPipe /|/ skipwhite skipempty nextgroup=@shCommandsList,shBangError contained
 sy match shAndOr contained /&&/ skipwhite skipempty nextgroup=@shCommandsList
 sy match shAndOr contained /||/ skipwhite skipempty nextgroup=@shCommandsList
 sy region shTrailerRedir transparent start=/\d*[<>]/ end=/$/ end=/[;&|)]/me=e-1 contains=@shWordsList,@shRedirsList,shComment nextgroup=@shTrailersList
