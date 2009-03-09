@@ -1,10 +1,16 @@
 " Vim syntax file
-" Language:				POSIX shell (sh)
+" Language:				sh, POSIX shell, ksh, bash, yash
 " Maintainer:			Watanabe, Yuki <magicant.starmen@nifty.com>
-" Last Change:			Jan 18, 2009
-" Version:				1
-" URL:					http://homepage2.nifty.com/magicant/sapps/vimutils/
-" For options and settings, please use:      :help ft-sh-syntax
+" Last Change:			Mar 9, 2009
+
+" The following variables affect syntax highlighting:
+"   b:is_bourneshell  If set, only the original Bourne shell's syntax is
+"                     allowed. This variable overrides any other variables.
+"   b:is_posix        If set, the syntax highlighting is based on the syntax
+"                     defined by POSIX.
+"   b:is_kornshell    If set, ksh-specific features are allowed.
+"   b:is_bash         If set, bash-specific features are allowed.
+"   b:is_yash         If set, yash-specific features are allowed.
 
 " For version 5.x: Clear all syntax items and abort {{{1
 " For version 6.x: Quit when a syntax file was already loaded
