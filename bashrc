@@ -54,21 +54,24 @@ if [ x"${PS1+set}" = x"set" ]; then
 	fi
 	if [ "$(tput colors 2>/dev/null)" -ge 8 ] 2>/dev/null; then
 		if [ "$EUID" -eq 0 ]; then
-			font='1;4;31'  # red for root
-		elif [ -n "${SSH_CONNECTION}" ]; then
-			font='1;4;33'  # yellow in remote host
+			dc='\[\e[1;31m\]' gc='\[\e[1;31m\]'  # red for root
 		else
-			font='1;4;32'  # green for normal
+			dc=''             gc='\[\e[1m\]'     # normal
 		fi
-		PS1='\[\e['"$font"'m\]\W '"$shlvl"'\$\[\e[0m\] '
-		PS2='\[\e['"$font"'m\]>\[\e[0m\] '
-		PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "$USER" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+		if [ -n "${SSH_CONNECTION}" ]; then
+			hc='\[\e[1;33m\]'                    # yellow in remote host
+		else
+			hc='\[\e[1;32m\]'                    # green for normal
+		fi
+		bold='\[\e[0;1m\]' normal='\[\e[m\]'
+		PS1=$hc'\u@\h '$bold'\W '$shlvl'b'$dc'\$'$normal' '
+		PS2=$gc'>'$normal' '
+		PS1='\[\e]0;\u@\H:\w\a\]'$PS1
 	else
 		PS1='\W \$ '
 		PS2='> '
-		unset PROMPT_COMMAND
 	fi
-	unset font shlvl
+	unset shlvl dc gc hc bold normal
 
 	if [ -z "$BASH_COMPLETION" ]; then
 		if [ -r /etc/bash_completion ]; then
