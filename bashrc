@@ -66,7 +66,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 		bold='\[\e[0;1m\]' normal='\[\e[m\]'
 		PS1=$hc'\u@\h '$bold'\W '$shlvl'b'$dc'\$'$normal' '
 		PS2=$gc'>'$normal' '
-		PS1='\[\e]0;\u@\H:\w\a\]'$PS1
+		PS1='\[\e]0;\u@\h:\w\a\]'$PS1
 	else
 		PS1='\W \$ '
 		PS2='> '
