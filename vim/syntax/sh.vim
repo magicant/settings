@@ -60,7 +60,9 @@ endif
 
 " Miscellaneous settings {{{1
 syntax case match
-syntax spell notoplevel
+if has("spell")
+	syntax spell notoplevel
+endif
 
 " Clusters {{{1
 sy cluster shWordsList contains=shDollarError,shWordParenError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shArith,shExtGlob
