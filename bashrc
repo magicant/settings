@@ -64,7 +64,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 			hc='\[\e[1;32m\]'                    # green for normal
 		fi
 		bold='\[\e[0;1m\]' normal='\[\e[m\]'
-		PS1=$hc'\u@\h '$bold'\W '$shlvl'b'$dc'\$'$normal' '
+		PS1=$hc'\u@\h'$bold' \W '$shlvl'b'$dc'\$'$normal' '
 		PS2=$gc'>'$normal' '
 		PS1='\[\e]0;\u@\h:\w\a\]'$PS1
 	else

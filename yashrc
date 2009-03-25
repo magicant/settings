@@ -70,7 +70,7 @@ if [ -n "${SSH_CONNECTION-}" ]; then
 else
 	hc='\fgo.'             # green for local
 fi
-PS1=$hc'${LOGNAME}@${HOSTNAME%%.*} \fo.${${${PWD/#~/\~}##*/}:-$PWD} ${SHLVL:/1}'$dc'\$\f. '
+PS1=$hc'${LOGNAME}@${HOSTNAME%%.*}\fo. ${${${PWD/#~/\~}##*/}:-$PWD} ${SHLVL:/1}'$dc'\$\f. '
 PS2=$gc'>\f. '
 PS4='+ '
 unset dc gc hc
