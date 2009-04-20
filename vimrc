@@ -41,7 +41,7 @@ set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
 set nocscopetag cscopequickfix=s-,c-,d-,i-,t-,e-
 
 set showcmd cmdheight=1 laststatus=2 history=50
-set statusline=%n\ %f\ %h%m%r%w%y%=%-14.(%l/%L,%c%V%)\ %P
+set statusline=%n\ %f\ %h%m%r%w%y%=%-14.(%l/%L,%v%)\ %P
 set wildmenu
 set title
 
