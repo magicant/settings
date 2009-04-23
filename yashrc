@@ -59,6 +59,7 @@ HISTFILE=~/.yash_history HISTSIZT=1000
 MAILCHECK=60
 FCEDIT=${EDITOR:-vi}
 HOSTNAME=${HOSTNAME:-$(uname -n)}
+: ${ECHO_STYLE:=RAW}
 
 if [ "$(id -u)" -eq 0 ]; then
 	dc='\fro.' gc='\fro.'  # red for root
