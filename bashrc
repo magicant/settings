@@ -103,7 +103,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 	set -o braceexpand -o noclobber
 	shopt -s autocd globstar 2>/dev/null
 
-	echol()
+	args()
 	if [ $# -gt 0 ]; then
 		printf '%s\n' "$@"
 	fi

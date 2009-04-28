@@ -79,7 +79,7 @@ if [ "$termcolor" -ge 8 ]; then
 	PS1='\[\e]0;${LOGNAME}@${HOSTNAME%%.*}:${${PWD:/~/\~}/#~\//\~\/}\a\]'$PS1
 fi
 
-echol()
+args()
 if [ $# -gt 0 ]; then
 	printf '%s\n' "$@"
 fi

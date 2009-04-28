@@ -38,7 +38,9 @@ set errorformat+=%f:%l:%m
 set errorformat+=%D%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ に入ります
 set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
 
-set nocscopetag cscopequickfix=s-,c-,d-,i-,t-,e-
+if has("cscope")
+	set cscopetag cscopetagorder=1 cscopequickfix=s-,c-,d-,i-,t-,e-
+endif
 
 set showcmd cmdheight=1 laststatus=2 history=50
 set statusline=%n\ %f\ %h%m%r%w%y%=%-14.(%l/%L,%v%)\ %P
