@@ -222,6 +222,8 @@ bash only
 
 <<END
 foo $(date) `command` $((1+3)) ${TERM}
+\$backslash-escape \\ \` \` \\
+line-continuation \
 	END
 END
 cat - << END
@@ -235,7 +237,7 @@ cat - <<-   end
 			end
 
 cat - << "END;"
-$(dummy)
+$(dummy) \\ \
 END;
 cat << 'HERE'
    HERE

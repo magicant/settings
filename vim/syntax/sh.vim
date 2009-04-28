@@ -160,12 +160,13 @@ if exists("b:is_kornshell") || exists("b:is_bash")
 endif
 
 " Here-document {{{1
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shArith
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\t*\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shArith
+sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shArith,shBackslashHD,shLineCont
+sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\t*\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shArith,shBackslashHD,shLineCont
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\(["']\)\z([^"'\\]\+\)\1$/ end=/^\z1\n\@=/
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\(["']\)\z([^"'\\]\+\)\1$/ end=/^\t*\z1\n\@=/
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\\\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\z1\n\@=/
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\\\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\t*\z1\n\@=/
+sy match shBackslashHD contained /\\[$`\\]/
 
 " Simple command {{{1
 sy region shSimpleCmd transparent start=/[^[:blank:]|&;()]/ end=/$/ end=/[;&|)]/me=e-1 contains=@shWordsList,@shRedirsList,shAssign,shComment nextgroup=@shTrailersList
@@ -347,6 +348,7 @@ hi def link shExtGlob			shSpecialChar
 hi def link shRedir				shOperator
 hi def link shRedirCmd			Normal
 hi def link shRedirHere			shString
+hi def link shBackslashHD		shSpecialChar
 hi def link shLineCont			shOperator
 hi def link shTrailerLineCont	shLineCont
 hi def link shAssign			shIdentifier
