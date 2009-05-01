@@ -53,25 +53,25 @@ if [ x"${PS1+set}" = x"set" ]; then
 		shlvl=
 	fi
 	if [ "$(tput colors 2>/dev/null)" -ge 8 ] 2>/dev/null; then
-		if [ "$EUID" -eq 0 ]; then
-			dc='\[\e[1;31m\]' gc='\[\e[1;31m\]'  # red for root
-		else
-			dc=''             gc='\[\e[1m\]'     # normal
-		fi
 		if [ -n "${SSH_CONNECTION}" ]; then
 			hc='\[\e[1;33m\]'                    # yellow in remote host
 		else
 			hc='\[\e[1;32m\]'                    # green for normal
 		fi
+		if [ "$EUID" -eq 0 ]; then
+			uc='\[\e[1;31m\]' gc='\[\e[1;31m\]'  # red for root
+		else
+			uc="$hc"          gc='\[\e[1m\]'     # normal
+		fi
 		bold='\[\e[0;1m\]' normal='\[\e[m\]'
-		PS1=$hc'\u@\h'$bold' \W '$shlvl'b'$dc'\$'$normal' '
+		PS1=$uc'\u'$hc'@\h'$bold' \W '$shlvl'b\$'$normal' '
 		PS2=$gc'>'$normal' '
 		PS1='\[\e]0;\u@\h:\w\a\]'$PS1
 	else
 		PS1='\W \$ '
 		PS2='> '
 	fi
-	unset shlvl dc gc hc bold normal
+	unset shlvl uc gc hc bold normal
 
 	if [ -z "$BASH_COMPLETION" ]; then
 		if [ -r /etc/bash_completion ]; then

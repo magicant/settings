@@ -61,20 +61,20 @@ FCEDIT=${EDITOR:-vi}
 HOSTNAME=${HOSTNAME:-$(uname -n)}
 : ${ECHO_STYLE:=RAW}
 
-if [ "$(id -u)" -eq 0 ]; then
-	dc='\fro.' gc='\fro.'  # red for root
-else
-	dc=''      gc='\fo.'   # normal
-fi
 if [ -n "${SSH_CONNECTION-}" ]; then
 	hc='\fyo.'             # yellow in remote host
 else
 	hc='\fgo.'             # green for local
 fi
-PS1=$hc'${LOGNAME}@${HOSTNAME%%.*}\fo. ${${${${PWD:/~/\~}/#~\//\~\/}##*/}:-$PWD} ${SHLVL:/1}'$dc'\$\f. '
+if [ "$(id -u)" -eq 0 ]; then
+	uc='\fro.' gc='\fro.'  # red for root
+else
+	uc="$hc"   gc='\fo.'   # normal
+fi
+PS1=$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fo. ${${${${PWD:/~/\~}/#~\//\~\/}##*/}:-$PWD} ${SHLVL:/1}\$\f. '
 PS2=$gc'>\f. '
 PS4='+ '
-unset dc gc hc
+unset uc gc hc
 if [ "$termcolor" -ge 8 ]; then
 	PS1='\[\e]0;${LOGNAME}@${HOSTNAME%%.*}:${${PWD:/~/\~}/#~\//\~\/}\a\]'$PS1
 fi
