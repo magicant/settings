@@ -26,6 +26,7 @@ makelink inputrc .inputrc
 makelink lesspipe.sh bin/lesspipe.sh
 top --version 2>/dev/null | grep -q procps && makelink toprc .toprc
 makelink yashrc .yashrc
+makelink zshrc .zshrc
 
 if command -v vim >/dev/null 2>&1; then
 	makelink vimrc .vimrc

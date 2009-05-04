@@ -7,7 +7,7 @@ elif [ -r /etc/yash.yashrc ]; then
 fi
 
 set -o autocd -o braceexpand -o extendedglob -o noclobber -o nounset
-set --le-convmeta=no 2>/dev/null
+set --notifyle --le-convmeta=no 2>/dev/null
 
 termcolor=$(tput colors 2>/dev/null)
 
