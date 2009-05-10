@@ -8,7 +8,7 @@ set nobackup hidden confirm
 set suffixes+=.a
 
 highlight Normal guibg=Black guifg=LightGray
-set guioptions-=T guicursor+=a:blinkwait500-blinkon500-blinkoff500
+set guioptions+=f guioptions-=T guicursor+=a:blinkwait500-blinkon500-blinkoff500
 
 set background=dark
 filetype plugin indent on

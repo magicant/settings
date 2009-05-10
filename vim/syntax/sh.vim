@@ -65,7 +65,7 @@ if has("spell")
 endif
 
 " Clusters {{{1
-sy cluster shWordsList contains=shDollarError,shWordParenError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shArith,shExtGlob
+sy cluster shWordsList contains=shDollarError,shWordParenError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shExtGlob
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
 sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase
@@ -90,9 +90,9 @@ sy match shWordParenError contained /(/
 sy match shParamError contained /[^}[:alnum:]_@*#?$!:=+-]/
 sy match shBackslash  contained /\\./
 sy region shSingleQuote contained matchgroup=shSingleQuoteMark start=/'/ end=/'/ contains=@Spell
-sy region shDoubleQuote contained matchgroup=shDoubleQuoteMark start=/"/ end=/"/ contains=@Spell,shDollarError,shLineCont,shBackslashDQ,shBackquote,shCmdSub,shParameter,shArith
+sy region shDoubleQuote contained matchgroup=shDoubleQuoteMark start=/"/ end=/"/ contains=@Spell,shDollarError,shLineCont,shBackslashDQ,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith
 sy match shBackslashDQ contained /\\["`$\\]/
-sy region shBackquote contained start=/`/ end=/`/ contains=shBackslashBQ,shCmdSub,shParameter,shArith
+sy region shBackquote contained start=/`/ end=/`/ contains=shBackslashBQ,shCmdSub,shParameter,shParameterBrace,shArith
 sy match shBackslashBQ contained /\\[$`\\]/
 if exists("b:is_posix")
 	sy region shCmdSub contained matchgroup=shParameter start=/\$(/ end=/)/ contains=@shCommandsList
@@ -100,7 +100,7 @@ endif
 sy match shParameter contained /\$\h\w*/
 sy match shParameter contained /\$\d/
 sy match shParameter contained /\$[@*#?$!-]/
-sy region shParameter contained matchgroup=shParameter start=/\${/ end=/}/ contains=@shParamOpsList
+sy region shParameterBrace contained matchgroup=shParameter start=/\${/ end=/}/ contains=@shParamOpsList
 sy region shParamModifier contained matchgroup=shParamOp start=/:\?[-+?=]/ end=/}\@=/ contains=@shWordsList
 if exists("b:is_posix")
 	sy match shParamOp contained /{\@<=#/
@@ -118,7 +118,7 @@ endif
 if exists("b:is_yash")
 	sy region shParamNest contained matchgroup=shParamNest start=/{/ end=/}/ contains=@shParamOpsList
 	sy region shParamModifier contained matchgroup=shParamOp start=":/" end=/}\@=/ contains=@shWordsList,shParamSlash
-	sy cluster shParamOpsList add=shBackquote,shCmdSub,shParameter,shParamNest,shArith
+	sy cluster shParamOpsList add=shBackquote,shCmdSub,shParameterBrace,shParamNest,shArith
 endif
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
 	sy region shParamModifier contained matchgroup=shParamOp start="/[#%/]\?" end=/}\@=/ contains=@shWordsList,shParamSlash
@@ -160,8 +160,8 @@ if exists("b:is_kornshell") || exists("b:is_bash")
 endif
 
 " Here-document {{{1
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shArith,shBackslashHD,shLineCont
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\t*\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shArith,shBackslashHD,shLineCont
+sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
+sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\t*\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\(["']\)\z([^"'\\]\+\)\1$/ end=/^\z1\n\@=/
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\(["']\)\z([^"'\\]\+\)\1$/ end=/^\t*\z1\n\@=/
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\\\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\z1\n\@=/
@@ -339,6 +339,7 @@ hi def link shBackslashDQ		shSpecialChar
 hi def link shBackquote			shParameter
 hi def link shBackslashBQ		shSpecialChar
 hi def link shCmdSub			Normal
+hi def link shParameterBrace	shParameter
 hi def link shParamOp			shOperator
 hi def link shParamModifier		Normal
 hi def link shParamNest			shParameter
