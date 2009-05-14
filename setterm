@@ -32,7 +32,6 @@ while ! tput longname >/dev/null 2>&1; do
 			else
 				TERM=xterm-${TERM#*-}
 			fi ;;
-			TERM=${TERM%%-*};;
 		*)
 			TERM=xterm; break;;
 	esac
