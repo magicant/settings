@@ -1,11 +1,42 @@
 export TERM
+_orig_term=$TERM
 while ! tput longname >/dev/null 2>&1; do
 	case "$TERM" in
-		*-?*color) TERM=${TERM%%-*}-color;;
-		*-*)       TERM=${TERM%%-*};;
-		xterm)     break;;
-		*)         TERM=xterm;;
+		*-256color)
+			if [ x"${TERM%%-*}" = x"xterm" ]; then
+				TERM=${_orig_term%-256color}-16color
+			else
+				TERM=xterm-${TERM#*-}
+			fi ;;
+		*-16color)
+			if [ x"${TERM%%-*}" = x"xterm" ]; then
+				TERM=${_orig_term%-16color}-8color
+			else
+				TERM=xterm-${TERM#*-}
+			fi ;;
+		*-8color)
+			if [ x"${TERM%%-*}" = x"xterm" ]; then
+				TERM=${_orig_term%-8color}-color
+			else
+				TERM=xterm-${TERM#*-}
+			fi ;;
+		*-color)
+			if [ x"${TERM%%-*}" = x"xterm" ]; then
+				TERM=${_orig_term%-color}
+			else
+				TERM=xterm-${TERM#*-}
+			fi ;;
+		*-*)
+			if [ x"${TERM%%-*}" = x"xterm" ]; then
+				TERM=${_orig_term%%-*}
+			else
+				TERM=xterm-${TERM#*-}
+			fi ;;
+			TERM=${TERM%%-*};;
+		*)
+			TERM=xterm; break;;
 	esac
 done
+unset _orig_term
 
 # vim: ft=sh
