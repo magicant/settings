@@ -68,7 +68,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 		PS2=$gc'>'$normal' '
 		PS1='\[\e]0;\u@\h:\w\a\]'$PS1
 	else
-		PS1='\W \$ '
+		PS1='\u@\h \W \$ '
 		PS2='> '
 	fi
 	unset shlvl uc gc hc bold normal
