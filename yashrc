@@ -78,6 +78,10 @@ PS4='+ '
 unset uc gc hc
 if [ "$termcolor" -ge 8 ]; then
 	PS1='\[\e]0;${LOGNAME}@${HOSTNAME%%.*}:${${PWD:/$HOME/\~}/#$HOME\//\~\/}\a\]'$PS1
+	ssh () {
+		printf '\033]0;ssh %s\a' "$*"
+		command ssh "$@"
+	}
 fi
 
 args()
