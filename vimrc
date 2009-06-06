@@ -21,6 +21,7 @@ set nohlsearch incsearch noshowmatch ignorecase smartcase
 set nolist listchars=eol:$,tab:>.
 
 set backspace=indent,eol,start
+set autoindent
 set tabstop=4 shiftwidth=4
 set formatoptions+=tcroqlB formatoptions-=M
 
