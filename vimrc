@@ -9,6 +9,7 @@ set suffixes+=.a
 
 highlight Normal guibg=Black guifg=LightGray
 set guioptions+=f guioptions-=T guicursor+=a:blinkwait500-blinkon500-blinkoff500
+set ttimeoutlen=100
 
 set background=dark
 filetype plugin indent on
