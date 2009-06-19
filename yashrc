@@ -56,7 +56,7 @@ fi
 
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
-HISTFILE=~/.yash_history HISTSIZT=1000
+HISTFILE=~/.yash_history HISTSIZE=1000
 MAILCHECK=60
 FCEDIT=${EDITOR:-vi}
 HOSTNAME=${HOSTNAME:-$(uname -n)}
