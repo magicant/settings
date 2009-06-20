@@ -1,16 +1,19 @@
 # magicant's .yashrc
 
+# read system-wide settings
 if [ -r /etc/yashrc ]; then
 	. /etc/yashrc
 elif [ -r /etc/yash.yashrc ]; then
 	. /etc/yash.yashrc
 fi
 
+# set some options
 set -o autocd -o braceexpand -o extendedglob -o noclobber -o nounset
 set --notifyle --le-convmeta=no 2>/dev/null
 
 termcolor=$(tput colors 2>/dev/null)
 
+# define aliases
 if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 	: ${PAGER:=more}
 
@@ -54,6 +57,7 @@ if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 	fi
 fi
 
+# define some variables
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
 HISTFILE=~/.yash_history HISTSIZE=1000
@@ -62,6 +66,7 @@ FCEDIT=${EDITOR:-vi}
 HOSTNAME=${HOSTNAME:-$(uname -n)}
 : ${ECHO_STYLE:=RAW}
 
+# define prompt
 if [ -n "${SSH_CONNECTION-}" ]; then
 	hc='\fyo.'             # yellow in remote host
 else
@@ -84,6 +89,7 @@ if [ "$termcolor" -ge 8 ]; then
 	}
 fi
 
+# define some auxiliary functions
 args()
 if [ $# -gt 0 ]; then
 	printf '%s\n' "$@"
@@ -92,6 +98,7 @@ mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }
 
+# define a wrapper for the suspend builtin if we have no job-controlling parent
 define_suspend () {
 	suspend ()
 	if [ x"${1-}" != x"-f" ]; then
@@ -101,10 +108,6 @@ define_suspend () {
 		command suspend
 	fi
 }
-if [ -r /proc/$PPID/stat ] &&
-		[ "$(cut -d ' ' -f 8 /proc/$PPID/stat)" -le 0 ]; then
-	define_suspend
-fi
 if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
 	alias op=gnome-open
 	if tput -T gnome-256color init >/dev/null 2>&1; then
@@ -115,10 +118,16 @@ if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
 		export TERM=gnome
 	fi
 	define_suspend
+else
+	{ read t1; read t2; } <(ps -o tpgid= $PPID $$ 2>/dev/null)
+	if [ "${t1:-0}" -ne "${t2:-0}" ]; then
+		define_suspend
+	fi
+	unset t1 t2
 fi
 unset -f define_suspend
 
-
+# read local settings
 if [ -r ~/.yashrc_local ]; then
 	. ~/.yashrc_local
 fi
