@@ -92,6 +92,32 @@ mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }
 
+define_suspend () {
+	suspend ()
+	if [ x"${1-}" != x"-f" ]; then
+		echo "suspend: cannot suspend without \`-f'" >&2
+		return 1
+	else
+		command suspend
+	fi
+}
+if [ -r /proc/$PPID/stat ] &&
+		[ "$(cut -d ' ' -f 8 /proc/$PPID/stat)" -le 0 ]; then
+	define_suspend
+fi
+if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
+	alias op=gnome-open
+	if tput -T gnome-256color init >/dev/null 2>&1; then
+		export TERM=gnome-256color
+	elif tput -T gnome-16color init >/dev/null 2>&1; then
+		export TERM=gnome-16color
+	elif tput -T gnome init >/dev/null 2>&1; then
+		export TERM=gnome
+	fi
+	define_suspend
+fi
+unset -f define_suspend
+
 
 if [ -r ~/.yashrc_local ]; then
 	. ~/.yashrc_local
