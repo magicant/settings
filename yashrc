@@ -55,6 +55,10 @@ if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 		alias vl='vimless'
 		alias -g V='|vimless'
 	fi
+
+	if command -v gnome-open >/dev/null 2>&1; then
+		alias go='gnome-open'
+	fi
 fi
 
 # define some variables
@@ -109,7 +113,6 @@ define_suspend () {
 	fi
 }
 if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
-	alias op=gnome-open
 	if tput -T gnome-256color init >/dev/null 2>&1; then
 		export TERM=gnome-256color
 	elif tput -T gnome-16color init >/dev/null 2>&1; then
@@ -118,12 +121,8 @@ if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
 		export TERM=gnome
 	fi
 	define_suspend
-else
-	{ read t1; read t2; } <(ps -o tpgid= $PPID $$ 2>/dev/null)
-	if [ "${t1:-0}" -ne "${t2:-0}" ]; then
-		define_suspend
-	fi
-	unset t1 t2
+elif [ x"$(ps -o tty= -p $$)" != x"$(ps -o tty= -p $PPID)" ]; then
+	define_suspend
 fi
 unset -f define_suspend
 
