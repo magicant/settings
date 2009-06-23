@@ -9,7 +9,7 @@ fi
 
 # set some options
 set -o autocd -o braceexpand -o extendedglob -o noclobber -o nounset
-set --notifyle --le-convmeta=no 2>/dev/null
+set --notifyle --histspace --le-noconvmeta 2>/dev/null
 
 termcolor=$(tput colors 2>/dev/null)
 
@@ -64,7 +64,7 @@ fi
 # define some variables
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
-HISTFILE=~/.yash_history HISTSIZE=1000
+HISTFILE=~/.yash_history HISTSIZE=1000 HISTRMDUP=30
 MAILCHECK=60
 FCEDIT=${EDITOR:-vi}
 HOSTNAME=${HOSTNAME:-$(uname -n)}
