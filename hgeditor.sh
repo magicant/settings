@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# To use this file, put the following line in the [ui] section of ~/.hgrc
+# editor = <path to this file>
+
 case "${VISUAL:-${EDITOR:-}}" in
 	"")
 		EDITOR=vi

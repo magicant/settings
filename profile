@@ -38,8 +38,6 @@ esac
 #	eval "$(TERM=xterm dircolors --sh ~/.dircolors)"
 #fi
 
-export HGEDITOR=$HOME/.settings/hgeditor.sh
-
 if [ "${BASH_VERSION+bash}" = "bash" ] && [ -r ~/.bashrc ]; then
 	. ~/.bashrc
 fi
