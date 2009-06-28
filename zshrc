@@ -58,7 +58,7 @@ FCEDIT=${EDITOR:-vi}
 
 autoload colors
 colors
-if [ -n "${SSH_CONNECTION-}" ]; then
+if [ -n "${SSH_CONNECTION-}" ] && [ -z "${SSH_LOCAL-}" ]; then
 	hc='%{${fg_bold[yellow]}%}'
 else
 	hc='%{${fg_bold[green]}%}'

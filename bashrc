@@ -53,7 +53,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 		shlvl=
 	fi
 	if [ "$(tput colors 2>/dev/null)" -ge 8 ] 2>/dev/null; then
-		if [ -n "${SSH_CONNECTION}" ]; then
+		if [ -n "${SSH_CONNECTION}" ] && [ -z "${SSH_LOCAL-}" ]; then
 			hc='\[\e[1;33m\]'                    # yellow in remote host
 		else
 			hc='\[\e[1;32m\]'                    # green for normal
