@@ -1,5 +1,8 @@
 " excerpts from http://d.hatena.ne.jp/ursm/20080908/1220888194
 " modified by magicant <magicant.starmen AT nifty.com>
+"
+" To use this file, put the following line in the [ui] section of ~/.hgrc:
+" editor = vim -S <path to this file>
 
 function! Hg_diff_window()
 	let prefix = 'HG: changed '
