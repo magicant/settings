@@ -24,7 +24,7 @@ command -v colordiff >/dev/null 2>&1 && makelink colordiffrc .colordiffrc
 command -v dircolors >/dev/null 2>&1 && makelink dircolors .dircolors
 makelink inputrc .inputrc
 makelink lesspipe.sh bin/lesspipe.sh
-makelink which bin/which
+which --version 2>/dev/null | grep -q GNU || makelink which bin/which
 top --version 2>/dev/null | grep -q procps && makelink toprc .toprc
 makelink yashrc .yashrc
 makelink zshrc .zshrc

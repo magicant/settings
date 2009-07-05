@@ -9,7 +9,25 @@ setopt nohup
 setopt promptsubst
 setopt kshtypeset shwordsplit
 
+bindkey    '\f'    redisplay
+bindkey -e '\eOH'  beginning-of-line
+bindkey -e '\e[1~' beginning-of-line
+bindkey -e '\eOF'  end-of-line
+bindkey -e '\e[4~' end-of-line
+bindkey -e '\e[3~' delete-char
+bindkey -v '\eOH'  vi-beginning-of-line
+bindkey -v '\e[1~' vi-beginning-of-line
+bindkey -v '\eOF'  vi-end-of-line
+bindkey -v '\e[4~' vi-end-of-line
+bindkey -v '\e[3~' vi-delete-char
+bindkey -v '\e[2~' vi-insert
+bindkey -a '\eOH'  vi-beginning-of-line
+bindkey -a '\e[1~' vi-beginning-of-line
+bindkey -a '\eOF'  vi-end-of-line
+bindkey -a '\e[4~' vi-end-of-line
+bindkey -a '\e[3~' vi-delete-char
 bindkey -e
+
 autoload -U compinit
 compinit
 
