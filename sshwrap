@@ -15,7 +15,7 @@ if [ $# -gt 0 ] && checkopt "$1"; then
 	if ! [ x"${SSH_AUTH_SOCK:+set}" = x"set" ]; then
 		SSH_AUTH_SOCK=~/.ssh/@$(uname -n)
 		if ! [ -e "$SSH_AUTH_SOCK" ]; then
-			(umask 022; ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null) || exit
+			eval "$(umask 022; ssh-agent -a "$SSH_AUTH_SOCK")" || exit
 		fi
 		export SSH_AUTH_SOCK
 	fi
