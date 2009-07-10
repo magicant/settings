@@ -19,13 +19,13 @@ if [ $# -gt 0 ] && checkopt "$1"; then
 	if ! [ x"${SSH_AUTH_SOCK:+set}" = x"set" ]; then
 		SSH_AUTH_SOCK=~/.ssh/@$(uname -n)
 		if ! [ -e "$SSH_AUTH_SOCK" ]; then
-			eval "$(umask 022 && $ssh_agent -a "$SSH_AUTH_SOCK")" || exit
+			command eval "$(umask 022 && $ssh_agent -a "$SSH_AUTH_SOCK" || echo exit)" >/dev/tty
 		fi
 		export SSH_AUTH_SOCK
 	fi
 	if [ x"${SSH_AUTH_SOCK:+set}" = x"set" ] && ! $ssh_add -l >/dev/null 2>&1
 	then
-		({ command exec </dev/tty; } 2>/dev/null; $ssh_add -t $lifetine) || exit
+		({ command exec </dev/tty; } 2>/dev/null; $ssh_add -t "$lifetine") || exit
 	fi
 fi
 exec "/usr/bin/${0##*/}" "$@"
