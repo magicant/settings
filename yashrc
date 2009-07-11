@@ -45,8 +45,10 @@ if alias -g >/dev/null 2>&1; then  # check if alias is enabled
 
 	if command -v nkf >/dev/null 2>&1; then
 		case "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" in
-			*utf8* |*utf-8* |*UTF8* |*UTF-8* ) alias nkf='nkf -w';;
-			*eucjp*|*euc-jp*|*EUCJP*|*EUC-JP*) alias nkf='nkf -e';;
+			*utf8* |*utf-8* |*UTF8* |*UTF-8* )
+				alias nkf='nkf -xw --no-best-fit-chars';;
+			*eucjp*|*euc-jp*|*EUCJP*|*EUC-JP*)
+				alias nkf='nkf -xe';;
 		esac
 	fi
 
