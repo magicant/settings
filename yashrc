@@ -14,7 +14,7 @@ set --notifyle --histspace --le-noconvmeta 2>/dev/null
 termcolor=$(tput colors 2>/dev/null)
 
 # define aliases
-if alias -g >/dev/null 2>&1; then  # check if alias is enabled
+if [ x"$(command -v alias)" = x"alias" ]; then  # check if alias is enabled
 	: ${PAGER:=more}
 
 	alias cp='cp -i'  # IMPORTANT!

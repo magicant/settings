@@ -61,14 +61,19 @@ if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
 fi
 if command -v nkf >/dev/null 2>&1; then
 	case "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" in
-		*utf8* |*utf-8* |*UTF8* |*UTF-8* ) alias nkf='nkf -w';;
-		*eucjp*|*euc-jp*|*EUCJP*|*EUC-JP*) alias nkf='nkf -e';;
+		*utf8* |*utf-8* |*UTF8* |*UTF-8* )
+			alias nkf='nkf -xw --no-best-fit-chars';;
+		*eucjp*|*euc-jp*|*EUCJP*|*EUC-JP*)
+			alias nkf='nkf -xe';;
 	esac
 fi
 if command -v vim >/dev/null 2>&1; then
 	alias vi='vim'
 	alias vl='vimless'
 	alias -g V='|vimless'
+fi
+if command -v gnome-open >/dev/null 2>&1; then
+	alias go='gnome-open'
 fi
 
 HISTFILE=~/.zsh_history HISTSIZE=2000 SAVEHIST=1000

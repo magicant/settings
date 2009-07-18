@@ -36,15 +36,22 @@ if [ x"${PS1+set}" = x"set" ]; then
 		alias ls='ls --color=tty'
 	fi >/dev/null 2>&1
 
-	if echo "${LC_ALL:-${LC_CTYPE:-$LANG}}" | grep -Eiq "utf-?8"; then
-		if command -v nkf >/dev/null 2>&1; then
-			alias nkf='nkf -w'
-		fi
+	if command -v nkf >/dev/null 2>&1; then
+		case "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" in
+			*utf8* |*utf-8* |*UTF8* |*UTF-8* )
+				alias nkf='nkf -xw --no-best-fit-chars';;
+			*eucjp*|*euc-jp*|*EUCJP*|*EUC-JP*)
+				alias nkf='nkf -xe';;
+		esac
 	fi
 
 	if command -v vim >/dev/null 2>&1; then
 		alias vi='vim'
 		alias vl='vimless'
+	fi
+
+	if command -v gnome-open >/dev/null 2>&1; then
+		alias go='gnome-open'
 	fi
 
 	if [ ${SHLVL:-0} -gt 1 ]; then
