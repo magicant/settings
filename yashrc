@@ -8,8 +8,11 @@ elif [ -r /etc/yash.yashrc ]; then
 fi
 
 # set some options
-set -o autocd -o braceexpand -o extendedglob -o noclobber -o nounset
+set --braceexpand --extendedglob --noclobber --nounset
 set --notifyle --histspace --le-noconvmeta 2>/dev/null
+set --autocd 2>/dev/null
+# Yash 2.13 and later no longer support the autocd option. This is just for old
+# versions of yash.
 
 termcolor=$(tput colors 2>/dev/null)
 
@@ -23,6 +26,7 @@ if [ x"$(command -v alias)" = x"alias" ]; then  # check if alias is enabled
 
 	alias -- -='cd -'
 	alias f='fg'
+	alias j='jobs'
 	alias gr='grep'
 	alias he='head'
 	alias la='ll -a'
@@ -71,6 +75,9 @@ MAILCHECK=60
 FCEDIT=${EDITOR:-vi}
 HOSTNAME=${HOSTNAME:-$(uname -n)}
 : ${ECHO_STYLE:=RAW}
+COMMAND_NOT_FOUND_HANDLER=()
+PROMPT_COMMAND=()
+YASH_AFTER_CD=()
 
 # define prompt
 if [ -n "${SSH_CONNECTION-}" ] && [ -z "${SSH_LOCAL-}" ]; then
@@ -83,16 +90,96 @@ if [ "$(id -u)" -eq 0 ]; then
 else
 	uc="$hc"   gc='\fo.'   # normal
 fi
-PS1=$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fo. ${${${PWD:/~/\~}##*/}:-$PWD} ${SHLVL:/1}\$\f. '
+PS1=$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fo. ${${${PWD:/~/\~}##*/}:-$PWD} ${VCS_INFO:+\\fc.${VCS_INFO}\\fo. }${SHLVL:/1}\$\f. '
 PS2=$gc'>\f. '
 PS4='+ '
 unset uc gc hc
+
+# set window title
+# we assume the terminal supports window title if $termcolor >= 8
 if [ "$termcolor" -ge 8 ]; then
-	PS1='\[\e]0;${LOGNAME}@${HOSTNAME%%.*}:${${PWD:/$HOME/\~}/#$HOME\//\~\/}\a\]'$PS1
-	ssh () {
+	_set_term_title() {
+		printf '\033]0;%s@%s:%s\a' "${LOGNAME}" "${HOSTNAME%%.*}" \
+			"${${PWD:/$HOME/\~}/#$HOME\//\~\/}"
+	}
+	PROMPT_COMMAND=("$PROMPT_COMMAND" '_set_term_title')
+	ssh() {
 		printf '\033]0;ssh %s\a' "$*"
 		command ssh "$@"
 	}
+fi
+
+# tricks to show VCS info in the prompt
+_update_vcs_info() {
+	if [ -d .svn ]; then
+		VCS_INFO=svn
+		return
+	fi
+	VCS_INFO=$(
+		while true; do
+			if [ -d .hg ]; then
+				printf 'hg:'
+				exec hg branch 2>/dev/null
+			elif [ -d .git ]; then
+				printf 'git:'
+				exec git branch >(grep '^\*' | cut -c 3-) 2>/dev/null
+			fi
+			if [ / -ef . ] || [ "$PWD" -ef "${OLDPWD-}" ]; then
+				exit
+			fi
+			cd -P ..
+		done
+	)
+	case "$VCS_INFO" in
+		hg:default)        VCS_INFO='hg';;
+		git: | git:master) VCS_INFO='git';;
+	esac
+}
+PROMPT_COMMAND=("$PROMPT_COMMAND" '_update_vcs_info')
+
+# autocd alternative for yash 2.13 and later
+_autocd()
+if [ -d "$1" ]; then 
+	HANDLED=true
+	cd "$@"
+	break -i
+fi
+COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_autocd "$@"')
+
+# print file type for unexecutable files
+_print_file_type()
+if [ -e "$1" ] && ! [ -d "$1" ]; then
+	file "$1"
+fi
+COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_print_file_type "$@"')
+
+# define a wrapper for the suspend builtin if we have no job-controlling parent
+if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ] \
+	|| [ /proc/$PPID/exe -ef /usr/bin/xterm ] \
+	|| [ x"$(ps -o tty= -p $$)" != x"$(ps -o tty= -p $PPID)" ]; then
+	suspend ()
+	if [ x"${1-}" != x"-f" ]; then
+		echo "suspend: cannot suspend without \`-f'" >&2
+		return 1
+	else
+		command suspend
+	fi
+fi
+
+# if the shell is executed in gnome-terminal, set $TERM accordingly
+if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
+	for term in gnome-256color gnome-16color gnome; do
+		if tput -T $term init >/dev/null 2>&1; then
+			export TERM=$term
+			break
+		fi
+	done
+	unset term
+fi
+
+# use more as pager in dumb terminal
+if [ x"$TERM" = x"dumb" ]; then
+	PAGER=more
 fi
 
 # define some auxiliary functions
@@ -103,30 +190,6 @@ fi
 mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }
-
-# define a wrapper for the suspend builtin if we have no job-controlling parent
-define_suspend () {
-	suspend ()
-	if [ x"${1-}" != x"-f" ]; then
-		echo "suspend: cannot suspend without \`-f'" >&2
-		return 1
-	else
-		command suspend
-	fi
-}
-if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
-	if tput -T gnome-256color init >/dev/null 2>&1; then
-		export TERM=gnome-256color
-	elif tput -T gnome-16color init >/dev/null 2>&1; then
-		export TERM=gnome-16color
-	elif tput -T gnome init >/dev/null 2>&1; then
-		export TERM=gnome
-	fi
-	define_suspend
-elif [ x"$(ps -o tty= -p $$)" != x"$(ps -o tty= -p $PPID)" ]; then
-	define_suspend
-fi
-unset -f define_suspend
 
 # read local settings
 if [ -r ~/.yashrc_local ]; then
