@@ -76,6 +76,17 @@ noremap Y y$
 map n /<Return>
 map N ?<Return>
 
+if has("autocmd")
+	augroup autojump
+		autocmd!
+		" When editing a file, always jump to the last cursor position
+		autocmd BufReadPost *
+		\ if line("'\"") > 0 && line ("'\"") <= line("$") |
+		\   exe "normal! g'\"" |
+		\ endif
+	augroup END
+endif
+
 " for :TOhtml
 let g:html_use_css=1
 " for [c] filetype
