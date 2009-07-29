@@ -26,9 +26,9 @@ if [ x"$(command -v alias)" = x"alias" ]; then  # check if alias is enabled
 
 	alias -- -='cd -'
 	alias f='fg'
-	alias j='jobs'
 	alias gr='grep'
 	alias he='head'
+	alias j='jobs'
 	alias la='ll -a'
 	alias le='$PAGER'
 	alias ll='ls -l'

@@ -24,6 +24,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 	alias f='fg'
 	alias gr='grep'
 	alias he='head'
+	alias j='jobs'
 	alias la='ll -a'
 	alias le='$PAGER'
 	alias ll='ls -l'
