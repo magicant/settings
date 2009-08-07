@@ -1,4 +1,4 @@
-# magicant's .yashrc
+# magicant's .yashrc for yash 2.14 and later
 
 # read system-wide settings
 if [ -r /etc/yashrc ]; then
@@ -9,15 +9,25 @@ fi
 
 # set some options
 set --braceexpand --extendedglob --noclobber --nounset
+# below are only available when lineedit is enabled
 set --notifyle --histspace --le-noconvmeta 2>/dev/null
-set --autocd 2>/dev/null
-# Yash 2.13 and later no longer support the autocd option. This is just for old
-# versions of yash.
+
+# if the shell is executed in gnome-terminal, set $TERM accordingly
+if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
+	for term in gnome-256color gnome-16color gnome; do
+		if tput -T $term init >/dev/null 2>&1; then
+			export TERM=$term
+			break
+		fi
+	done
+	unset term
+fi
 
 termcolor=$(tput colors 2>/dev/null)
 
 # define aliases
-if [ x"$(command -v alias)" = x"alias" ]; then  # check if alias is enabled
+if command -vb alias >/dev/null; then  # check if alias is enabled
+
 	: ${PAGER:=more}
 
 	alias cp='cp -i'  # IMPORTANT!
@@ -65,6 +75,22 @@ if [ x"$(command -v alias)" = x"alias" ]; then  # check if alias is enabled
 	if command -v gnome-open >/dev/null 2>&1; then
 		alias go='gnome-open'
 	fi
+
+fi
+
+# add key bindings to vi mode, some of which are from emacs mode.
+if command -vb bindkey >/dev/null; then
+	bindkey -v '\^A' beginning-of-line
+	bindkey -v '\^B' backward-char
+	bindkey -v '\^D' eof-or-delete
+	bindkey -v '\#'  eof-or-delete
+	bindkey -v '\^E' end-of-line
+	bindkey -v '\^F' forward-char
+	bindkey -v '\^K' forward-kill-line
+	bindkey -v '\^U' backward-kill-line
+	bindkey -v '\$'  backward-kill-line
+	bindkey -v '\^W' backward-delete-viword
+	bindkey -v '\^Y' put-left
 fi
 
 # define some variables
@@ -104,7 +130,7 @@ if [ "$termcolor" -ge 8 ]; then
 	}
 	PROMPT_COMMAND=("$PROMPT_COMMAND" '_set_term_title')
 	ssh() {
-		printf '\033]0;ssh %s\a' "$*"
+		if [ -t 1 ]; then printf '\033]0;ssh %s\a' "$*"; fi
 		command ssh "$@"
 	}
 fi
@@ -124,7 +150,7 @@ _update_vcs_info() {
 				printf 'git:'
 				exec git branch >(grep '^\*' | cut -c 3-) 2>/dev/null
 			fi
-			if [ / -ef . ] || [ "$PWD" -ef "${OLDPWD-}" ]; then
+			if [ / -ef . ] || [ . -ef .. ]; then
 				exit
 			fi
 			cd -P ..
@@ -146,6 +172,29 @@ if [ -d "$1" ]; then
 fi
 COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_autocd "$@"')
 
+# alternative to zsh's auto_pushd option
+cd()
+if [ $# -gt 0 ]; then
+	pushd "$@"
+else
+	pushd ~
+fi
+
+# alternative to zsh's pushd_ignore_dups option
+pushd() {
+	command -b pushd "$@" && {
+		# remove $PWD from $DIRSTACK
+		typeset i=1
+		while [ $? -eq 0 ] && [ $i -le ${DIRSTACK[#]} ]; do
+			if [ x"$PWD" = x"${DIRSTACK[$i]}" ]; then
+				array -d DIRSTACK $i
+			else
+				i=$((i+1))
+			fi
+		done
+	}
+}
+
 # print file type for unexecutable files
 _print_file_type()
 if [ -e "$1" ] && ! [ -d "$1" ]; then
@@ -162,19 +211,8 @@ if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ] \
 		echo "suspend: cannot suspend without \`-f'" >&2
 		return 1
 	else
-		command suspend
+		command -b suspend
 	fi
-fi
-
-# if the shell is executed in gnome-terminal, set $TERM accordingly
-if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
-	for term in gnome-256color gnome-16color gnome; do
-		if tput -T $term init >/dev/null 2>&1; then
-			export TERM=$term
-			break
-		fi
-	done
-	unset term
 fi
 
 # use more as pager in dumb terminal
@@ -197,3 +235,5 @@ if [ -r ~/.yashrc_local ]; then
 fi
 
 unset termcolor
+
+# vim: ts=4 sw=4 ft=sh

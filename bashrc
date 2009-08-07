@@ -11,7 +11,20 @@ elif [ -r /etc/bash.bashrc ]; then
 fi
 
 # Interactive?
-if [ x"${PS1+set}" = x"set" ]; then
+case $- in *i*)
+
+	# if the shell is executed in gnome-terminal, set $TERM accordingly
+	if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
+		for term in gnome-256color gnome-16color gnome; do
+			if tput -T $term init >/dev/null 2>&1; then
+				export TERM=$term
+				break
+			fi
+		done
+		unset term
+	fi
+
+	termcolor=$(tput colors 2>/dev/null)
 
 	: ${PAGER:=more}
 
@@ -33,9 +46,9 @@ if [ x"${PS1+set}" = x"set" ]; then
 	alias ta='tail'
 	alias tree='tree -C'
 
-	if ! alias ls && ls --color -d . ; then
+	if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
 		alias ls='ls --color=tty'
-	fi >/dev/null 2>&1
+	fi
 
 	if command -v nkf >/dev/null 2>&1; then
 		case "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" in
@@ -60,7 +73,7 @@ if [ x"${PS1+set}" = x"set" ]; then
 	else
 		shlvl=
 	fi
-	if [ "$(tput colors 2>/dev/null)" -ge 8 ] 2>/dev/null; then
+	if [ "$termcolor" -ge 8 ]; then
 		if [ -n "${SSH_CONNECTION}" ] && [ -z "${SSH_LOCAL-}" ]; then
 			hc='\[\e[1;33m\]'                    # yellow in remote host
 		else
@@ -72,14 +85,48 @@ if [ x"${PS1+set}" = x"set" ]; then
 			uc="$hc"          gc='\[\e[1m\]'     # normal
 		fi
 		bold='\[\e[0;1m\]' normal='\[\e[m\]'
-		PS1=$uc'\u'$hc'@\h'$bold' \W '$shlvl'b\$'$normal' '
+		vcsinfo='${VCS_INFO:+\[\e[0;36m\]$VCS_INFO'$bold' }'
+		PS1=$uc'\u'$hc'@\h'$bold' \W '$vcsinfo$shlvl'b\$'$normal' '
 		PS2=$gc'>'$normal' '
 		PS1='\[\e]0;\u@\h:\w\a\]'$PS1
+		ssh() {
+			if [ -t 1 ]; then printf '\033]0;ssh %s\a' "$*"; fi
+			command ssh "$@"
+		}
 	else
-		PS1='\u@\h \W \$ '
+		vcsinfo='${VCS_INFO:+$VCS_INFO }'
+		PS1='\u@\h \W '$vcsinfo'\$ '
 		PS2='> '
 	fi
-	unset shlvl uc gc hc bold normal
+	unset shlvl uc gc hc bold normal vcsinfo
+
+	# tricks to show VCS info in the prompt
+	_update_vcs_info() {
+		if [ -d .svn ]; then
+			VCS_INFO=svn
+			return
+		fi
+		VCS_INFO=$(
+			while true; do
+				if [ -d .hg ]; then
+					printf 'hg:'
+					exec hg branch 2>/dev/null
+				elif [ -d .git ]; then
+					printf 'git:'
+					exec git branch >(grep '^\*' | cut -c 3-) 2>/dev/null
+				fi
+				if [ / -ef . ] || [ . -ef .. ]; then
+					exit
+				fi
+				cd -P ..
+			done
+		)
+		case "$VCS_INFO" in
+			hg:default)        VCS_INFO='hg';;
+			git: | git:master) VCS_INFO='git';;
+		esac
+	}
+	PROMPT_COMMAND='_update_vcs_info'
 
 	if [ -z "$BASH_COMPLETION" ]; then
 		if [ -r /etc/bash_completion ]; then
@@ -128,7 +175,12 @@ if [ x"${PS1+set}" = x"set" ]; then
 	#PROMPT_COMMAND="$PROMPT_COMMAND;share_history"
 	#shopt -u histappend
 
-fi
+	# use more as pager in dumb terminal
+	if [ x"$TERM" = x"dumb" ]; then
+		PAGER=more
+	fi
+
+esac
 
 if [ -r ~/.bashrc_local ]; then
 	. ~/.bashrc_local
