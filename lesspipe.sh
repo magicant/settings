@@ -5,10 +5,13 @@ case "${LESS-}" in
   *R*) color=true ;;
 esac
 
-if [ -d "$1" ]; then
-  exec ls -al ${color+--color} -- "$1" || exit
-elif ! [ -f "$1" ]; then
-  exec cat -- "$1" || exit
+if ! [ -f "$1" ]; then
+  if [ -d "$1" ]; then
+	exec ls -al ${color+--color} -- "$1"
+  elif [ -e "$1" ]; then
+	exec cat -- "$1"
+  fi
+  exit
 fi
 
 case "$1" in
