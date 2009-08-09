@@ -31,7 +31,6 @@ if [ -z "$VIMRUNTIME" ]; then
 	exit 1
 fi
 
-applypatch indent/html.vim
 applypatch macros/less.vim
 applypatch syntax/html.vim
 
