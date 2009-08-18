@@ -124,13 +124,14 @@ unset uc gc hc
 # set window title
 # we assume the terminal supports window title if $termcolor >= 8
 if [ "$termcolor" -ge 8 ]; then
-	_set_term_title() {
+	_set_term_title()
+	if [ -t 2 ]; then
 		printf '\033]0;%s@%s:%s\a' "${LOGNAME}" "${HOSTNAME%%.*}" \
-			"${${PWD:/$HOME/\~}/#$HOME\//\~\/}"
-	}
+			"${${PWD:/$HOME/\~}/#$HOME\//\~\/}" >&2
+	fi
 	PROMPT_COMMAND=("$PROMPT_COMMAND" '_set_term_title')
 	ssh() {
-		if [ -t 1 ]; then printf '\033]0;ssh %s\a' "$*"; fi
+		if [ -t 2 ]; then printf '\033]0;ssh %s\a' "$*" >&2; fi
 		command ssh "$@"
 	}
 fi
@@ -201,19 +202,6 @@ if [ -e "$1" ] && ! [ -d "$1" ]; then
 	file "$1"
 fi
 COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_print_file_type "$@"')
-
-# define a wrapper for the suspend builtin if we have no job-controlling parent
-if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ] \
-	|| [ /proc/$PPID/exe -ef /usr/bin/xterm ] \
-	|| [ x"$(ps -o tty= -p $$)" != x"$(ps -o tty= -p $PPID)" ]; then
-	suspend ()
-	if [ x"${1-}" != x"-f" ]; then
-		echo "suspend: cannot suspend without \`-f'" >&2
-		return 1
-	else
-		command -b suspend
-	fi
-fi
 
 # use more as pager in dumb terminal
 if [ x"$TERM" = x"dumb" ]; then

@@ -14,7 +14,7 @@ function! Hg_diff_window()
 
 	new
 	setlocal filetype=diff bufhidden=delete buftype=nofile previewwindow nobackup noswapfile
-	execute 'normal! :0r!hg diff ' . join(files) . "\<CR>\n"
+	execute 'normal! :0read!hg diff ' . join(files) . "\<CR>\n"
 	$delete
 	setlocal nomodifiable
 	goto
