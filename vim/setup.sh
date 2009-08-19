@@ -31,7 +31,6 @@ if [ -z "$VIMRUNTIME" ]; then
 	exit 1
 fi
 
-applypatch macros/less.vim
 applypatch syntax/html.vim
 
 if [ ! -e ~/.vim/GetLatest/GetLatestVimScripts.dat ]; then

@@ -17,10 +17,10 @@ esac
 #fi
 
 #export PATH="$HOME/bin:$PATH"
-#export PAGER=less
-#export LESS=-iMR LESSOPEN='|lesspipe.sh %s'
+#export PAGER='less'
+#export LESS='-iMR' LESSOPEN='|lesspipe.sh %s'
 #unset  LESSCLOSE
-#export EDITOR=vim
+#export EDITOR='vim'
 
 #if ps --version 2>/dev/null | grep procps >/dev/null 2>&1; then
 #	export PS_PERSONALITY=linux

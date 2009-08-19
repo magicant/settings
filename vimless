@@ -2,4 +2,11 @@
 # Shell script to start Vim with less.vim.
 # Read stdin if no arguments were given.
 
-exec vim -R -c 'let no_plugin_maps = 1' -c 'set noswapfile' -c 'runtime! macros/less.vim' "${@:--}"
+if [ $# -eq 0 ]; then
+    if [ -t 0 ]; then
+	printf 'Usage:  %s filenames...\n' "${0##*/}" >&2
+	exit 1
+    fi
+    set -- -
+fi
+exec vim -R -c 'let no_plugin_maps = 1' -c 'runtime! macros/less.vim' "$@"
