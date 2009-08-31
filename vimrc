@@ -87,17 +87,19 @@ if has("autocmd")
 	augroup END
 endif
 
-" for :TOhtml
-let g:html_use_css=1
-" for [c] filetype
-let g:c_no_curly_error=1
-let g:c_gnu=1
-" for [h] filetype
-let g:c_syntax_for_h=1
-" for [sh] filetype
-let g:sh_indent_case_labels=1
-" for :compiler tex
-let g:tex_flavor="platex"
+if has("eval")
+	" for :TOhtml
+	let g:html_use_css=1
+	" for [c] filetype
+	let g:c_no_curly_error=1
+	let g:c_gnu=1
+	" for [h] filetype
+	let g:c_syntax_for_h=1
+	" for [sh] filetype
+	let g:sh_indent_case_labels=1
+	" for :compiler tex
+	let g:tex_flavor="platex"
+endif
 
 if filereadable($HOME."/.vimrc_local")
 	source ~/.vimrc_local
