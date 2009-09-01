@@ -12,7 +12,9 @@ set guioptions+=f guioptions-=T guicursor+=a:blinkwait500-blinkon500-blinkoff500
 set timeout timeoutlen=1000 ttimeoutlen=100
 
 set background=dark
-filetype plugin indent on
+if has("autocmd")
+	filetype plugin indent on
+endif
 if has("syntax")
 	syntax enable
 endif
