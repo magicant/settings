@@ -42,5 +42,6 @@ checkgetlatest  294 ':AutoInstall: Align.vim'
 checkgetlatest  978 'ftplugin/svn.vim'
 checkgetlatest 1066 ':AutoInstall: cecutil.vim'
 checkgetlatest 1632 'indent/sh.vim'
+checkgetlatest 2063 'syntax/coq.vim'
 
 exit 0
