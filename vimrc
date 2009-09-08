@@ -19,38 +19,57 @@ if has("syntax")
 	syntax enable
 endif
 
-set nohlsearch incsearch noshowmatch ignorecase smartcase
+set ignorecase smartcase
+if has("extra_search")
+	set nohlsearch incsearch
+endif
 set nolist listchars=eol:$,tab:>.
 
+set noshowmatch
 set backspace=indent,eol,start
 set autoindent
 set tabstop=4 shiftwidth=4
 set formatoptions+=tcroqlB formatoptions-=M
 
 if &shell =~ "/yash$"
-	set shellpipe=2>&1\|tee shellredir=>%s\ 2>&1
+	set shellredir=>%s\ 2>&1
 endif
-set errorformat-=%-G%f:%l:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
-set errorformat-=%-G%f:%l:\ for\ each\ function\ it\ appears\ in.)
-set errorformat-=%f:%l:%c:%m
-set errorformat-=%f:%l:%m
-set errorformat+=%-G%f:%l:\ error:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
-set errorformat+=%-G%f:%l:\ error:\ for\ each\ function\ it\ appears\ in.)
-set errorformat+=%f:%l:%c:%m
-set errorformat+=%f:%l:%m
-set errorformat+=%D%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ に入ります
-set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
+if has("quickfix")
+	if &shell =~ "/yash$"
+		set shellpipe=2>&1\|tee
+	endif
+	set errorformat-=%-G%f:%l:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
+	set errorformat-=%-G%f:%l:\ for\ each\ function\ it\ appears\ in.)
+	set errorformat-=%f:%l:%c:%m
+	set errorformat-=%f:%l:%m
+	set errorformat+=%-G%f:%l:\ error:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
+	set errorformat+=%-G%f:%l:\ error:\ for\ each\ function\ it\ appears\ in.)
+	set errorformat+=%f:%l:%c:%m
+	set errorformat+=%f:%l:%m
+	set errorformat+=%D%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ に入ります
+	set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
+endif
 
 if has("cscope")
 	set cscopetag cscopetagorder=1 cscopequickfix=s-,c-,d-,i-,t-,e-
 endif
 
-set showcmd cmdheight=1 laststatus=2 history=50
-set statusline=%n\ %f\ %h%m%r%w%y%=%-14.(%l/%L,%v%)\ %P
-set wildmenu
-set title
-
-set winheight=3
+set cmdheight=1 laststatus=2 history=100
+if has("cmdline_info")
+	set showcmd
+endif
+if has("statusline")
+	set statusline=%n\ %f\ %h%m%r%w%y%=%-14.(%l/%L,%v%)\ %P
+endif
+if has("wildmenu")
+	set wildmenu
+endif
+if has("windows")
+	set winheight=3
+endif
+if has("title")
+	set title
+endif
 
 " XXX: linewise visual では本来の動作に戻したいなぁ……
 noremap j gj
