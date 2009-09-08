@@ -11,11 +11,10 @@ set nocompatible
 syntax on
 let s:scrolloff = &scrolloff
 set scrolloff=999
-set hlsearch
+set hlsearch nowrapscan
 nohlsearch
 " Don't remember file names and positions
 set viminfo= noswapfile
-set nowrapscan
 " Inhibit screen updates while searching
 let s:lazyredraw = &lazyredraw
 set lazyredraw
@@ -30,6 +29,11 @@ autocmd VimEnter * set nomodified
 
 " Always start at the beginning of the file.
 autocmd VimEnter,BufEnter * goto
+
+" open folds
+if has("folding")
+  autocmd VimEnter,BufEnter * set foldlevel=999
+endif
 
 augroup END
 
@@ -64,6 +68,7 @@ map <C-R> <C-L>
 
 " Disable default mapping
 noremap l <Esc>
+noremap t <Esc>
 
 " Scroll one page forward
 noremap <script> <C-F> <C-F><SID><C-G>
@@ -174,6 +179,7 @@ function! s:End()
   unmap R
   unmap <C-R>
   unmap l
+  unmap t
   unmap <C-F>
   unmap <Space>
   unmap <C-V>

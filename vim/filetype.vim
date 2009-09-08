@@ -6,11 +6,11 @@ endif
 
 augroup filetypedetect
 
-au! BufRead,BufNewFile install-sh call SetFileTypeShell("sh")
+autocmd! BufRead,BufNewFile install-sh call SetFileTypeShell("sh")
 
-au! BufRead,BufNewFile .yashrc*,yashrc,yash.yashrc,.yash_profile,*.yash call SetFileTypeYash()
+autocmd! BufRead,BufNewFile .yashrc*,yashrc,yash.yashrc,.yash_profile,*.yash call SetFileTypeYash()
 
-func! SetFileTypeYash()
+function! SetFileTypeYash()
 	if exists("b:is_sh")
 		unlet b:is_sh
 	endif
@@ -22,6 +22,6 @@ func! SetFileTypeYash()
 	endif
 	let b:is_yash = 1
 	call SetFileTypeShell("sh")
-endfunc
+endfunction
 
 augroup END
