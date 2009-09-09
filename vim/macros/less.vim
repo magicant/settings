@@ -11,6 +11,8 @@ set nocompatible
 syntax on
 let s:scrolloff = &scrolloff
 set scrolloff=999
+let s:shortmess = &shortmess
+set shortmess+=filnrxt
 set hlsearch nowrapscan
 nohlsearch
 " Don't remember file names and positions
@@ -161,6 +163,9 @@ function! s:End()
   set modifiable
   if exists('s:scrolloff')
     let &scrolloff = s:scrolloff
+  endif
+  if exists('s:shortmess')
+    let &shortmess = s:shortmess
   endif
   if exists('s:lazyredraw')
     let &lazyredraw = s:lazyredraw

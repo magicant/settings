@@ -24,6 +24,7 @@ if has("extra_search")
 	set nohlsearch incsearch
 endif
 set nolist listchars=eol:$,tab:>.
+set display=lastline
 
 set noshowmatch
 set backspace=indent,eol,start
