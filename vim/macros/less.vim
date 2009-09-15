@@ -71,6 +71,7 @@ map <C-R> <C-L>
 " Disable default mapping
 noremap l <Esc>
 noremap t <Esc>
+noremap <BS> <Esc>
 
 " Scroll one page forward
 noremap <script> <C-F> <C-F><SID><C-G>
