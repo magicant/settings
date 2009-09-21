@@ -119,6 +119,8 @@ if has("eval")
 	let g:c_syntax_for_h=1
 	" for [sh] filetype
 	let g:sh_indent_case_labels=1
+	" for [v] filetype
+	let g:v_default_filetype="coq"
 	" for :compiler tex
 	let g:tex_flavor="platex"
 endif
