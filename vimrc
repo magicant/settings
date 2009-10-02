@@ -101,11 +101,13 @@ map N ?<Return>
 if has("autocmd")
 	augroup autojump
 		autocmd!
+		function! s:autojump()
+			if line("'\"") > 0 && line ("'\"") <= line("$") |
+				execute "normal! g'\"" |
+			endif
+		endfunction
 		" When editing a file, always jump to the last cursor position
-		autocmd BufReadPost *
-		\ if line("'\"") > 0 && line ("'\"") <= line("$") |
-		\   execute "normal! g'\"" |
-		\ endif
+		autocmd BufReadPost * call s:autojump()
 	augroup END
 endif
 
