@@ -143,14 +143,12 @@ function! s:Forward()
   " Searching forward
   noremap <script> n $nzz<SID><C-G>
   noremap <script> N 0Nzz<SID><C-G>
-  cnoremap <script> <CR> <CR>:cunmap <lt>CR><CR>zz<SID><C-G>
 endfunction
 
 function! s:Backward()
   " Searching backward
   noremap <script> n 0nzz<SID><C-G>
   noremap <script> N $Nzz<SID><C-G>
-  cnoremap <script> <CR> <CR>:cunmap <lt>CR><CR>zz<SID><C-G>
 endfunction
 
 call s:Forward()
