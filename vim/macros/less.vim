@@ -226,7 +226,6 @@ function! s:End()
   unmap N
   unmap /
   unmap ?
-  cunmap <CR>
   unmap q
   unmap v
 endfunction
