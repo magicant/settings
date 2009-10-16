@@ -94,6 +94,7 @@ cmap <C-@> <C-C>
 vmap <C-@> <Esc>
 map  <C-Space> <C-@>
 map! <C-Space> <C-@>
+inoremap <C-B> <C-G>u
 noremap Y y$
 map n /<Return>
 map N ?<Return>
