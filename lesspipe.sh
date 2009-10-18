@@ -85,7 +85,7 @@ if [ "$from" = "$to" ]; then
   # no conversion
   opentext
 else
-  $decomp -- "$1" | exec iconv -s -f "$from"
+  $decomp -- "$1" | exec iconv -cs -f "$from"
 fi
 
 # vim: ts=4 sw=2 sts=2

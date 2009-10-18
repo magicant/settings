@@ -135,24 +135,6 @@ map <A-(> <Left>
 noremap <script> % %<SID><C-G>
 map p %
 
-" Search
-noremap <script> / $:call <SID>Forward()<CR>/
-noremap <script> ? 0:call <SID>Backward()<CR>?
-
-function! s:Forward()
-  " Searching forward
-  noremap <script> n $nzz<SID><C-G>
-  noremap <script> N 0Nzz<SID><C-G>
-endfunction
-
-function! s:Backward()
-  " Searching backward
-  noremap <script> n 0nzz<SID><C-G>
-  noremap <script> N $Nzz<SID><C-G>
-endfunction
-
-call s:Forward()
-
 " Quitting
 noremap q :quit<CR>
 
@@ -222,10 +204,6 @@ function! s:End()
   unmap <A-(>
   unmap %
   unmap p
-  unmap n
-  unmap N
-  unmap /
-  unmap ?
   unmap q
   unmap v
 endfunction

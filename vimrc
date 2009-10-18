@@ -72,23 +72,6 @@ if has("title")
 	set title
 endif
 
-" XXX: linewise visual では本来の動作に戻したいなぁ……
-noremap j gj
-noremap gj j
-noremap k gk
-noremap gk k
-map <Down> j
-map <Up> k
-noremap 0 g0
-noremap g0 0
-noremap $ g$
-noremap g$ $
-noremap ^ g^
-noremap g^ ^
-map <Home> 0
-map <End> $
-imap <Down> <C-O><Down>
-imap <Up> <C-O><Up>
 imap <C-@> <Esc>
 cmap <C-@> <C-C>
 vmap <C-@> <Esc>
