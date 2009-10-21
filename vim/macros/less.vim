@@ -63,10 +63,10 @@ endfunction
 noremap <script> <SID><C-L> g0:redraw!<CR><C-G>
 noremap <script> <SID><C-G> :redraw<CR><C-G>
 noremap <script> <C-L> <SID><C-L>
+map <C-R> <C-L>
 map L <C-L>
 map r <C-L>
 map R <C-L>
-map <C-R> <C-L>
 
 " Disable default mapping
 noremap l <Esc>
@@ -90,11 +90,14 @@ map d <C-D>
 
 " Scroll one line forward
 noremap <script> <C-E> <C-E><SID><C-G>
+map <Down> <C-E>
 map <CR> <C-E>
+map <C-M> <C-E>
 map <C-N> <C-E>
 map <C-J> <C-E>
 map e <C-E>
 map j <C-E>
+map + <C-E>
 
 " Scroll one page backward
 noremap <script> <C-B> <C-B><SID><C-G>
@@ -108,10 +111,12 @@ map u <C-U>
 
 " Scroll one line backward
 noremap <script> <C-Y> <C-Y><SID><C-G>
-map k <C-Y>
-map y <C-Y>
+map <Up> <C-Y>
 map <C-P> <C-Y>
 map <C-K> <C-Y>
+map k <C-Y>
+map y <C-Y>
+map - <C-Y>
 
 " Start of file
 noremap <script> g gg<SID><C-G>
