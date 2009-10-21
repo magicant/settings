@@ -99,6 +99,7 @@ case $- in *i*)
 		PS1='\u@\h \W '$vcsinfo'\$ '
 		PS2='> '
 	fi
+	HISTCONTROL=ignoreboth
 	unset shlvl uc gc hc bold normal vcsinfo
 
 	# tricks to show VCS info in the prompt
