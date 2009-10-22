@@ -244,7 +244,7 @@ sy region shForIn contained transparent matchgroup=shRepeat start=/[^[:blank:]|&
 sy region shForComment contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shForIn,shForDo
 sy region shForDo contained transparent fold matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!do[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/ contains=@shCommandsList skipwhite nextgroup=@shTrailersList
 if exists("b:is_kornshell") || exists("b:is_bash")
-	sy region shForDParen contained transparent matchgroup=shFor start=/((/ end=/))/ contains=@shWordsList,shArithParen skipwhite skipempty nextgroup=shForDo
+	sy region shForDParen contained transparent matchgroup=shFor start=/((/ end=/))/ contains=@shWordsList,shArithParen skipwhite skipempty nextgroup=shForDo,shForSemi
 endif
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
 	sy match shForSemi contained /;/ skipwhite skipempty nextgroup=shForDo
