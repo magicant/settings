@@ -46,6 +46,7 @@ case $- in *i*)
 	alias so='sort'
 	alias ta='tail'
 	alias tree='tree -C'
+	alias ci='vcs_ci' log='vcs_log' st='vcs_st' up='vcs_up'
 
 	if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
 		alias ls='ls --color=tty'
@@ -166,6 +167,22 @@ case $- in *i*)
 	fi
 	mkdircd() {
 		mkdir -p "$@" && cd "$1"
+	}
+	vcs_ci() {
+		: ${VCS_INFO:?Not in version-controlled directory} &&
+		${VCS_INFO%%:*} commit "$@"
+	}
+	vcs_log() {
+		: ${VCS_INFO:?Not in version-controlled directory} &&
+		${VCS_INFO%%:*} log "$@"
+	}
+	vcs_st() {
+		: ${VCS_INFO:?Not in version-controlled directory} &&
+		${VCS_INFO%%:*} status "$@"
+	}
+	vcs_up() {
+		: ${VCS_INFO:?Not in version-controlled directory} &&
+		${VCS_INFO%%:*} update "$@"
 	}
 
 	# sharing history

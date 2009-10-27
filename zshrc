@@ -62,6 +62,7 @@ alias r='fc -s'
 alias so='sort'
 alias ta='tail'
 alias tree='tree -C'
+alias ci='vcs_ci' log='vcs_log' st='vcs_st' up='vcs_up'
 alias -g G='|grep'
 alias -g H='|head'
 alias -g L='|$PAGER'
@@ -152,6 +153,18 @@ if [ $# -gt 0 ]; then
 fi
 mkdircd() {
 	mkdir -p "$@" && cd "$1"
+}
+vcs_ci() {
+	${${VCS_INFO:?Not in version-controlled directory}%%:*} commit "$@"
+}
+vcs_log() {
+	${${VCS_INFO:?Not in version-controlled directory}%%:*} log "$@"
+}
+vcs_st() {
+	${${VCS_INFO:?Not in version-controlled directory}%%:*} status "$@"
+}
+vcs_up() {
+	${${VCS_INFO:?Not in version-controlled directory}%%:*} update "$@"
 }
 
 # use more as pager in dumb terminal
