@@ -108,7 +108,7 @@ if exists("b:is_posix")
 endif
 if exists("b:is_kornshell") || exists("b:is_bash")
 	sy match shParamOp contained /{\@<=!/
-	sy region shParamModifier contained matchgroup=shParamOp start=/:/ end=/}\@=/ contains=@shWordsList,shParamColon
+	sy region shParamModifier contained matchgroup=shParamOp start=/:[-+?=]\@!/ end=/}\@=/ contains=@shWordsList,shParamColon
 	sy region shParamColon contained matchgroup=shParamOp start=/:/ end=/}\@=/ contains=@shWordsList
 endif
 if exists("b:is_kornshell")
