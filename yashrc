@@ -35,6 +35,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	alias rm='rm -i'
 
 	alias -- -='cd -'
+	alias dirs='dirs -v'
 	alias f='fg'
 	alias gr='grep'
 	alias he='head'

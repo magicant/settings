@@ -50,6 +50,7 @@ alias mv='mv -i'
 alias rm='rm -i'
 
 alias -- -='cd -'
+alias dirs='dirs -v'
 alias f='fg'
 alias gr='grep'
 alias he='head'
