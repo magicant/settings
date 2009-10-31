@@ -32,11 +32,11 @@ set autoindent
 set tabstop=4 shiftwidth=4
 set formatoptions+=tcroqlB formatoptions-=M
 
-if &shell =~ "/yash$"
+if &shell =~ 'c\@<!sh$'
 	set shellredir=>%s\ 2>&1
 endif
 if has("quickfix")
-	if &shell =~ "/yash$"
+	if &shell =~ 'c\@<!sh$'
 		set shellpipe=2>&1\|tee
 	endif
 	set errorformat-=%-G%f:%l:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
@@ -49,6 +49,9 @@ if has("quickfix")
 	set errorformat+=%f:%l:%m
 	set errorformat+=%D%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ に入ります
 	set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
+endif
+if has("win32") || has("win64")
+	command! -nargs=* -complete=file -complete=shellcmd Start silent ! start <args>
 endif
 
 if has("cscope")
