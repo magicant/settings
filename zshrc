@@ -6,7 +6,7 @@ setopt pushdignoredups
 setopt histignoredups histignorespace sharehistory
 setopt noclobber correct
 setopt nohup
-setopt promptsubst
+setopt promptsubst nopromptbang promptpercent
 setopt kshtypeset shwordsplit
 
 bindkey    '\f'    redisplay
@@ -28,7 +28,7 @@ bindkey -a '\e[4~' vi-end-of-line
 bindkey -a '\e[3~' vi-delete-char
 bindkey -e
 
-autoload -U compinit
+autoload -Uz compinit
 compinit
 
 # if the shell is executed in gnome-terminal, set $TERM accordingly
@@ -94,25 +94,30 @@ fi
 HISTFILE=~/.zsh_history HISTSIZE=2000 SAVEHIST=1000
 FCEDIT=${EDITOR:-vi}
 
-autoload colors
-colors
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' formats       '%s:%b'
+zstyle ':vcs_info:*' actionformats '%s:%b!%a'
+
+#autoload -Uz colors
+#colors
+
 if [ -n "${SSH_CONNECTION-}" ] && [ -z "${SSH_LOCAL-}" ]; then
-	hc='%{${fg_bold[yellow]}%}'
+	hc='%F{yellow}'
 else
-	hc='%{${fg_bold[green]}%}'
+	hc='%F{green}'
 fi
 if [ "$EUID" -eq 0 ]; then
-	uc='%{${fg_bold[red]}%}' gc='%{${fg_bold[red]}%}'
+	uc='%F{red}' gc='%F{red}'
 else
-	uc="$hc"                 gc='%{${fg_bold[default]}%}'
+	uc="$hc"     gc=''        hc=''
 fi
-PS1=$uc'%n'$hc'@%m%{${fg_bold[default]}%} %. ${VCS_INFO:+"%{${fg_no_bold[cyan]}%}${VCS_INFO}%{${fg_bold[default]}%} "}${SHLVL:/1}z%(!.#.$)%{$reset_color%} '
-PS2=$gc'%_>%{$reset_color%} '
-SPROMPT='Did you mean '%r'? [ynae] '
+PS1=$uc'%B%n'$hc'@%m%f %. ${vcs_info_msg_0_:+%b%F{cyan\}$vcs_info_msg_0_%f%B }${SHLVL:/1}z%(!.#.$)%f%b '
+PS2=$gc'%B%_>%f%b '
+SPROMPT='Did you mean "%r"? [ynae] '
 if [ "$termcolor" -ge 8 ]; then
 	precmd () {
 		printf '\033]0;%s@%s:%s\a' "$USER" "${HOST%%.*}" "${${PWD:/~/~}/#~\//~/}"
-		_update_vcs_info
+		LC_ALL=en_US.UTF-8 vcs_info
 	}
 	ssh () {
 		if [ -t 1 ]; then printf '\033]0;ssh %s\a' "$*"; fi
@@ -120,33 +125,6 @@ if [ "$termcolor" -ge 8 ]; then
 	}
 fi
 unset uc gc hc esc bell
-
-# tricks to show VCS info in the prompt
-_update_vcs_info() {
-	if [ -d .svn ]; then
-		VCS_INFO=svn
-		return
-	fi
-	VCS_INFO=$(
-		while true; do
-			if [ -d .hg ]; then
-				printf 'hg:'
-				exec hg branch 2>/dev/null
-			elif [ -d .git ]; then
-				printf 'git:'
-				exec git branch >(grep '^\*' | cut -c 3-) 2>/dev/null
-			fi
-			if [ / -ef . ] || [ . -ef .. ]; then
-				exit
-			fi
-			cd -P ..
-		done
-	)
-	case "$VCS_INFO" in
-		hg:default)        VCS_INFO='hg';;
-		git: | git:master) VCS_INFO='git';;
-	esac
-}
 
 args()
 if [ $# -gt 0 ]; then
@@ -156,16 +134,16 @@ mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }
 vcs_ci() {
-	${${VCS_INFO:?Not in version-controlled directory}%%:*} commit "$@"
+	${${vcs_info_msg_0_:?Not in version-controlled directory}%%:*} commit "$@"
 }
 vcs_log() {
-	${${VCS_INFO:?Not in version-controlled directory}%%:*} log "$@"
+	${${vcs_info_msg_0_:?Not in version-controlled directory}%%:*} log "$@"
 }
 vcs_st() {
-	${${VCS_INFO:?Not in version-controlled directory}%%:*} status "$@"
+	${${vcs_info_msg_0_:?Not in version-controlled directory}%%:*} status "$@"
 }
 vcs_up() {
-	${${VCS_INFO:?Not in version-controlled directory}%%:*} update "$@"
+	${${vcs_info_msg_0_:?Not in version-controlled directory}%%:*} update "$@"
 }
 
 # use more as pager in dumb terminal
