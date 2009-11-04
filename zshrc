@@ -111,8 +111,9 @@ if [ "$EUID" -eq 0 ]; then
 else
 	uc="$hc"     gc=''        hc=''
 fi
-PS1=$uc'%B%n'$hc'@%m%f %. ${vcs_info_msg_0_:+%b%F{cyan\}$vcs_info_msg_0_%f%B }${SHLVL:/1}z%(!.#.$)%f%b '
+PS1=$uc'%B%n'$hc'@%m%f %. ${SHLVL:/1}z%(!.#.$)%f%b '
 PS2=$gc'%B%_>%f%b '
+RPROMPT='${vcs_info_msg_0_:+%b%F{cyan\}$vcs_info_msg_0_%f%B}'
 SPROMPT='Did you mean "%r"? [ynae] '
 if [ "$termcolor" -ge 8 ]; then
 	precmd () {
