@@ -4,8 +4,20 @@ set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16,utf-16le
 set iminsert=0 imsearch=-1
 set modeline modelines=5
-set nobackup hidden confirm
+set nobackup nowritebackup hidden confirm
 set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa
+if has("multi_byte")
+	noremap <F8> :call <SID>switchambiwidth()<CR>
+	function! s:switchambiwidth()
+		if &ambiwidth == "single"
+			set ambiwidth=double
+		elseif &ambiwidth == "double"
+			set ambiwidth=single
+		endif
+		redraw
+		echo "ambiwidth=" . &ambiwidth
+	endfunction
+endif
 
 highlight Normal guibg=Black guifg=LightGray
 set guioptions+=f guioptions-=T guicursor+=a:blinkwait500-blinkon500-blinkoff500
