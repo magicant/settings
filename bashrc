@@ -171,19 +171,19 @@ case $- in *i*)
 	}
 	vcs_ci() {
 		: ${VCS_INFO:?Not in version-controlled directory} &&
-		${VCS_INFO%%:*} commit "$@"
+		eval -- ${VCS_INFO%%:*} commit '"$@"'
 	}
 	vcs_log() {
 		: ${VCS_INFO:?Not in version-controlled directory} &&
-		${VCS_INFO%%:*} log "$@"
+		eval -- ${VCS_INFO%%:*} log '"$@"'
 	}
 	vcs_st() {
 		: ${VCS_INFO:?Not in version-controlled directory} &&
-		${VCS_INFO%%:*} status "$@"
+		eval -- ${VCS_INFO%%:*} status '"$@"'
 	}
 	vcs_up() {
 		: ${VCS_INFO:?Not in version-controlled directory} &&
-		${VCS_INFO%%:*} update "$@"
+		eval -- ${VCS_INFO%%:*} update '"$@"'
 	}
 
 	# sharing history

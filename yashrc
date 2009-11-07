@@ -220,16 +220,20 @@ mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }
 vcs_ci() {
-	${${VCS_INFO:?Not in version-controlled directory}%%:*} commit "$@"
+	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
+	eval -- $vcs commit '"$@"'
 }
 vcs_log() {
-	${${VCS_INFO:?Not in version-controlled directory}%%:*} log "$@"
+	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
+	eval -- $vcs log '"$@"'
 }
 vcs_st() {
-	${${VCS_INFO:?Not in version-controlled directory}%%:*} status "$@"
+	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
+	eval -- $vcs status '"$@"'
 }
 vcs_up() {
-	${${VCS_INFO:?Not in version-controlled directory}%%:*} update "$@"
+	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
+	eval -- $vcs update '"$@"'
 }
 
 # read local settings
