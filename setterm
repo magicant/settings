@@ -4,25 +4,25 @@ until tput init >/dev/null 2>&1; do
 	case "$TERM" in
 		*-256color)
 			if [ x"${TERM%%-*}" = x"xterm" ]; then
-				TERM=${_orig_term%-256color}-16color
+				TERM=${_orig_term%-*color}-16color
 			else
 				TERM=xterm-${TERM#*-}
 			fi ;;
 		*-16color)
 			if [ x"${TERM%%-*}" = x"xterm" ]; then
-				TERM=${_orig_term%-16color}-8color
+				TERM=${_orig_term%-*color}-8color
 			else
 				TERM=xterm-${TERM#*-}
 			fi ;;
 		*-8color)
 			if [ x"${TERM%%-*}" = x"xterm" ]; then
-				TERM=${_orig_term%-8color}-color
+				TERM=${_orig_term%-*color}-color
 			else
 				TERM=xterm-${TERM#*-}
 			fi ;;
 		*-color)
 			if [ x"${TERM%%-*}" = x"xterm" ]; then
-				TERM=${_orig_term%-color}
+				TERM=${_orig_term%-*color}
 			else
 				TERM=xterm-${TERM#*-}
 			fi ;;
