@@ -98,7 +98,7 @@ case $- in *i*)
 		}
 	else
 		vcsinfo='${VCS_INFO:+$VCS_INFO }'
-		PS1='\u@\h \W '$vcsinfo'\$ '
+		PS1='\u@\h \W '$vcsinfo$shlvl'b\$ '
 		PS2='> '
 	fi
 	HISTCONTROL=ignoreboth
