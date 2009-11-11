@@ -221,19 +221,19 @@ mkdircd() {
 }
 vcs_ci() {
 	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
-	eval -- $vcs commit '"$@"'
+	command $vcs commit "$@"
 }
 vcs_log() {
 	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
-	eval -- $vcs log '"$@"'
+	command $vcs log "$@"
 }
 vcs_st() {
 	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
-	eval -- $vcs status '"$@"'
+	command $vcs status "$@"
 }
 vcs_up() {
 	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
-	eval -- $vcs update '"$@"'
+	command $vcs update "$@"
 }
 
 # read local settings
