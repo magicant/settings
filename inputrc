@@ -9,3 +9,10 @@ set match-hidden-files off
 set mark-symlinked-directories on
 
 "\C-L": redraw-current-line
+
+# for old versions
+"\eOH": beginning-of-line
+"\e[H": beginning-of-line
+"\eOF": end-of-line
+"\e[F": end-of-line
+"\e[3~": delete-char
