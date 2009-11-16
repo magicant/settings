@@ -43,7 +43,7 @@ if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
 fi
 
 termcolor=$(tput colors 2>/dev/null)
-: ${PAGER:=more}
+: ${PAGER:=more} ${termcolor:=-1}
 
 alias cp='cp -i'  # IMPORTANT!
 alias mv='mv -i'
