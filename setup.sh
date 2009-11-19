@@ -1,32 +1,48 @@
 #!/bin/sh
 
 makelink () {
-	prefix=""
-	t="$(dirname "$2")"
-	until [ x"$t" = x"." ]; do
-		prefix="$prefix../"
-		t="$(dirname "$t")"
-	done
-	mkdir -p "$(dirname ~/"$2")" &&
-	ln -s "$prefix${PWD#${HOME%/}/}/$1" ~/"$2" &&
-	echo "~/$2" "->" "$prefix${PWD#${HOME%/}/}/$1"
+	case $PWD in
+		${HOME%/}/*)
+			prefix="${PWD#${HOME%/}/}"
+			t="$(dirname "$2")"
+			until [ x"$t" = x"." ]; do
+				prefix="../$prefix"
+				t="$(dirname "$t")"
+			done
+			;;
+		*)
+			prefix=$PWD
+			;;
+	esac
+	mkdir -p "$(dirname "$HOME/$2")"
+	if [ -L "$HOME/$2" ]; then
+		echo "Symbolic link ~/$2 already exists"
+	elif ln -s "$prefix/$1" "$HOME/$2"; then
+		echo "~/$2" "->" "$prefix/$1"
+	fi
 }
 
+set -e
 cd "$(dirname $0)"
 echo Home directory is "$HOME"
-if [ x"$PWD" = x"${PWD#$HOME}" ]; then
-	printf "We're not in the home directory! Aborting.\n"
-	exit 1
-fi
+echo Settings directory is "$PWD"
 
 makelink bashrc .bashrc
-command -v colordiff >/dev/null 2>&1 && makelink colordiffrc .colordiffrc
-command -v dircolors >/dev/null 2>&1 && makelink dircolors .dircolors
+if command -v colordiff >/dev/null 2>&1; then
+	makelink colordiffrc .colordiffrc
+fi
+if command -v dircolors >/dev/null 2>&1; then
+	makelink dircolors .dircolors
+fi
 makelink inputrc .inputrc
 makelink lesspipe.sh bin/lesspipe.sh
-[ $(PATH=$PATH:$PATH:$PATH which -a which 2>/dev/null | wc -l) -ge 3 ] ||
+if ! [ $(PATH=$PATH:$PATH:$PATH which -a which 2>/dev/null | wc -l) -ge 3 ]
+then
 	makelink which bin/which
-top --version 2>/dev/null | grep -q procps && makelink toprc .toprc
+fi
+if top --version 2>/dev/null | grep -q procps; then
+	makelink toprc .toprc
+fi
 makelink yashrc .yashrc
 makelink zshrc .zshrc
 
@@ -39,7 +55,5 @@ if command -v vim >/dev/null 2>&1; then
 	makelink vim/syntax/sh.vim .vim/syntax/sh.vim
 	makelink vim/macros/hgcommit.vim .vim/macros/hgcommit.vim
 	makelink vim/macros/less.vim .vim/macros/less.vim
-	./vim/setup.sh
+	vim/setup.sh
 fi
-
-exit 0
