@@ -87,8 +87,8 @@ if command -v vim >/dev/null 2>&1; then
 	alias vl='vimless'
 	alias -g V='|vimless'
 fi
-if command -v gnome-open >/dev/null 2>&1; then
-	alias go='gnome-open'
+if command -v xdg-open >/dev/null 2>&1; then
+	alias op='xdg-open'
 fi
 
 HISTFILE=~/.zsh_history HISTSIZE=2000 SAVEHIST=1000

@@ -74,8 +74,8 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 		alias -g V='|vimless'
 	fi
 
-	if command -v gnome-open >/dev/null 2>&1; then
-		alias go='gnome-open'
+	if command -v xdg-open >/dev/null 2>&1; then
+		alias op='xdg-open'
 	fi
 
 fi

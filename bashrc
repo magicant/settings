@@ -67,8 +67,8 @@ case $- in *i*)
 		alias vl='vimless'
 	fi
 
-	if command -v gnome-open >/dev/null 2>&1; then
-		alias go='gnome-open'
+	if command -v xdg-open >/dev/null 2>&1; then
+		alias op='xdg-open'
 	fi
 
 	if [ ${SHLVL:-0} -gt 1 ]; then
