@@ -13,9 +13,12 @@ applypatch () {
 checkgetlatest () {
 	# $1 = ScriptID (decimal integer)
 	# $2 = Script name (any string, which may start with ":AutoInstall:")
-	if grep -qv "^$1 " "$HOME/.vim/GetLatest/GetLatestVimScripts.dat"; then
+	printf 'GetLatestVimScripts.dat: '
+	if grep "^$1 " "$HOME/.vim/GetLatest/GetLatestVimScripts.dat"; then
+		:
+	else
 		echo "$1 1 $2" >>"$HOME/.vim/GetLatest/GetLatestVimScripts.dat"
-		echo GetLatestVimScripts.dat: "$1 1 $2"
+		echo "$1 1 $2 (added)"
 	fi
 }
 
