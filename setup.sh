@@ -46,6 +46,21 @@ fi
 makelink yashrc .yashrc
 makelink zshrc .zshrc
 
+if command -v xclip >/dev/null 2>&1; then
+	if [ -e "$HOME/bin/pbcopy" ]; then
+		echo "~/pbcopy already exists"
+	elif echo 'exec xclip -in -selection clipboard "$@"' >"$HOME/bin/pbcopy" &&
+		chmod a+x "$HOME/bin/pbcopy"; then
+		echo "created ~/pbcopy"
+	fi
+	if [ -e "$HOME/bin/pbpaste" ]; then
+		echo "~/pbpaste already exists"
+	elif echo 'exec xclip -out -selection clipboard "$@"' >"$HOME/bin/pbpaste" &&
+		chmod a+x "$HOME/bin/pbpaste"; then
+		echo "created ~/pbpaste"
+	fi
+fi
+
 if command -v vim >/dev/null 2>&1; then
 	makelink vimrc .vimrc
 	makelink vimless bin/vimless
