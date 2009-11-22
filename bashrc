@@ -101,7 +101,6 @@ case $- in *i*)
 		PS1='\u@\h \W '$vcsinfo$shlvl'b\$ '
 		PS2='> '
 	fi
-	HISTCONTROL=ignoreboth
 	unset shlvl uc gc hc bold normal vcsinfo
 
 	# tricks to show VCS info in the prompt
@@ -161,6 +160,8 @@ case $- in *i*)
 	unset LINES COLUMNS
 	set -o braceexpand -o noclobber
 	shopt -s autocd globstar 2>/dev/null
+	HISTFILE=~/.bash_history HISTSIZE=2000 HISTFILESIZE=1000
+	HISTCONTROL=ignoreboth
 
 	args()
 	if [ $# -gt 0 ]; then

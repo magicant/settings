@@ -98,7 +98,7 @@ fi
 # define some variables
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
-HISTFILE=~/.yash_history HISTSIZE=1000 HISTRMDUP=100
+HISTFILE=~/.yash_history HISTSIZE=5000 HISTRMDUP=500
 MAILCHECK=60
 FCEDIT=${EDITOR:-vi}
 HOSTNAME=${HOSTNAME:-$(uname -n)}
