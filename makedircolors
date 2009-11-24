@@ -1,0 +1,30 @@
+#!/bin/sh
+# Copies $1 to $2 and removes unsupported keywords.
+
+set -e
+
+if [ $# -lt 2 ]; then
+	printf 'Usage:  %s original_dircolors new_dircolors\n' "$0"
+	exit 2
+elif ! [ -r "$1" ]; then
+	printf 'Cannot read "%s"\n' "$1"
+	exit 1
+elif [ -h "$2" ]; then
+	printf '"%s" is a symbolic link\n' "$2"
+	exit 1
+fi
+
+LC_ALL=C dircolors "$1" 2>&1 >/dev/null | while read -r line; do
+	case "$line" in
+		*'unrecognized keyword '*)
+			keyword=${line##*unrecognized keyword }
+			printf '%s\n' "$keyword"
+	esac
+done >/tmp/makedircolors.$$
+
+grep -v -f /tmp/makedircolors.$$ "$1" > "$2"
+
+printf 'Removed keywords:\n'
+cat /tmp/makedircolors.$$
+
+rm /tmp/makedircolors.$$

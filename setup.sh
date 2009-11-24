@@ -32,7 +32,12 @@ if command -v colordiff >/dev/null 2>&1; then
 	makelink colordiffrc .colordiffrc
 fi
 if command -v dircolors >/dev/null 2>&1; then
-	makelink dircolors .dircolors
+	if TERM=xterm dircolors dircolors >/dev/null 2>&1; then
+		makelink dircolors .dircolors
+	else
+		echo The dircolors command is too old to support your dircolors file
+		echo Use the makedircolors script to fix it
+	fi
 fi
 makelink inputrc .inputrc
 makelink lesspipe.sh bin/lesspipe.sh
