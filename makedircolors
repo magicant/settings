@@ -22,7 +22,7 @@ LC_ALL=C dircolors "$1" 2>&1 >/dev/null | while read -r line; do
 	esac
 done >/tmp/makedircolors.$$
 
-grep -v -f /tmp/makedircolors.$$ "$1" > "$2"
+grep -Fv -f /tmp/makedircolors.$$ "$1" > "$2"
 
 printf 'Removed keywords:\n'
 cat /tmp/makedircolors.$$
