@@ -1,5 +1,7 @@
 " determine type of *.v file
 
+if exists(":for")
+
 au BufRead,BufNewFile *.v	call s:DetectTypeV()
 
 function! s:DetectTypeV()
@@ -25,3 +27,5 @@ function! s:DetectTypeV()
 		set filetype=verilog
 	endif
 endfunction
+
+endif

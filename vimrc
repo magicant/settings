@@ -5,8 +5,11 @@ set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16,utf-16le
 set iminsert=0 imsearch=-1
 set modeline modelines=5
 set hidden confirm
-set nobackup nowritebackup nofsync swapsync=
+set nobackup nowritebackup swapsync=
 set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa
+if exists("&fsync")
+	set nofsync
+endif
 if has("multi_byte")
 	noremap <F8> :call <SID>switchambiwidth()<CR>
 	function! s:switchambiwidth()
