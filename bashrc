@@ -13,16 +13,21 @@ fi
 # Interactive?
 case $- in *i*)
 
-	# if the shell is executed in gnome-terminal, set $TERM accordingly
-	if [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
-		for term in gnome-256color gnome-16color gnome; do
-			if tput -T $term init >/dev/null 2>&1; then
-				export TERM=$term
-				break
-			fi
-		done
-		unset term
+	# if the shell is executed in a terminal emulator, set $TERM accordingly
+	if [ /proc/$PPID/exe -ef /usr/bin/xterm ]; then
+		terms=(xterm-256color xterm-16color xterm)
+	elif [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
+		terms=(gnome-256color gnome-16color gnome)
+	else
+		terms=()
 	fi
+	for term in $terms; do
+		if tput -T $term init >/dev/null 2>&1; then
+			export TERM=$term
+			break
+		fi
+	done
+	unset term terms
 
 	termcolor=$(tput colors 2>/dev/null)
 
