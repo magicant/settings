@@ -37,6 +37,11 @@ endif
 if has("syntax")
 	syntax enable
 endif
+if &t_ts == '' && &t_fs == ''
+	if &term =~? '^\(xterm\|gnome\|putty\)\>'
+		let [&t_ts, &t_fs] = ["\e]0;", "\7"]
+	endif
+endif
 
 set ignorecase smartcase
 if has("extra_search")
