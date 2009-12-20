@@ -120,17 +120,29 @@ PS1=$uc'%B%n'$hc'@%m%f %. ${SHLVL:/1}z%(!.#.$)%f%b '
 PS2=$gc'%B%_>%f%b '
 RPROMPT='${vcs_info_msg_0_:+%b%F{cyan\}$vcs_info_msg_0_%f%B}'
 SPROMPT='Did you mean "%r"? [ynae] '
-if [ "$termcolor" -ge 8 ]; then
+unset uc gc hc esc bell
+
+_tsl=$(tput tsl 2>/dev/null |
+	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
+_fsl=$(tput fsl 2>/dev/null |
+	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
+if ! [ "$_tsl" ] || ! [ "$_fsl" ]; then
+	case "$TERM" in
+		xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
+			_tsl='\033]0;' _fsl='\a' ;;
+	esac
+fi
+if [ "$_tsl" ] && [ "$_fsl" ]; then
 	precmd () {
-		printf '\033]0;%s@%s:%s\a' "$USER" "${HOST%%.*}" "${${PWD:/~/~}/#~\//~/}"
-		LC_ALL=en_US.UTF-8 vcs_info
+		printf "$_tsl"'%s@%s:%s'"$_fsl" \
+			"$USER" "${HOST%%.*}" "${${PWD:/~/~}/#~\//~/}"
+		LC_ALL=en_US.UTF-8 vcs_info 2>/dev/null
 	}
 	ssh () {
 		if [ -t 1 ]; then printf '\033]0;ssh %s\a' "$*"; fi
 		command ssh "$@"
 	}
 fi
-unset uc gc hc esc bell
 
 args()
 if [ $# -gt 0 ]; then

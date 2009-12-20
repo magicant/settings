@@ -129,16 +129,25 @@ PS4='+ '
 unset uc gc hc
 
 # set window title
-# we assume the terminal supports window title if $termcolor >= 8
-if [ "$termcolor" -ge 8 ]; then
+_tsl=$(tput tsl 2>/dev/null |
+	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
+_fsl=$(tput fsl 2>/dev/null |
+	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
+if ! [ "$_tsl" ] || ! [ "$_fsl" ]; then
+	case "$TERM" in
+		xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
+			_tsl='\033]0;' _fsl='\a' ;;
+	esac
+fi
+if [ "$_tsl" ] && [ "$_fsl" ]; then
 	_set_term_title()
 	if [ -t 2 ]; then
-		printf '\033]0;%s@%s:%s\a' "${LOGNAME}" "${HOSTNAME%%.*}" \
+		printf "$_tsl"'%s@%s:%s'"$_fsl" "${LOGNAME}" "${HOSTNAME%%.*}" \
 			"${${PWD:/$HOME/\~}/#$HOME\//\~\/}" >&2
 	fi
 	PROMPT_COMMAND=("$PROMPT_COMMAND" '_set_term_title')
 	ssh() {
-		if [ -t 2 ]; then printf '\033]0;ssh %s\a' "$*" >&2; fi
+		if [ -t 2 ]; then printf "$_tsl"'ssh %s'"$_fsl" "$*" >&2; fi
 		command ssh "$@"
 	}
 fi

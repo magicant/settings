@@ -30,6 +30,16 @@ case $- in *i*)
 	unset term terms
 
 	termcolor=$(tput colors 2>/dev/null)
+	tsl=$(tput tsl 2>/dev/null |
+		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g')
+	fsl=$(tput fsl 2>/dev/null |
+		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g')
+	if ! [ "$tsl" ] || ! [ "$fsl" ]; then
+		case "$TERM" in
+			xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
+				tsl='\e]0;' fsl='\a' ;;
+		esac
+	fi
 
 	: ${PAGER:=more} ${termcolor:=-1}
 
@@ -96,7 +106,6 @@ case $- in *i*)
 		vcsinfo='${VCS_INFO:+\[\e[0;36m\]$VCS_INFO'$bold' }'
 		PS1=$uc'\u'$hc'@\h'$bold' \W '$vcsinfo$shlvl'b\$'$normal' '
 		PS2=$gc'>'$normal' '
-		PS1='\[\e]0;\u@\h:\w\a\]'$PS1
 		ssh() {
 			if [ -t 1 ]; then printf '\033]0;ssh %s\a' "$*"; fi
 			command ssh "$@"
@@ -106,7 +115,10 @@ case $- in *i*)
 		PS1='\u@\h \W '$vcsinfo$shlvl'b\$ '
 		PS2='> '
 	fi
-	unset shlvl uc gc hc bold normal vcsinfo
+	if [ "${tsl-}" ] && [ "${fsl-}" ]; then
+		PS1='\['"$tsl"'\u@\h:\w'"$fsl"'\]'"$PS1"
+	fi
+	unset tsl fsl shlvl uc gc hc bold normal vcsinfo
 
 	# tricks to show VCS info in the prompt
 	_update_vcs_info() {
