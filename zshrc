@@ -139,7 +139,7 @@ if [ "$_tsl" ] && [ "$_fsl" ]; then
 		LC_ALL=en_US.UTF-8 vcs_info 2>/dev/null
 	}
 	ssh () {
-		if [ -t 1 ]; then printf '\033]0;ssh %s\a' "$*"; fi
+		if [ -t 1 ]; then printf "$_tsl"'ssh %s'"$_fsl" "$*"; fi
 		command ssh "$@"
 	}
 fi

@@ -106,10 +106,6 @@ case $- in *i*)
 		vcsinfo='${VCS_INFO:+\[\e[0;36m\]$VCS_INFO'$bold' }'
 		PS1=$uc'\u'$hc'@\h'$bold' \W '$vcsinfo$shlvl'b\$'$normal' '
 		PS2=$gc'>'$normal' '
-		ssh() {
-			if [ -t 1 ]; then printf '\033]0;ssh %s\a' "$*"; fi
-			command ssh "$@"
-		}
 	else
 		vcsinfo='${VCS_INFO:+$VCS_INFO }'
 		PS1='\u@\h \W '$vcsinfo$shlvl'b\$ '
@@ -117,6 +113,12 @@ case $- in *i*)
 	fi
 	if [ "${tsl-}" ] && [ "${fsl-}" ]; then
 		PS1='\['"$tsl"'\u@\h:\w'"$fsl"'\]'"$PS1"
+		_tsl=$(printf '%s' "$tsl" | sed 's;%;%%;g')
+		_fsl=$(printf '%s' "$fsl" | sed 's;%;%%;g')
+		ssh() {
+			if [ -t 1 ]; then printf "$_tsl"'ssh %s'"$_fsl" "$*"; fi
+			command ssh "$@"
+		}
 	fi
 	unset tsl fsl shlvl uc gc hc bold normal vcsinfo
 
