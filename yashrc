@@ -123,7 +123,7 @@ if [ "$(id -u)" -eq 0 ]; then
 else
 	uc="$hc"   gc='\fo.'   # normal
 fi
-PS1=$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fo. ${${${PWD:/~/\~}##*/}:-$PWD} ${VCS_INFO:+\\fc.${VCS_INFO}\\fo. }${SHLVL:/1}\$\fd. '
+PS1=$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fdo. ${${${PWD:/~/\~}##*/}:-$PWD} ${VCS_INFO:+\\fc.${VCS_INFO}\\fdo. }${SHLVL:/1}\$\fd. '
 PS2=$gc'>\fd. '
 PS4='+ '
 unset uc gc hc
