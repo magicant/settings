@@ -34,10 +34,10 @@ case "$1" in
   *.[0-9][a-z].gz )
 	case "$($decomp -- "$1" | file -)" in
 	  *troff*)
-		exec man -- "$s1" || exit
+		exec man -- "$s1" ; exit
 		;;
 	  *text*)
-		exec $decomp -- "$1" || exit
+		exec $decomp -- "$1" ; exit
 		;;
 	esac
 	;;
@@ -46,15 +46,15 @@ case "$1" in
   *.tar )                          exec tar -tv  -f "$1" | sort -k 6 ; exit ;;
   *.tar.gz | *.tgz | *.tar.[zZ] )  exec tar -tvz -f "$1" | sort -k 6 ; exit ;;
   *.tar.bz2 | *.tbz2 | *.tgz )     exec tar -tvj -f "$1" | sort -k 6 ; exit ;;
-  *.zip)            exec zipinfo -- "$1" || exit ;;
-  *.rpm)            exec rpm -qpivl --changelog "$s1" || exit ;;
-  *.cpio | *.cpi )  exec cpio -itv <"$1" || exit ;;
-  *.a )             exec ar -tv "$s1" || exit ;;
-  *.so )            exec readelf -edsA -- "$1" || exit ;;
+  *.zip | *.jar | *.nbm)           exec zipinfo -- "$1" ; exit ;;
+  *.rpm)            exec rpm -qpivl --changelog "$s1" ; exit ;;
+  *.cpio | *.cpi )  exec cpio -itv <"$1" ; exit ;;
+  *.a )             exec ar -tv "$s1" ; exit ;;
+  *.so )            exec readelf -edsA -- "$1" ; exit ;;
 
   # media
   *.gif | *.jpeg | *.jpg | *.pcd | *.png | *.tga | *.tiff | *.tif )
-	exec identify -- "$1" || exit ;;
+	exec identify -- "$1" ; exit ;;
 
 esac
 
