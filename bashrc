@@ -33,8 +33,8 @@ case $- in *i*)
 		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g' -e 's;\n;\\n;g'
 	}
 	termcolor=$(tput colors 2>/dev/null)
-	tsl=$(tput tsl 2>/dev/null | filter)
-	fsl=$(tput fsl 2>/dev/null | filter)
+	tsl=$(tput tsl 0 2>/dev/null | filter)
+	fsl=$(tput fsl   2>/dev/null | filter)
 	if ! [ "$tsl" ] || ! [ "$fsl" ]; then
 		case "$TERM" in
 			xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)

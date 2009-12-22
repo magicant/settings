@@ -129,9 +129,9 @@ PS4='+ '
 unset uc gc hc
 
 # set window title
-_tsl=$(tput tsl 2>/dev/null |
+_tsl=$(tput tsl 0 2>/dev/null |
 	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
-_fsl=$(tput fsl 2>/dev/null |
+_fsl=$(tput fsl   2>/dev/null |
 	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
 if ! [ "$_tsl" ] || ! [ "$_fsl" ]; then
 	case "$TERM" in

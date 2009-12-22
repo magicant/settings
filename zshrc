@@ -122,9 +122,9 @@ RPROMPT='${vcs_info_msg_0_:+%b%F{cyan\}$vcs_info_msg_0_%f%B}'
 SPROMPT='Did you mean "%r"? [ynae] '
 unset uc gc hc esc bell
 
-_tsl=$(tput tsl 2>/dev/null |
+_tsl=$(tput tsl 0 2>/dev/null |
 	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
-_fsl=$(tput fsl 2>/dev/null |
+_fsl=$(tput fsl   2>/dev/null |
 	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
 if ! [ "$_tsl" ] || ! [ "$_fsl" ]; then
 	case "$TERM" in
