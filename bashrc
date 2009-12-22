@@ -29,11 +29,12 @@ case $- in *i*)
 	done
 	unset term terms
 
+	filter() {
+		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g' -e 's;\n;\\n;g'
+	}
 	termcolor=$(tput colors 2>/dev/null)
-	tsl=$(tput tsl 2>/dev/null |
-		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g')
-	fsl=$(tput fsl 2>/dev/null |
-		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g')
+	tsl=$(tput tsl 2>/dev/null | filter)
+	fsl=$(tput fsl 2>/dev/null | filter)
 	if ! [ "$tsl" ] || ! [ "$fsl" ]; then
 		case "$TERM" in
 			xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
@@ -92,27 +93,35 @@ case $- in *i*)
 		shlvl=
 	fi
 	if [ "$termcolor" -ge 8 ]; then
+		color() {
+			( tput setaf $1 || tput setf $2 ) 2>/dev/null | filter
+		}
+		bold='\['"$(tput bold 2>/dev/null | filter)"'\]'   # start bold font
+		normal='\['"$(tput sgr0 2>/dev/null | filter)"'\]' # reset color & style
+		normalc='\['"$(tput op 2>/dev/null | filter)"'\]'  # reset color
 		if [ -n "${SSH_CONNECTION}" ] && [ -z "${SSH_LOCAL-}" ]; then
-			hc='\[\e[1;33m\]'                    # yellow in remote host
+			hc='\['$(color 3 6)'\]'   # yellow for remote host
 		else
-			hc='\[\e[1;32m\]'                    # green for normal
+			hc='\['$(color 2 2)'\]'   # green for local host
 		fi
 		if [ "$EUID" -eq 0 ]; then
-			uc='\[\e[1;31m\]' gc='\[\e[1;31m\]'  # red for root
+			uc='\['$(color 1 4)'\]'   # red for root
+			gc=$uc
 		else
-			uc="$hc"          gc='\[\e[1m\]'     # normal
+			uc=$hc                    # normal
+			hc=
+			gc=
 		fi
-		bold='\[\e[0;1m\]' normal='\[\e[m\]'
-		vcsinfo='${VCS_INFO:+\[\e[0;36m\]$VCS_INFO'$bold' }'
-		PS1=$uc'\u'$hc'@\h'$bold' \W '$vcsinfo$shlvl'b\$'$normal' '
-		PS2=$gc'>'$normal' '
+		vcs='${VCS_INFO:+'$normal'\['$(color 6 3)'\]$VCS_INFO'$normal$bold' }'
+		PS1=$bold$uc'\u'$hc'@\h'$normalc' \W '$vcs$shlvl'b\$'$normal' '
+		PS2=$bold$gc'>'$normal' '
 	else
-		vcsinfo='${VCS_INFO:+$VCS_INFO }'
-		PS1='\u@\h \W '$vcsinfo$shlvl'b\$ '
+		vcs='${VCS_INFO:+$VCS_INFO }'
+		PS1='\u@\h \W '$vcs$shlvl'b\$ '
 		PS2='> '
 	fi
 	if [ "${tsl-}" ] && [ "${fsl-}" ]; then
-		PS1='\['"$tsl"'\u@\h:\w'"$fsl"'\]'"$PS1"
+		PS1='\['$tsl'\u@\h:\w'$fsl'\]'$PS1
 		_tsl=$(printf '%s' "$tsl" | sed 's;%;%%;g')
 		_fsl=$(printf '%s' "$fsl" | sed 's;%;%%;g')
 		ssh() {
@@ -120,7 +129,8 @@ case $- in *i*)
 			command ssh "$@"
 		}
 	fi
-	unset tsl fsl shlvl uc gc hc bold normal vcsinfo
+	unset tsl fsl shlvl uc gc hc bold normal vcs
+	unset -f filter color
 
 	# tricks to show VCS info in the prompt
 	_update_vcs_info() {
