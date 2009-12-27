@@ -1,4 +1,4 @@
-# magicant's .yashrc for yash 2.14 and later
+# magicant's .yashrc for yash 2.18 and later
 
 # read system-wide settings
 if [ -r /etc/yashrc ]; then
@@ -39,6 +39,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	alias rm='rm -i'
 
 	alias -- -='cd -'
+	alias cd='pushd --default-directory="$HOME"'
 	alias dirs='dirs -v'
 	alias f='fg'
 	alias gr='grep'
@@ -48,6 +49,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	alias le='$PAGER'
 	alias ll='ls -l'
 	alias lla='ll -a'
+	alias pushd='pushd --remove-duplicates'
 	alias r='fc -s'
 	alias so='sort'
 	alias ta='tail'
@@ -114,18 +116,23 @@ YASH_AFTER_CD=()
 
 # define prompt
 if [ -n "${SSH_CONNECTION-}" ] && [ -z "${SSH_LOCAL-}" ]; then
-	hc='\fyo.'             # yellow in remote host
+	hc='\fy.'             # yellow in remote host
 else
-	hc='\fgo.'             # green for local
+	hc='\fg.'             # green for local
 fi
 if [ "$(id -u)" -eq 0 ]; then
-	uc='\fro.' gc='\fro.'  # red for root
+	uc='\fr.' gc='\fr.'   # red for root
 else
-	uc="$hc"   gc='\fo.'   # normal
+	uc=$hc     hc=  gc=   # normal
 fi
-PS1=$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fdo. ${${${PWD:/~/\~}##*/}:-$PWD} ${VCS_INFO:+\\fc.${VCS_INFO}\\fdo. }${SHLVL:/1}\$\fd. '
-PS2=$gc'>\fd. '
-PS4='+ '
+PS1='\fo.'$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fd. ${${${PWD:/~/\~}##*/}:-$PWD} ${SHLVL:/1}\$ '
+PS1R='\fc.${VCS_INFO}'
+PS1S='\fwt.'
+PS2='\fo.'$gc'>\fD. '
+PS2R=$PS1R
+PS2S=$PS1S
+PS4='\fyto.+\fD. '
+PS4S='\fyt.'
 unset uc gc hc
 
 # set window title
@@ -188,29 +195,6 @@ if [ -d "$1" ]; then
 	break -i
 fi
 COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_autocd "$@"')
-
-# alternative to zsh's auto_pushd option
-cd()
-if [ $# -gt 0 ]; then
-	pushd "$@"
-else
-	pushd ~
-fi
-
-# alternative to zsh's pushd_ignore_dups option
-pushd() {
-	command -b pushd "$@" && {
-		# remove $PWD from $DIRSTACK
-		typeset i=1
-		while [ $? -eq 0 ] && [ $i -le ${DIRSTACK[#]} ]; do
-			if [ x"$PWD" = x"${DIRSTACK[$i]}" ]; then
-				array -d DIRSTACK $i
-			else
-				i=$((i+1))
-			fi
-		done
-	}
-}
 
 # print file type for unexecutable files
 _print_file_type()
