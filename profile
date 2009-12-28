@@ -17,9 +17,9 @@ esac
 #fi
 
 #export PATH="$HOME/bin:$PATH"
-#export PAGER='less'
-#export LESS='-iMR' LESSOPEN='|lesspipe.sh %s'
+#export PAGER='less' LESS='-iMR' LESSOPEN='|lesspipe.sh %s'
 #unset  LESSCLOSE
+#export MANPAGER='less -s'
 #export EDITOR='vim'
 
 #if ps --version 2>/dev/null | grep procps >/dev/null 2>&1; then
