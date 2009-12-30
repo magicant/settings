@@ -55,6 +55,7 @@ alias mv='mv -i'
 alias rm='rm -i'
 
 alias -- -='cd -'
+alias ci='vcs_wrap ci commit'
 alias dirs='dirs -v'
 alias f='fg'
 alias gr='grep'
@@ -64,11 +65,13 @@ alias la='ls -a'
 alias le='$PAGER'
 alias ll='ls -l'
 alias lla='ll -a'
+alias log='vcs_wrap log log'
 alias r='fc -s'
 alias so='sort'
+alias st='vcs_wrap st status'
 alias ta='tail'
 alias tree='tree -C'
-alias ci='vcs_ci' log='vcs_log' st='vcs_st' up='vcs_up'
+alias up='vcs_wrap up update'
 alias -g G='|grep'
 alias -g H='|head'
 alias -g L='|$PAGER'
@@ -129,7 +132,7 @@ _fsl=$(tput fsl   2>/dev/null |
 if ! [ "$_tsl" ] || ! [ "$_fsl" ]; then
 	case "$TERM" in
 		xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
-			_tsl='\033]0;' _fsl='\a' ;;
+			_tsl='\033]0;' _fsl='\033\\' ;;
 	esac
 fi
 if [ "$_tsl" ] && [ "$_fsl" ]; then
@@ -151,18 +154,15 @@ fi
 mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }
-vcs_ci() {
-	${${vcs_info_msg_0_:?Not in version-controlled directory}%%:*} commit "$@"
-}
-vcs_log() {
-	${${vcs_info_msg_0_:?Not in version-controlled directory}%%:*} log "$@"
-}
-vcs_st() {
-	${${vcs_info_msg_0_:?Not in version-controlled directory}%%:*} status "$@"
-}
-vcs_up() {
-	${${vcs_info_msg_0_:?Not in version-controlled directory}%%:*} update "$@"
-}
+vcs_wrap()
+if [ "${vcs_info_msg_0_:-}" ]; then
+	shift
+	command ${vcs_info_msg_0_%%:*} "$@"
+else
+	typeset command="$1"
+	shift 2
+	"$command" "$@"
+fi
 
 # use more as pager in dumb terminal
 if [ x"$TERM" = x"dumb" ]; then

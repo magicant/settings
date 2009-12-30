@@ -40,6 +40,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 
 	alias -- -='cd -'
 	alias cd='pushd --default-directory="$HOME"'
+	alias ci='vcs_wrap ci commit'
 	alias dirs='dirs -v'
 	alias f='fg'
 	alias gr='grep'
@@ -49,12 +50,14 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	alias le='$PAGER'
 	alias ll='ls -l'
 	alias lla='ll -a'
+	alias log='vcs_wrap log log'
 	alias pushd='pushd --remove-duplicates'
 	alias r='fc -s'
 	alias so='sort'
+	alias st='vcs_wrap st status'
 	alias ta='tail'
 	alias tree='tree -C'
-	alias ci='vcs_ci' log='vcs_log' st='vcs_st' up='vcs_up'
+	alias up='vcs_wrap up update'
 	alias -g G='|grep'
 	alias -g H='|head'
 	alias -g L='|$PAGER'
@@ -129,7 +132,7 @@ PS1='\fo.'$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fd. ${${${PWD:/~/\~}##*/}:-$PWD} $
 PS1R='\fc.${VCS_INFO}'
 PS1S='\fwt.'
 PS2='\fo.'$gc'>\fD. '
-PS2R=$PS1R
+PS2R=
 PS2S=$PS1S
 PS4='\fyto.+\fD. '
 PS4S='\fyt.'
@@ -143,7 +146,7 @@ _fsl=$(tput fsl   2>/dev/null |
 if ! [ "$_tsl" ] || ! [ "$_fsl" ]; then
 	case "$TERM" in
 		xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
-			_tsl='\033]0;' _fsl='\a' ;;
+			_tsl='\033]0;' _fsl='\033\\' ;;
 	esac
 fi
 if [ "$_tsl" ] && [ "$_fsl" ]; then
@@ -216,22 +219,15 @@ fi
 mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }
-vcs_ci() {
-	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
-	command $vcs commit "$@"
-}
-vcs_log() {
-	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
-	command $vcs log "$@"
-}
-vcs_st() {
-	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
-	command $vcs status "$@"
-}
-vcs_up() {
-	typeset vcs=${${VCS_INFO:?Not in version-controlled directory}%%:*} &&
-	command $vcs update "$@"
-}
+vcs_wrap()
+if [ "${VCS_INFO:-}" ]; then
+	shift
+	command ${VCS_INFO%%:*} "$@"
+else
+	typeset command="$1"
+	shift 2
+	"$command" "$@"
+fi
 
 # read local settings
 if [ -r ~/.yashrc_local ]; then
