@@ -73,17 +73,18 @@ case "$($decomp -- "$1" | nkf --guess 2>/dev/null)" in
   Shift_JIS*)   from=SHIFT_JIS ;;
   ISO-2022-JP*) from=ISO-2022-JP ;;
   *)  # no conversion
-	opentext ;;
+	opentext "$1" ;;
 esac
 case "${LC_ALL:-${LC_CTYPE:-$LANG}}" in
-  *.UTF-8*  | *.UTF8*  | *.utf-8*  | *.utf8* )   to=UTF-8 ;;
-  *.EUC-JP* | *.EUCJP* | *.euc-jp* | *.eucjp* )  to=EUC-JP ;;
+  *.UTF-8*     | *.UTF8*  | *.utf-8*     | *.utf8*  )  to=UTF-8 ;;
+  *.EUC-JP*    | *.EUCJP* | *.euc-jp*    | *.eucjp* )  to=EUC-JP ;;
+  *.Shift_JIS* | *.SJIS*  | *.shift_jis* | *.sjis*  )  to=SHIFT_JIS ;;
   *)  # no conversion
-	opentext ;;
+	opentext "$1" ;;
 esac
 if [ "$from" = "$to" ]; then
   # no conversion
-  opentext
+  opentext "$1"
 else
   $decomp -- "$1" | exec iconv -cs -f "$from"
 fi
