@@ -2,6 +2,8 @@ set input-meta on
 set convert-meta off
 set output-meta on
 
+set revert-all-at-newline on
+
 set completion-ignore-case on
 set expand-tilde off
 
