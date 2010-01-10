@@ -32,13 +32,14 @@ autoload -Uz compinit
 compinit
 
 # if the shell is executed in a terminal emulator, set $TERM accordingly
-if [ /proc/$PPID/exe -ef /usr/bin/xterm ]; then
-	terms=(xterm-256color xterm-16color xterm)
-elif [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
-	terms=(gnome-256color gnome-16color gnome)
-else
-	terms=()
-fi
+case $(ps -o comm= -p $PPID 2>/dev/null) in
+	xterm | */xterm)
+		terms=(xterm-256color xterm-16color xterm) ;;
+	gnome-terminal | */gnome-terminal )
+		terms=(gnome-256color gnome-16color gnome) ;;
+	*)
+		terms=() ;;
+esac
 for term in $terms; do
 	if tput -T $term init >/dev/null 2>&1; then
 		export TERM=$term
@@ -125,16 +126,15 @@ RPROMPT='${vcs_info_msg_0_:+%b%F{cyan\}$vcs_info_msg_0_%f%B}'
 SPROMPT='Did you mean "%r"? [ynae] '
 unset uc gc hc esc bell
 
-_tsl=$(tput tsl 0 2>/dev/null |
-	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
-_fsl=$(tput fsl   2>/dev/null |
-	sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
-if ! [ "$_tsl" ] || ! [ "$_fsl" ]; then
-	case "$TERM" in
-		xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
-			_tsl='\033]0;' _fsl='\033\\' ;;
-	esac
-fi
+case "$TERM" in
+	xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*|cygwin)
+		_tsl='\033]0;' _fsl='\033\\' ;;
+	*)
+		_tsl=$(tput tsl 0 2>/dev/null |
+		sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
+		_fsl=$(tput fsl   2>/dev/null |
+		sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g') ;;
+esac
 if [ "$_tsl" ] && [ "$_fsl" ]; then
 	precmd () {
 		printf "$_tsl"'%s@%s:%s'"$_fsl" \

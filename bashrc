@@ -14,13 +14,14 @@ fi
 case $- in *i*)
 
 	# if the shell is executed in a terminal emulator, set $TERM accordingly
-	if [ /proc/$PPID/exe -ef /usr/bin/xterm ]; then
-		terms=(xterm-256color xterm-16color xterm)
-	elif [ /proc/$PPID/exe -ef /usr/bin/gnome-terminal ]; then
-		terms=(gnome-256color gnome-16color gnome)
-	else
-		terms=()
-	fi
+	case $(ps -o comm= -p $PPID 2>/dev/null) in
+		xterm | */xterm)
+			terms=(xterm-256color xterm-16color xterm) ;;
+		gnome-terminal | */gnome-terminal )
+			terms=(gnome-256color gnome-16color gnome) ;;
+		*)
+			terms=() ;;
+	esac
 	for term in $terms; do
 		if tput -T $term init >/dev/null 2>&1; then
 			export TERM=$term
@@ -33,14 +34,13 @@ case $- in *i*)
 		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g' -e 's;\n;\\n;g'
 	}
 	termcolor=$(tput colors 2>/dev/null)
-	tsl=$(tput tsl 0 2>/dev/null | filter)
-	fsl=$(tput fsl   2>/dev/null | filter)
-	if ! [ "$tsl" ] || ! [ "$fsl" ]; then
-		case "$TERM" in
-			xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
-				tsl='\e]0;' fsl='\e\\' ;;
-		esac
-	fi
+	case "$TERM" in
+		xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*|cygwin)
+			tsl='\e]0;' fsl='\e\\' ;;
+		*)
+			tsl=$(tput tsl 0 2>/dev/null | filter)
+			fsl=$(tput fsl   2>/dev/null | filter) ;;
+	esac
 
 	: ${PAGER:=more} ${termcolor:=-1}
 
