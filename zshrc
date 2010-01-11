@@ -127,8 +127,10 @@ SPROMPT='Did you mean "%r"? [ynae] '
 unset uc gc hc esc bell
 
 case "$TERM" in
-	xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*|cygwin)
+	xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
 		_tsl='\033]0;' _fsl='\033\\' ;;
+	cygwin)
+		_tsl='\033];' _fsl='\a' ;;
 	*)
 		_tsl=$(tput tsl 0 2>/dev/null |
 		sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
