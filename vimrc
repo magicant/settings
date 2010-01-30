@@ -36,6 +36,7 @@ if has("autocmd")
 endif
 if has("syntax")
 	syntax enable
+	noremap <F7> :set spell!<CR>
 endif
 if &t_ts == '' && &t_fs == ''
 	if &term =~? '^\(xterm\|gnome\|putty\)\>'
@@ -107,6 +108,7 @@ inoremap <C-B> <C-G>u
 noremap Y y$
 map n /<Return>
 map N ?<Return>
+noremap <C-W>Q :quitall<CR>
 
 if has("autocmd")
 	augroup autojump
