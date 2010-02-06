@@ -36,7 +36,7 @@ if has("autocmd")
 endif
 if has("syntax")
 	syntax enable
-	noremap <F7> :set spell!<CR>
+	noremap <F7> :set spell! spell?<CR>
 endif
 if &t_ts == '' && &t_fs == ''
 	if &term =~? '^\(xterm\|gnome\|putty\)\>'
