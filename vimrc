@@ -1,16 +1,11 @@
 " .vimrc of magicant
 
-set encoding=utf-8
-set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16,utf-16le
-set iminsert=0 imsearch=-1
-set modeline modelines=5
-set hidden confirm
-set nobackup nowritebackup swapsync=
-set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa
-if exists("&fsync")
-	set nofsync
-endif
 if has("multi_byte")
+	if (has("win32") || has("win64")) && !has("gui")
+		let &termencoding = &encoding
+	endif
+	set encoding=utf-8
+	set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16,utf-16le
 	noremap <F8> :call <SID>switchambiwidth()<CR>
 	function! s:switchambiwidth()
 		if &ambiwidth == "single"
@@ -21,6 +16,15 @@ if has("multi_byte")
 		redraw
 		echo "ambiwidth=" . &ambiwidth
 	endfunction
+endif
+
+set iminsert=0 imsearch=-1
+set modeline modelines=5
+set hidden confirm
+set nobackup nowritebackup swapsync=
+set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa
+if exists("&fsync")
+	set nofsync
 endif
 
 highlight Normal guibg=Black guifg=LightGray
