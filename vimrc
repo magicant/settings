@@ -14,7 +14,7 @@ if has("multi_byte")
 			set ambiwidth=single
 		endif
 		redraw
-		echo "ambiwidth=" . &ambiwidth
+		set ambiwidth?
 	endfunction
 endif
 
