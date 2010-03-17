@@ -159,7 +159,7 @@ case $- in *i*)
 			done
 		)
 		case "$VCS_INFO" in
-			hg:default)        VCS_INFO='hg';;
+			hg:  | hg:default) VCS_INFO='hg';;
 			git: | git:master) VCS_INFO='git';;
 		esac
 	}
