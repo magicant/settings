@@ -30,11 +30,11 @@ augroup less
 autocmd VimEnter * set nomodified
 
 " Always start at the beginning of the file.
-autocmd VimEnter,BufEnter * goto
+autocmd VimEnter,BufReadPost * goto
 
 " open folds
 if has("folding")
-  autocmd VimEnter,BufEnter * set foldlevel=999
+  autocmd VimEnter,BufReadPost * set foldlevel=999
 endif
 
 augroup END
