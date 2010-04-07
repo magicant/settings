@@ -17,11 +17,9 @@ set hlsearch nowrapscan
 nohlsearch
 " Don't remember file names and positions
 set viminfo= noswapfile
-" Inhibit screen updates while searching
-let s:lazyredraw = &lazyredraw
-set lazyredraw
 let s:timeoutlen = &timeoutlen
 set timeoutlen=100
+let s:startofline = &startofline
 set startofline
 
 augroup less
@@ -158,6 +156,9 @@ function! s:End()
   endif
   if exists('s:timeoutlen')
     let &timeoutlen = s:timeoutlen
+  endif
+  if exists('s:startofline')
+    let &startofline = s:startofline
   endif
   autocmd! less
   unmap h

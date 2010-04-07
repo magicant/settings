@@ -28,7 +28,8 @@ if exists("&fsync")
 endif
 
 highlight Normal guibg=Black guifg=LightGray
-set guioptions+=f guioptions-=T guicursor+=a:blinkwait500-blinkon500-blinkoff500
+set guioptions+=f guioptions-=tT
+set guicursor+=a:blinkwait500-blinkon500-blinkoff500
 set timeout timeoutlen=1000 ttimeoutlen=100
 if has("gui_win32")
 	set winaltkeys=yes
@@ -118,8 +119,8 @@ if has("autocmd")
 	augroup autojump
 		autocmd!
 		function! s:autojump()
-			if line("'\"") > 0 && line ("'\"") <= line("$") |
-				execute "normal! g'\"" |
+			if line("'\"") > 0 && line ("'\"") <= line("$")
+				execute "normal! g'\""
 			endif
 		endfunction
 		" When editing a file, always jump to the last cursor position
