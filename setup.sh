@@ -53,16 +53,16 @@ makelink zshrc .zshrc
 
 if command -v xclip >/dev/null 2>&1; then
 	if [ -e "$HOME/bin/pbcopy" ]; then
-		echo "~/pbcopy already exists"
+		echo "~/bin/pbcopy already exists"
 	elif echo 'exec xclip -in -selection clipboard "$@"' >"$HOME/bin/pbcopy" &&
 		chmod a+x "$HOME/bin/pbcopy"; then
-		echo "created ~/pbcopy"
+		echo "created ~/bin/pbcopy"
 	fi
 	if [ -e "$HOME/bin/pbpaste" ]; then
-		echo "~/pbpaste already exists"
+		echo "~/bin/pbpaste already exists"
 	elif echo 'exec xclip -out -selection clipboard "$@"' >"$HOME/bin/pbpaste" &&
 		chmod a+x "$HOME/bin/pbpaste"; then
-		echo "created ~/pbpaste"
+		echo "created ~/bin/pbpaste"
 	fi
 fi
 
@@ -72,6 +72,7 @@ if command -v vim >/dev/null 2>&1; then
 	makelink vim/filetype.vim .vim/filetype.vim
 	makelink vim/ftdetect/v.vim .vim/ftdetect/v.vim
 	makelink vim/indent/html.vim .vim/indent/html.vim
+	makelink vim/plugin/less.vim .vim/plugin/less.vim
 	makelink vim/syntax/sh.vim .vim/syntax/sh.vim
 	makelink vim/macros/hgcommit.vim .vim/macros/hgcommit.vim
 	makelink vim/macros/less.vim .vim/macros/less.vim

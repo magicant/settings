@@ -10,7 +10,7 @@ if [ $# -eq 0 ]; then
     set -- -
 fi
 if [ -t 1 ]; then
-    exec vim -R -c 'let no_plugin_maps = 1' -c 'runtime! macros/less.vim' "$@"
+    exec vim -R -c 'runtime macros/less.vim' +1 "$@"
 else
     exec cat "$@"
 fi
