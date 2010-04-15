@@ -45,7 +45,7 @@ function Vimless(...)
   map <buffer> f <C-F>
 
   " Re-read file and page forward "tail -f"
-  noremap <buffer> <script> <SID>F :e<CR>G<SID><C-L>gs<SID>F
+  noremap <buffer> <script> <SID>F :edit<CR>G<SID><C-G>gs<SID>F
   noremap <buffer> <script> F <SID>F
 
   " Scroll half a page forward
