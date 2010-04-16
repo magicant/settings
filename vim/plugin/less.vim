@@ -15,7 +15,7 @@ function Vimless(...)
   setlocal noswapfile
 
   " Don't allow modifying/writing the text
-  setlocal nomodifiable nowrite
+  setlocal nomodifiable readonly
 
   " Open folds
   if has("folding")
@@ -135,7 +135,7 @@ function s:Help()
 endfunction
 
 function s:End()
-  setlocal modifiable& write&
+  setlocal modifiable& readonly&
   mapclear <buffer>
   augroup less
     autocmd!

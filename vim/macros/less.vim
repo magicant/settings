@@ -2,7 +2,9 @@
 " Based on Bram's script.
 " Author:  Watanabe Yuki <magicant.starmen@nifty.com>
 
-set nocompatible
+if &compatible
+  set nocompatible
+endif
 syntax enable
 set shortmess+=filnrxt
 set hlsearch nowrapscan
