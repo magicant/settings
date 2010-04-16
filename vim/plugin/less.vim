@@ -124,14 +124,9 @@ function s:Help()
   echo "<Space>   One page forward          b         One page backward"
   echo "d         Half a page forward       u         Half a page backward"
   echo "<Enter>   One line forward          k         One line backward"
-  echo "G         End of file               g         Start of file"
+  echo "G         End of file               gg        Start of file"
   echo "N%        percentage in file"
-  echo "\n"
-  echo "/pattern  Search for pattern        ?pattern  Search backward for pattern"
-  echo "n         next pattern match        N         Previous pattern match"
-  echo "\n"
-  echo ":n        Next file                 :prev     Previous file"
-  echo "q         Quit                      v         Edit file"
+  echo "q         Quit                      v         Exit less mode"
 endfunction
 
 function s:End()
