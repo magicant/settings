@@ -1,6 +1,6 @@
 " Vim script to make Vim work like "less"
 " Based on Bram's script.
-" Author:  Watanabe Yuki <magicant.starmen@nifty.com>
+" Author:  Watanabe Yuki <magicant.starmen AT nifty.com>
 
 command! -nargs=? -complete=file View call Vimless(<f-args>)
 

@@ -1,6 +1,6 @@
 " Vim syntax file
 " Language:				sh, POSIX shell, ksh, bash, yash
-" Maintainer:			Watanabe, Yuki <magicant.starmen@nifty.com>
+" Maintainer:			Watanabe, Yuki <magicant.starmen AT nifty.com>
 " Last Change:			Mar 9, 2009
 
 " The following variables affect syntax highlighting:
