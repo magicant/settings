@@ -57,6 +57,8 @@ set nolist listchars=eol:$,tab:>.
 set display=lastline
 set noshowmatch
 set backspace=indent,eol,start
+set virtualedit=block
+set nojoinspaces
 set autoindent
 set tabstop=4 shiftwidth=4
 set formatoptions+=tcroqlB formatoptions-=M
