@@ -11,7 +11,7 @@ function Vimless(...)
     execute "view +1 " . fnameescape(a:1)
   endif
 
-  " Don't remember file names and positions
+  " Don't use swapfile
   setlocal noswapfile
 
   " Don't allow modifying/writing the text
@@ -33,14 +33,11 @@ function Vimless(...)
   map <buffer> r <C-L>
   map <buffer> R <C-L>
 
-  " Disable default mapping
-  noremap <buffer> l <Esc>
-  noremap <buffer> t <Esc>
-  noremap <buffer> <BS> <Esc>
-
   " Scroll one page forward
   noremap <buffer> <script> <C-F> <C-F><SID><C-G>
   map <buffer> <Space> <C-F>
+  map <buffer> <PageDown> <C-F>
+  map <buffer> <S-Down> <C-F>
   map <buffer> <C-V> <C-F>
   map <buffer> f <C-F>
 
@@ -65,6 +62,8 @@ function Vimless(...)
 
   " Scroll one page backward
   noremap <buffer> <script> <C-B> <C-B><SID><C-G>
+  map <buffer> <PageUp> <C-B>
+  map <buffer> <S-Up> <C-B>
   map <buffer> b <C-B>
   map <buffer> <A-v> <C-B>
 
@@ -83,11 +82,15 @@ function Vimless(...)
 
   " Start of file
   noremap <buffer> <script> gg gg<SID><C-G>
+  map <buffer> <Home> gg
+  map <buffer> <C-Home> gg
   map <buffer> < gg
   map <buffer> <A-<> gg
 
   " End of file
   noremap <buffer> <script> G G<SID><C-G>
+  map <buffer> <End> G
+  map <buffer> <C-End> G
   map <buffer> > G
   map <buffer> <A->> G
 
