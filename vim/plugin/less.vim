@@ -26,15 +26,17 @@ function Vimless(...)
   noremap <buffer> h :call <SID>Help()<CR>
 
   " Redraw
+  noremap <buffer> <script> <SID>M :call <SID>MiddleRedraw()<CR>
   noremap <buffer> <script> <SID><C-G> :call <SID>Redraw()<CR>
   noremap <buffer> <script> <C-L> <SID><C-G>
   map <buffer> <C-R> <C-L>
   map <buffer> L <C-L>
   map <buffer> r <C-L>
   map <buffer> R <C-L>
+  map <buffer> = <C-L>
 
   " Scroll one page forward
-  noremap <buffer> <script> <C-F> <C-F><SID><C-G>
+  noremap <buffer> <script> <C-F> <C-F><SID>M
   map <buffer> <Space> <C-F>
   map <buffer> <PageDown> <C-F>
   map <buffer> <S-Down> <C-F>
@@ -46,11 +48,11 @@ function Vimless(...)
   noremap <buffer> <script> F <SID>F
 
   " Scroll half a page forward
-  noremap <buffer> <script> <C-D> <C-D><SID><C-G>
+  noremap <buffer> <script> <C-D> <C-D><SID>M
   map <buffer> d <C-D>
 
   " Scroll one line forward
-  noremap <buffer> <script> <C-E> <C-E><SID><C-G>
+  noremap <buffer> <script> <C-E> <C-E><SID>M
   map <buffer> <Down> <C-E>
   map <buffer> <CR> <C-E>
   map <buffer> <C-M> <C-E>
@@ -61,18 +63,18 @@ function Vimless(...)
   map <buffer> + <C-E>
 
   " Scroll one page backward
-  noremap <buffer> <script> <C-B> <C-B><SID><C-G>
+  noremap <buffer> <script> <C-B> <C-B><SID>M
   map <buffer> <PageUp> <C-B>
   map <buffer> <S-Up> <C-B>
   map <buffer> b <C-B>
   map <buffer> <A-v> <C-B>
 
   " Scroll half a page backward
-  noremap <buffer> <script> <C-U> <C-U><SID><C-G>
+  noremap <buffer> <script> <C-U> <C-U><SID>M
   map <buffer> u <C-U>
 
   " Scroll one line backward
-  noremap <buffer> <script> <C-Y> <C-Y><SID><C-G>
+  noremap <buffer> <script> <C-Y> <C-Y><SID>M
   map <buffer> <Up> <C-Y>
   map <buffer> <C-P> <C-Y>
   map <buffer> <C-K> <C-Y>
@@ -95,30 +97,36 @@ function Vimless(...)
   map <buffer> <A->> G
 
   " Scroll half a page right
-  noremap <buffer> <script> <Right> zL<SID><C-G>
+  noremap <buffer> <script> <Right> zL<SID>M
   map <buffer> <A-)> <Right>
 
   " Scroll half a page left
-  noremap <buffer> <script> <Left> zH<SID><C-G>
+  noremap <buffer> <script> <Left> zH<SID>M
   map <buffer> <A-(> <Left>
 
   " Go to percentage
-  noremap <buffer> <script> % %<SID><C-G>
+  noremap <buffer> <script> % %<SID>M
   map <buffer> p %
 
   " Quitting
   noremap <buffer> q :quit<CR>
+  map <buffer> Q q
 
   " Switch to editing (switch off less mode)
   noremap <buffer> v :call <SID>End()<CR>
 
 endfunction
 
-function s:Redraw()
+function s:MiddleRedraw()
   let a:startofline = &startofline
   set nostartofline
   normal! Mg0
   let &startofline = a:startofline
+  redraw
+  file
+endfunction
+
+function s:Redraw()
   redraw
   file
 endfunction
