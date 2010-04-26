@@ -5,7 +5,19 @@ if has("multi_byte")
 		let &termencoding = &encoding
 	endif
 	set encoding=utf-8
-	set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16,utf-16le
+	set fileencodings=ucs-bom,iso-2022-jp,utf-8,sjis,cp932,euc-jp,cp20932
+	if has("autocmd")
+		augroup fileencoding
+			autocmd!
+			autocmd BufReadPost * call s:check_fileencoding()
+			" Use default encoding for ASCII-only text
+			function! s:check_fileencoding()
+				if search("[^\1-\177]", 'cnw') == 0
+					setlocal fileencoding=
+				endif
+			endfunction
+		augroup END
+	endif
 	noremap <F8> :call <SID>switchambiwidth()<CR>
 	function! s:switchambiwidth()
 		if &ambiwidth == "single"
@@ -120,13 +132,13 @@ noremap <C-W>Q :quitall<CR>
 if has("autocmd")
 	augroup autojump
 		autocmd!
+		" When editing a file, always jump to the last cursor position
+		autocmd BufReadPost * call s:autojump()
 		function! s:autojump()
 			if line("'\"") > 0 && line ("'\"") <= line("$")
 				execute "normal! g'\""
 			endif
 		endfunction
-		" When editing a file, always jump to the last cursor position
-		autocmd BufReadPost * call s:autojump()
 	augroup END
 endif
 

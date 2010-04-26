@@ -118,10 +118,10 @@ function Vimless(...)
 endfunction
 
 function s:MiddleRedraw()
-  let a:startofline = &startofline
+  let l:startofline = &startofline
   set nostartofline
   normal! Mg0
-  let &startofline = a:startofline
+  let &startofline = l:startofline
   redraw
   file
 endfunction
