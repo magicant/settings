@@ -1,7 +1,7 @@
 " .vimrc of magicant
 
 if has("multi_byte")
-	if (has("win32") || has("win64")) && !has("gui")
+	if !has("gui_running")
 		let &termencoding = &encoding
 	endif
 	set encoding=utf-8
