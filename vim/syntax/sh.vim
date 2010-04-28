@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:				sh, POSIX shell, ksh, bash, yash
 " Maintainer:			Watanabe, Yuki <magicant.starmen AT nifty.com>
-" Last Change:			Mar 9, 2009
+" Last Change:			Apr 28, 2010
 
 " The following variables affect syntax highlighting:
 "   b:is_bourneshell  If set, only the original Bourne shell's syntax is
@@ -181,14 +181,19 @@ sy match shLineCont /\\\n/
 sy match shTrailerLineCont contained /\\\n/ skipwhite nextgroup=@shTrailersList
 
 " Function definition {{{1
-sy match shFunctionNoParen contained /\h\w*\s*/ skipwhite skipempty nextgroup=shGroup
 sy match shFunction /\h\w*\s*(\s*)/ contains=shFunctionParen
 sy match shFunctionParen contained /[()]/
+sy match shFunctionNoParen contained /\h\w*/
 if exists("b:is_kornshell")
 	sy match shFunctionKW /[^[:blank:]|&;<>()]\@<!function[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shFunctionNoParen
 endif
 if exists("b:is_bash")
 	sy match shFunctionKW /[^[:blank:]|&;<>()]\@<!function[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shFunction,shFunctionNoParen
+endif
+if exists("b:is_yash")
+	sy match shFunctionKW /[^[:blank:]|&;<>()]\@<!function[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shFunctionName
+	sy region shFunctionName contained transparent start=/[^[:blank:]|&;<>()]/ end=/[^[:blank:]|&;<>()]\@!/ contains=@shWordsList skipwhite skipempty nextgroup=shFunctionParenPair
+	sy match shFunctionParenPair contained /(\s*)/
 endif
 
 " Errors {{{1
@@ -354,6 +359,7 @@ hi def link shLineCont			shOperator
 hi def link shTrailerLineCont	shLineCont
 hi def link shAssign			shIdentifier
 hi def link shFunctionParen		shOperator
+hi def link shFunctionParenPair	shOperator
 hi def link shFunctionKW		shKeyword
 hi def link shFunctionNoParen	shFunction
 hi def link shBang				shKeyword

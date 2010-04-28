@@ -276,7 +276,10 @@ myfunc ( )
 }
 myfunc()(:)
 error();
-function func() { ksh/bash only; }
+function func() { ksh/bash/yash only; }
+function func { ksh/bash/yash only; }
+function func"$tion"() { yash only; }
+function func"$((tion))" { yash only; }
 
 | ! error
 
