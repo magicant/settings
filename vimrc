@@ -13,7 +13,7 @@ if has("multi_byte")
 			" Use default encoding for ASCII-only text
 			function! s:check_fileencoding()
 				if search("[^\1-\177]", 'cnw') == 0
-					setlocal fileencoding=
+					silent setlocal fileencoding=
 				endif
 			endfunction
 		augroup END
