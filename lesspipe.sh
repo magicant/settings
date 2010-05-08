@@ -8,8 +8,6 @@ esac
 if ! [ -f "$1" ]; then
   if [ -d "$1" ]; then
 	exec ls -al ${color+--color} -- "$1"
-  elif [ -e "$1" ]; then
-	exec cat -- "$1"
   fi
   exit
 fi
