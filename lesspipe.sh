@@ -23,6 +23,13 @@ case "$1" in
   *)      decomp="cat" ;;
 esac
 
+opentext() {
+  if [ "$decomp" != "cat" ]; then
+	exec $decomp -- "$1"
+  fi
+  exit
+}
+
 case "$1" in
 
   # man page
@@ -35,7 +42,7 @@ case "$1" in
 		exec man -- "$s1" ; exit
 		;;
 	  *text*)
-		exec $decomp -- "$1" ; exit
+		opentext
 		;;
 	esac
 	;;
@@ -58,13 +65,6 @@ esac
 
 
 # text
-opentext() {
-  if [ "$decomp" != "cat" ]; then
-	exec $decomp -- "$1"
-  fi
-  exit
-}
-
 case "$($decomp -- "$1" | nkf --guess 2>/dev/null)" in
   UTF-8*)       from=UTF-8 ;;
   EUC-JP*)      from=EUC-JP ;;
