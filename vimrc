@@ -128,6 +128,8 @@ noremap Y y$
 map n /<Return>
 map N ?<Return>
 noremap <C-W>Q :quitall<CR>
+noremap \n :cnext<CR>
+noremap \p :cprevious<CR>
 
 if has("autocmd")
 	augroup autojump
