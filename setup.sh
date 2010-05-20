@@ -70,6 +70,7 @@ if command -v vim >/dev/null 2>&1; then
 	makelink vimrc .vimrc
 	makelink vimless bin/vimless
 	makelink vim/filetype.vim .vim/filetype.vim
+	makelink vim/ftdetect/formatopts.vim .vim/ftdetect/formatopts.vim
 	makelink vim/ftdetect/v.vim .vim/ftdetect/v.vim
 	makelink vim/indent/html.vim .vim/indent/html.vim
 	makelink vim/plugin/less.vim .vim/plugin/less.vim

@@ -73,7 +73,7 @@ set virtualedit=block
 set nojoinspaces
 set autoindent
 set tabstop=4 shiftwidth=4
-set formatoptions+=tcroqlB formatoptions-=M
+set formatoptions=tcroqnlB
 
 if &shell =~ 'c\@<!sh$'
 	set shellredir=>%s\ 2>&1
@@ -94,7 +94,8 @@ if has("quickfix")
 	set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
 endif
 if has("win32") || has("win64")
-	command! -nargs=* -complete=file -complete=shellcmd Start silent ! start <args>
+	command! -nargs=* -complete=file -complete=shellcmd Start
+		\ silent ! start <args>
 endif
 
 if has("cscope")

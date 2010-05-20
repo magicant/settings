@@ -2,9 +2,13 @@
 
 if exists(":for")
 
-au BufRead,BufNewFile *.v	call s:DetectTypeV()
+autocmd! BufRead,BufNewFile *.v	call s:DetectTypeV()
 
 function! s:DetectTypeV()
+	if did_filetype()
+		return
+	endif
+
 	let b:verilog_wc = 0
 	let b:coq_wc = 0
 
