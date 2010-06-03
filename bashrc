@@ -147,7 +147,7 @@ case $- in *i*)
 			while true; do
 				if [ -d .hg ]; then
 					printf 'hg:'
-					exec hg branch 2>/dev/null
+					exec cat .hg/branch 2>/dev/null
 				elif [ -d .git ]; then
 					printf 'git:'
 					exec git branch >(grep '^\*' | cut -c 3-) 2>/dev/null
