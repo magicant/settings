@@ -125,6 +125,7 @@ vmap <C-@> <Esc>
 map  <C-Space> <C-@>
 map! <C-Space> <C-@>
 inoremap <C-B> <C-G>u
+inoremap <C-U> <C-G>u<C-U>
 noremap Y y$
 map n /<Return>
 map N ?<Return>
