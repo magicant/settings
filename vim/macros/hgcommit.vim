@@ -5,12 +5,21 @@
 " editor = vim -S <path to this file>
 
 function! Hg_diff_window()
-	let prefix = 'HG: changed '
-	let files = map(filter(getline(0, '$'), 'v:val =~ "^" . prefix'), 'fnameescape(strpart(v:val, strlen(prefix)))')
-
+	let regexes = ['^HG: changed \(.*\)$', '^HG: \(.*\) を変更$']
+	let files = []
+	for line in getline(0, '$')
+		for regex in regexes
+			let match = matchlist(line, regex)
+			if len(match) > 1
+				call add(files, match[1])
+				break
+			endif
+		endfor
+	endfor
 	if len(files) == 0
 		return
 	end
+	call map(files, 'fnameescape(v:val)')
 
 	new
 	setlocal filetype=diff bufhidden=delete buftype=nofile previewwindow nobackup noswapfile
