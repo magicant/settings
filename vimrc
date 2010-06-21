@@ -160,23 +160,22 @@ if has("eval")
 	let g:v_default_filetype="coq"
 	" for :compiler tex
 	let g:tex_flavor="platex"
+
+	" Coding style selector
+	"   original script written by tyru: http://vim-users.jp/2010/05/hack149/
+	"   modified by magicant
+	let s:styles = {}
+	let s:styles['my']     = 'set noet ts=4 sw=4 sts&'
+	let s:styles['short']  = 'set   et ts=2 sw=2 sts&'
+	let s:styles['GNU']    = 'set   et ts=8 sw=2 sts=2'
+	let s:styles['BSD']    = 'set noet ts=8 sw=4 sts&'
+	let s:styles['Linux']  = 'set noet ts=8 sw=8 sts&'
+	command! -bar -nargs=1 -complete=custom,s:style_complete
+		\ Style execute get(s:styles, <f-args>, '')
+	function! s:style_complete(...)
+		return join(keys(s:styles), "\n")
+	endfunction
 endif
-
-" Coding style selector
-"   original script written by tyru: http://vim-users.jp/2010/05/hack149/
-"   modified by magicant
-let s:styles = {}
-let s:styles['my']     = 'set noexpandtab tabstop=4 shiftwidth=4 softtabstop&'
-let s:styles['short']  = 'set   expandtab tabstop=2 shiftwidth=2 softtabstop&'
-let s:styles['GNU']    = 'set   expandtab tabstop=8 shiftwidth=2 softtabstop=2'
-let s:styles['BSD']    = 'set noexpandtab tabstop=8 shiftwidth=4 softtabstop&'
-let s:styles['Linux']  = 'set noexpandtab tabstop=8 shiftwidth=8 softtabstop&'
-command! -bar -nargs=1 -complete=custom,s:style_complete
-	\ Style execute get(s:styles, <f-args>, '')
-function! s:style_complete(...)
-    return join(keys(s:styles), "\n")
-endfunction
-
 
 if filereadable($HOME."/.vimrc_local")
 	source ~/.vimrc_local
