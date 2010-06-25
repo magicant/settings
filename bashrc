@@ -1,6 +1,6 @@
 # magicant's .bashrc
 # This rc file can be shared with root.
-# This file may be used to intialize a non-interactive shell.
+# This file may be used to initialize a non-interactive shell.
 
 if [ -r /etc/bashrc ]; then
 	. /etc/bashrc

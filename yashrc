@@ -16,7 +16,7 @@ set --notifyle --histspace --le-noconvmeta 2>/dev/null
 case $(ps -o comm= -p $PPID 2>/dev/null) in
 	xterm | */xterm)
 		terms=(xterm-256color xterm-16color xterm-color xterm) ;;
-	gnome-terminal | */gnome-terminal )
+	gnome-terminal | */gnome-terminal)
 		terms=(gnome-256color gnome-16color gnome-color gnome) ;;
 	*)
 		terms=() ;;
@@ -111,9 +111,9 @@ fi
 export SHLVL
 HISTFILE=~/.yash_history HISTSIZE=5000 HISTRMDUP=500
 MAILCHECK=60
-FCEDIT=${EDITOR:-vi}
-LOGNAME=${LOGNAME:-$(logname)}
-HOSTNAME=${HOSTNAME:-$(uname -n)}
+: ${FCEDIT:=${EDITOR:=vi}}
+: ${LOGNAME:=$(logname)}
+: ${HOSTNAME:=$(uname -n)}
 : ${ECHO_STYLE:=RAW}
 COMMAND_NOT_FOUND_HANDLER=()
 PROMPT_COMMAND=()
@@ -128,7 +128,7 @@ fi
 if [ "$(id -u)" -eq 0 ]; then
 	uc='\fr.' gc='\fr.'   # red for root
 else
-	uc=$hc     hc=  gc=   # normal
+	uc=$hc    gc=   hc=   # normal
 fi
 PS1='\fo.'$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fd. ${${${PWD:/~/\~}##*/}:-$PWD} ${SHLVL:/1}\$ '
 PS1R='\fc.${VCS_INFO}'
