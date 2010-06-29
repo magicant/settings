@@ -52,6 +52,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	alias ll='ls -l'
 	alias lla='ll -a'
 	alias log='vcs_wrap log log'
+	alias m='make'
 	alias pushd='pushd --remove-duplicates'
 	alias r='fc -s'
 	alias so='sort'

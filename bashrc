@@ -63,6 +63,7 @@ case $- in *i*)
 	alias ll='ls -l'
 	alias lla='ll -a'
 	alias log='vcs_wrap log log'
+	alias m='make'
 	alias r='fc -s'
 	alias so='sort'
 	alias st='vcs_wrap st status'
