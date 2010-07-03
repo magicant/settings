@@ -52,7 +52,8 @@ case $- in *i*)
 
 	alias -- -='cd -'
 	alias ..='cd ..'
-	alias ci='vcs_wrap ci commit'
+	alias _vcs='${VCS_INFO%%:*}'
+	alias ci='_vcs commit'
 	alias dirs='dirs -v'
 	alias f='fg'
 	alias gr='grep'
@@ -62,14 +63,14 @@ case $- in *i*)
 	alias le='$PAGER'
 	alias ll='ls -l'
 	alias lla='ll -a'
-	alias log='vcs_wrap log log'
+	alias log='_vcs log'
 	alias m='make'
 	alias r='fc -s'
 	alias so='sort'
-	alias st='vcs_wrap st status'
+	alias st='_vcs status'
 	alias ta='tail'
 	alias tree='tree -C'
-	alias up='vcs_wrap up update'
+	alias up='_vcs update'
 
 	if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
 		alias ls='ls --color=tty'
@@ -205,15 +206,6 @@ case $- in *i*)
 	mkdircd() {
 		mkdir -p "$@" && cd "$1"
 	}
-	vcs_wrap()
-	if [ "${VCS_INFO:-}" ]; then
-		shift
-		command ${VCS_INFO%%:*} "$@"
-	else
-		typeset command="$1"
-		shift 2
-		"$command" "$@"
-	fi
 
 	# sharing history
 	#function share_history() {

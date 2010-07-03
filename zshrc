@@ -56,7 +56,8 @@ alias mv='mv -i'
 alias rm='rm -i'
 
 alias -- -='cd -'
-alias ci='vcs_wrap ci commit'
+alias _vcs='${${vcs_info_msg_0_:?not in version-controlled directory}%%:*}'
+alias ci='_vcs commit'
 alias dirs='dirs -v'
 alias f='fg'
 alias gr='grep'
@@ -66,14 +67,14 @@ alias la='ls -a'
 alias le='$PAGER'
 alias ll='ls -l'
 alias lla='ll -a'
-alias log='vcs_wrap log log'
+alias log='_vcs log'
 alias m='make'
 alias r='fc -s'
 alias so='sort'
-alias st='vcs_wrap st status'
+alias st='_vcs status'
 alias ta='tail'
 alias tree='tree -C'
-alias up='vcs_wrap up update'
+alias up='_vcs update'
 alias -g G='|grep'
 alias -g H='|head'
 alias -g L='|$PAGER'
@@ -157,15 +158,6 @@ fi
 mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }
-vcs_wrap()
-if [ "${vcs_info_msg_0_:-}" ]; then
-	shift
-	command ${vcs_info_msg_0_%%:*} "$@"
-else
-	typeset command="$1"
-	shift 2
-	"$command" "$@"
-fi
 
 # use more as pager in dumb terminal
 if [ x"$TERM" = x"dumb" ]; then
