@@ -78,4 +78,7 @@ if command -v vim >/dev/null 2>&1; then
 	makelink vim/macros/hgcommit.vim .vim/macros/hgcommit.vim
 	makelink vim/macros/less.vim .vim/macros/less.vim
 	vim/setup.sh
+	if command -v gvim >/dev/null 2>&1; then
+		makelink vimless bin/gvimless
+	fi
 fi
