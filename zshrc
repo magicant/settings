@@ -91,8 +91,7 @@ if command -v nkf >/dev/null 2>&1; then
 	esac
 fi
 if command -v vim >/dev/null 2>&1; then
-	alias vi='vim'
-	alias vl='vimless'
+	alias vi='vim' view='vim -R' vl='vimless'
 	alias -g V='|vimless'
 fi
 if command -v xdg-open >/dev/null 2>&1; then

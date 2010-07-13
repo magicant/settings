@@ -83,8 +83,7 @@ case $- in *i*)
 	fi
 
 	if command -v vim >/dev/null 2>&1; then
-		alias vi='vim'
-		alias vl='vimless'
+		alias vi='vim' view='vim -R' vl='vimless'
 	fi
 
 	if command -v xdg-open >/dev/null 2>&1; then
