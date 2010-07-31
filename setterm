@@ -1,55 +1,55 @@
 # set $TERM to an available terminal name
 
 case "$TERM" in *-256color)
-	if tput init >/dev/null 2>&1; then
+	if tput clear >/dev/null 2>&1; then
 		return
 	fi
-	if TERM=xterm-256color tput init >/dev/null 2>&1; then
+	if TERM=xterm-256color tput clear >/dev/null 2>&1; then
 		export TERM=xterm-256color
 		return
 	fi
 	TERM=${TERM%-*}-16color
 esac
 case "$TERM" in *-16color)
-	if tput init >/dev/null 2>&1; then
+	if tput clear >/dev/null 2>&1; then
 		return
 	fi
-	if TERM=xterm-16color tput init >/dev/null 2>&1; then
+	if TERM=xterm-16color tput clear >/dev/null 2>&1; then
 		export TERM=xterm-16color
 		return
 	fi
 	TERM=${TERM%-*}-8color
 esac
 case "$TERM" in *-8color)
-	if tput init >/dev/null 2>&1; then
+	if tput clear >/dev/null 2>&1; then
 		return
 	fi
-	if TERM=xterm-8color tput init >/dev/null 2>&1; then
+	if TERM=xterm-8color tput clear >/dev/null 2>&1; then
 		export TERM=xterm-8color
 		return
 	fi
 	TERM=${TERM%-*}-color
 esac
 case "$TERM" in *-color)
-	if tput init >/dev/null 2>&1; then
+	if tput clear >/dev/null 2>&1; then
 		return
 	fi
-	if TERM=xterm-color tput init >/dev/null 2>&1; then
+	if TERM=xterm-color tput clear >/dev/null 2>&1; then
 		export TERM=xterm-color
 		return
 	fi
 	TERM=${TERM%-*}
 esac
 case "$TERM" in *-*)
-	if tput init >/dev/null 2>&1; then
+	if tput clear >/dev/null 2>&1; then
 		return
 	fi
 	TERM=${TERM%%-*}
 esac
-if tput init >/dev/null 2>&1; then
+if tput clear >/dev/null 2>&1; then
 	return
 fi
-if TERM=xterm tput init >/dev/null 2>&1; then
+if TERM=xterm tput clear >/dev/null 2>&1; then
 	export TERM=xterm
 	return
 fi

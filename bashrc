@@ -14,21 +14,18 @@ fi
 case $- in *i*)
 
 	# if the shell is executed in a terminal emulator, set $TERM accordingly
-	case $(ps -o comm= -p $PPID 2>/dev/null) in
-		xterm | */xterm)
-			terms=(xterm-256color xterm-16color xterm-color xterm) ;;
-		gnome-terminal | */gnome-terminal )
-			terms=(gnome-256color gnome-16color gnome-color gnome) ;;
-		*)
-			terms=() ;;
-	esac
-	for term in $terms; do
-		if tput -T $term init >/dev/null 2>&1; then
-			export TERM=$term
-			break
-		fi
-	done
-	unset term terms
+	if [ -r "${SETTINGSDIR:-$HOME/.settings}/setterm" ]; then
+		case $(ps -o comm= -p $PPID 2>/dev/null) in
+			xterm | */xterm)
+				TERM=xterm-256color
+				. "${SETTINGSDIR:-$HOME/.settings}/setterm"
+				;;
+			gnome-terminal | */gnome-terminal )
+				TERM=gnome-256color
+				. "${SETTINGSDIR:-$HOME/.settings}/setterm"
+				;;
+		esac
+	fi
 
 	filter() {
 		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g' -e 's;\n;\\n;g'
