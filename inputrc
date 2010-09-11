@@ -4,7 +4,6 @@ set output-meta on
 
 set revert-all-at-newline on
 
-set completion-ignore-case on
 set expand-tilde off
 
 set match-hidden-files off

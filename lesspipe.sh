@@ -5,6 +5,9 @@ case "${LESS-}" in
   *R*) color=true ;;
 esac
 
+if ! [ -r "$1" ]; then
+  exit 1
+fi
 if ! [ -f "$1" ]; then
   if [ -d "$1" ]; then
 	exec ls -al ${color+--color} -- "$1"
