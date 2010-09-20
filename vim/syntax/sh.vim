@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:				sh, POSIX shell, ksh, bash, yash
 " Maintainer:			Watanabe, Yuki <magicant.starmen AT nifty.com>
-" Last Change:			Apr 28, 2010
+" Last Change:			Sep 19, 2010
 
 " The following variables affect syntax highlighting:
 "   b:is_bourneshell  If set, only the original Bourne shell's syntax is
@@ -45,11 +45,13 @@ elseif s:type =~# '^#!.*/yash\>'
 	if exists("b:is_bash")
 		unlet b:is_bash
 	endif
-elseif !exists("b:is_posix") && !exists("b:is_kornshell") && !exists("b:is_bash")
+elseif !exists("b:is_posix") && !exists("b:is_kornshell") && !exists("b:is_bash") && !exists("b:is_yash")
 	if exists("g:is_kornshell")
 		let b:is_kornshell = 1
 	elseif exists("g:is_bash")
 		let b:is_bash = 1
+	elseif exists("g:is_yash")
+		let b:is_yash = 1
 	elseif !exists("g:is_sh")
 		let b:is_posix = 1
 	endif
