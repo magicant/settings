@@ -54,6 +54,7 @@ case $- in *i*)
 	alias dirs='dirs -v'
 	alias f='fg'
 	alias g='grep'
+	alias h='head'
 	alias j='jobs'
 	alias la='ls -a'
 	alias l='$PAGER'
@@ -62,7 +63,9 @@ case $- in *i*)
 	alias log='_vcs log'
 	alias m='make'
 	alias r='fc -s'
+	alias s='sort'
 	alias st='_vcs status'
+	alias t='tail'
 	alias tree='tree -C'
 	alias up='_vcs update'
 

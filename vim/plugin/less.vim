@@ -65,6 +65,7 @@ function Vimless(...)
   " Scroll one page backward
   noremap <buffer> <script> <C-B> <C-B><SID>M
   map <buffer> <PageUp> <C-B>
+  map <buffer> <S-Space> <C-B>
   map <buffer> <S-Up> <C-B>
   map <buffer> b <C-B>
   map <buffer> <A-v> <C-B>
