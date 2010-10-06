@@ -38,6 +38,9 @@ set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa
 if exists("&fsync")
 	set nofsync
 endif
+if (has("win32") || has("win64")) && ($TEMP != "")
+	let &directory = ".," . $TEMP
+endif
 
 highlight Normal guibg=Black guifg=LightGray
 set guioptions+=f guioptions-=tT
