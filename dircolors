@@ -2,8 +2,7 @@
 
 # Configuration file for dircolors, a utility to help you set the
 # LS_COLORS environment variable used by GNU ls with the --color option.
-# Copyright (C) 1996, 1999-2009
-# Free Software Foundation, Inc.
+# Copyright (C) 1996, 1999-2010 Free Software Foundation, Inc.
 # Copying and distribution of this file, with or without modification,
 # are permitted provided the copyright notice and this notice are preserved.
 # The keywords COLOR, OPTIONS, and EIGHTBIT (honored by the
@@ -73,8 +72,8 @@ TERM xterm-debian
 # 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
 # Background color codes:
 # 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
-#NORMAL 00 # global default
-#FILE 00 # normal file
+#NORMAL 00 # no color code at all
+#FILE 00 # regular file: use no color at all
 RESET 0 # reset to "normal" color
 DIR 01;34 # directory
 LINK 01;36 # symbolic link. (If you set this to 'target' instead of a
@@ -175,6 +174,8 @@ EXEC 01;32
 .xcf 33
 .xwd 33
 .yuv 33
+.cgm 33
+.emf 33
 .axv 33
 .anx 33
 .ogv 33
