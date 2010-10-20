@@ -133,6 +133,7 @@ noremap Y y$
 map n /<Return>
 map N ?<Return>
 noremap <C-W>Q :quitall<CR>
+noremap <F9> :set wrap! wrap?<CR>
 noremap \n :cnext<CR>
 noremap \p :cprevious<CR>
 
