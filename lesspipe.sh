@@ -1,16 +1,15 @@
 #!/bin/sh
 
-unset color
-case "${LESS-}" in
-  *R*) color=true ;;
-esac
-
 if ! [ -r "$1" ]; then
   exit 1
 fi
 if ! [ -f "$1" ]; then
   if [ -d "$1" ]; then
-	exec ls -al ${color+--color} -- "$1"
+	if ls --color / >/dev/null 2>&1; then
+	  exec ls -al --color -- "$1"
+	else
+	  exec ls -al -- "$1"
+	fi
   fi
   exit
 fi

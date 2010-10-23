@@ -40,6 +40,12 @@ if command -v dircolors >/dev/null 2>&1; then
 	fi
 fi
 makelink inputrc .inputrc
+if command -v lesskey >/dev/null 2>&1; then
+	makelink lesskey .lesskey
+	if lesskey; then
+		echo updated .less
+	fi
+fi
 makelink lesspipe.sh bin/lesspipe.sh
 if ! [ $(PATH=$PATH:$PATH:$PATH which -a which 2>/dev/null | wc -l) -ge 3 ]
 then

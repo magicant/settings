@@ -17,7 +17,7 @@ esac
 #fi
 
 #export PATH="$HOME/bin:$PATH"
-#export PAGER='less' LESS='-iMR' LESSOPEN='|lesspipe.sh %s'
+#export PAGER='less' LESS='-iMR -z -3' LESSOPEN='|lesspipe.sh %s'
 #unset  LESSCLOSE
 #export MANPAGER='less -s'
 #export EDITOR='vim'
