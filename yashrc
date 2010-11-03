@@ -80,7 +80,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	fi
 
 	if command -v xdg-open >/dev/null 2>&1; then
-		alias op='xdg-open'
+		alias o='xdg-open'
 	fi
 
 fi

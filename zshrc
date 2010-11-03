@@ -91,7 +91,7 @@ if command -v vim >/dev/null 2>&1; then
 	alias -g V='|vimless'
 fi
 if command -v xdg-open >/dev/null 2>&1; then
-	alias op='xdg-open'
+	alias o='xdg-open'
 fi
 
 HISTFILE=~/.zsh_history HISTSIZE=2000 SAVEHIST=1000

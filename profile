@@ -21,6 +21,7 @@ esac
 #unset  LESSCLOSE
 #export MANPAGER='less -s'
 #export EDITOR='vim'
+#export MAKEFLAGS="-j$(nproc)"
 
 #if ps --version 2>/dev/null | grep procps >/dev/null 2>&1; then
 #	export PS_PERSONALITY=linux

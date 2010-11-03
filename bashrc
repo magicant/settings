@@ -87,7 +87,7 @@ case $- in *i*)
 	fi
 
 	if command -v xdg-open >/dev/null 2>&1; then
-		alias op='xdg-open'
+		alias o='xdg-open'
 	fi
 
 	if [ ${SHLVL:-0} -gt 1 ]; then
