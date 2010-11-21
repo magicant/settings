@@ -102,6 +102,11 @@ if command -vb bindkey >/dev/null; then
 		bindkey -v '\^P' beginning-search-backward
 		bindkey -v '\^N' beginning-search-forward
 	fi
+	if [ "$YASH_VERSION" -vge 2.21 ]; then
+		bindkey -v '\P' complete-prev-column
+		bindkey -v '\N' complete-next-column
+		bindkey -v '\^O' clear-candidates
+	fi
 fi
 
 # define some variables
