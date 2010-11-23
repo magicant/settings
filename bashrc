@@ -30,6 +30,9 @@ case $- in *i*)
 	filter() {
 		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g' -e 's;\n;\\n;g'
 	}
+	tputn() {
+		tput "$@" 2>/dev/null; echo
+	}
 	termcolor=$(tput colors 2>/dev/null)
 	case "$TERM" in
 		xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
@@ -37,8 +40,7 @@ case $- in *i*)
 		cygwin)
 			tsl='\e];' fsl='\a' ;;
 		*)
-			tsl=$(tput tsl 0 2>/dev/null | filter)
-			fsl=$(tput fsl   2>/dev/null | filter) ;;
+			tsl=$(tputn tsl 0 | filter) fsl=$(tputn fsl | filter) ;;
 	esac
 
 	: ${PAGER:=more} ${termcolor:=-1}
@@ -97,11 +99,11 @@ case $- in *i*)
 	fi
 	if [ "$termcolor" -ge 8 ]; then
 		color() {
-			( tput setaf $1 || tput setf $2 ) 2>/dev/null | filter
+			( tputn setaf $1 || tputn setf $2 ) | filter
 		}
-		bold='\['"$(tput bold 2>/dev/null | filter)"'\]'   # start bold font
-		normal='\['"$(tput sgr0 2>/dev/null | filter)"'\]' # reset color & style
-		normalc='\['"$(tput op 2>/dev/null | filter)"'\]'  # reset color
+		bold='\['"$(tputn bold | filter)"'\]'   # start bold font
+		normal='\['"$(tputn sgr0 | filter)"'\]' # reset color & style
+		normalc='\['"$(tputn op | filter)"'\]'  # reset color
 		if [ -n "${SSH_CONNECTION}" ] && [ -z "${SSH_LOCAL-}" ]; then
 			hc='\['$(color 3 6)'\]'   # yellow for remote host
 		else
@@ -125,15 +127,15 @@ case $- in *i*)
 	fi
 	if [ "${tsl-}" ] && [ "${fsl-}" ]; then
 		PS1='\['$tsl'\u@\h:\w'$fsl'\]'$PS1
-		_tsl=$(printf '%s' "$tsl" | sed 's;%;%%;g')
-		_fsl=$(printf '%s' "$fsl" | sed 's;%;%%;g')
+		_tsl=$(printf '%s\n' "$tsl" | sed 's;%;%%;g')
+		_fsl=$(printf '%s\n' "$fsl" | sed 's;%;%%;g')
 		ssh() {
 			if [ -t 1 ]; then printf "$_tsl"'ssh %s'"$_fsl" "$*"; fi
 			command ssh "$@"
 		}
 	fi
 	unset tsl fsl shlvl uc gc hc bold normal vcs
-	unset -f filter color
+	unset -f filter tputn color
 
 	# tricks to show VCS info in the prompt
 	_update_vcs_info() {

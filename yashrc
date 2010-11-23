@@ -150,9 +150,9 @@ case "$TERM" in
 	cygwin)
 		_tsl='\033];' _fsl='\a' ;;
 	*)
-		_tsl=$(tput tsl 0 2>/dev/null |
+		_tsl=$( (tput tsl 0; echo) 2>/dev/null |
 		sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
-		_fsl=$(tput fsl   2>/dev/null |
+		_fsl=$( (tput fsl  ; echo) 2>/dev/null |
 		sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g') ;;
 esac
 if [ "$_tsl" ] && [ "$_fsl" ]; then
