@@ -58,6 +58,10 @@ case "$1" in
   *.gif | *.jpeg | *.jpg | *.pcd | *.png | *.tga | *.tiff | *.tif )
 	exec identify -- "$1" ; exit ;;
 
+  # portable object
+  *.po | *.pot )
+    exec msgcat --color=yes ${to:+--to-code="$to"} "$1" 2>/dev/null; exit ;;
+
 esac
 
 # text
