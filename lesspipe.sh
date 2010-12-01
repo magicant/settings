@@ -25,12 +25,12 @@ case "$1" in
   *)      decomp="cat" ;;
 esac
 
-opentext() {
-  if [ "$decomp" != "cat" ]; then
-	exec $decomp -- "$1"
-  fi
-  exit
-}
+case "${LC_ALL:-${LC_CTYPE:-$LANG}}" in
+  *.UTF-8*     | *.UTF8*  | *.utf-8*     | *.utf8*  )  to=UTF-8 ;;
+  *.EUC-JP*    | *.EUCJP* | *.euc-jp*    | *.eucjp* )  to=EUC-JP ;;
+  *.Shift_JIS* | *.SJIS*  | *.shift_jis* | *.sjis*  )  to=SHIFT_JIS ;;
+  *                                                 )  to= ;;
+esac
 
 case "$1" in
 
@@ -40,12 +40,7 @@ case "$1" in
   *.[1-9n].bz2 | *.man.bz2 | \
   *.[0-9][a-z].gz )
 	case "$($decomp -- "$1" | file -)" in
-	  *troff*)
-		exec man -- "$s1" ; exit
-		;;
-	  *text*)
-		opentext
-		;;
+	  *troff*)  exec man -- "$s1" ; exit ;;
 	esac
 	;;
 
@@ -65,28 +60,18 @@ case "$1" in
 
 esac
 
-
 # text
 case "$($decomp -- "$1" | nkf --guess 2>/dev/null)" in
   UTF-8*)       from=UTF-8 ;;
   EUC-JP*)      from=EUC-JP ;;
   Shift_JIS*)   from=SHIFT_JIS ;;
   ISO-2022-JP*) from=ISO-2022-JP ;;
-  *)  # no conversion
-	opentext "$1" ;;
+  *)            from= ;;
 esac
-case "${LC_ALL:-${LC_CTYPE:-$LANG}}" in
-  *.UTF-8*     | *.UTF8*  | *.utf-8*     | *.utf8*  )  to=UTF-8 ;;
-  *.EUC-JP*    | *.EUCJP* | *.euc-jp*    | *.eucjp* )  to=EUC-JP ;;
-  *.Shift_JIS* | *.SJIS*  | *.shift_jis* | *.sjis*  )  to=SHIFT_JIS ;;
-  *)  # no conversion
-	opentext "$1" ;;
-esac
-if [ "$from" = "$to" ]; then
-  # no conversion
-  opentext "$1"
-else
+if [ "$from" ] && [ "$to" ] && [ "$from" != "$to" ]; then
   $decomp -- "$1" | exec iconv -cs -f "$from"
+elif [ "$decomp" != "cat" ]; then
+  exec $decomp -- "$1"
 fi
 
 # vim: ts=4 sw=2 sts=2
