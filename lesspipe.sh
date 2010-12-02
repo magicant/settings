@@ -19,10 +19,23 @@ case "$1" in
   *)  s1="./$1" ;;
 esac
 case "$1" in
-  *.gz)   decomp="gunzip -c" ;;
-  *.bz2)  decomp="bzcat" ;;
-  *.[zZ]) decomp="zcat" ;;
-  *)      decomp="cat" ;;
+  *.taz) r1="${1%.taz}.tar.Z" ;;
+  *.tbz) r1="${1%.tbz}.tar.bz2" ;;
+  *.tgz) r1="${1%.tgz}.tar.gz" ;;
+  *.tlz) r1="${1%.tlz}.tar.lzma" ;;
+  *.txz) r1="${1%.txz}.tar.xz" ;;
+  *)     r1="$1" ;;
+esac
+case "$r1" in
+  *.bz2)  u1="${r1%.bz2}"  decomp="bzcat" ;;
+  *.gz)   u1="${r1%.gz}"   decomp="gunzip -c" ;;
+  *.[zZ]) u1="${r1%.[zZ]}" decomp="zcat" ;;
+  *.lzma) u1="${r1%.lzma}" decomp="lzmadec" ;;
+  *.xz)   u1="${r1%.xz}"   decomp="xzdec" ;;
+  *)      u1="$r1"         decomp="cat" ;;
+esac
+case "$u1" in
+  *.tar )  $decomp -- "$1" | tar tvf - | exec sort -k 6 ; exit ;;
 esac
 
 case "${LC_ALL:-${LC_CTYPE:-$LANG}}" in
@@ -35,24 +48,17 @@ esac
 case "$1" in
 
   # man page
-  *.[1-9n]     | *.man     | \
-  *.[1-9n].gz  | *.man.gz  | \
-  *.[1-9n].bz2 | *.man.bz2 | \
-  *.[0-9][a-z].gz )
+  *.[1-9n] | *.[1-9n].gz | *.man | *.man.gz | *.[0-9][a-z].gz )
 	case "$($decomp -- "$1" | file -)" in
-	  *troff*)  exec man -- "$s1" ; exit ;;
+	  *troff* )  exec man -- "$s1" ; exit ;;
 	esac
 	;;
 
   # archive
-  *.tar )                          exec tar -tv  -f "$1" | sort -k 6 ; exit ;;
-  *.tar.gz | *.tgz | *.tar.[zZ] )  exec tar -tvz -f "$1" | sort -k 6 ; exit ;;
-  *.tar.bz2 | *.tbz2 | *.tgz )     exec tar -tvj -f "$1" | sort -k 6 ; exit ;;
-  *.zip | *.jar | *.nbm)           exec zipinfo -- "$1" ; exit ;;
-  *.rpm)            exec rpm -qpivl --changelog "$s1" ; exit ;;
-  *.cpio | *.cpi )  exec cpio -itv <"$1" ; exit ;;
-  *.a )             exec ar -tv "$s1" ; exit ;;
-  *.so )            exec readelf -edsA -- "$1" ; exit ;;
+  *.zip | *.jar | *.nbm)  exec zipinfo -- "$1"                ; exit ;; 
+  *.rpm )                 exec rpm -qivl --changelog -p "$s1" ; exit ;; 
+  *.cpio | *.cpi )        exec cpio -itv <"$1"                ; exit ;; 
+  *.a )                   exec ar -tv "$s1"                   ; exit ;; 
 
   # media
   *.gif | *.jpeg | *.jpg | *.pcd | *.png | *.tga | *.tiff | *.tif )
