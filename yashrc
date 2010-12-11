@@ -114,7 +114,7 @@ fi
 export SHLVL
 HISTFILE=~/.yash_history HISTSIZE=5000 HISTRMDUP=500
 MAILCHECK=60
-: ${FCEDIT:=${EDITOR:=vi}}
+: ${EDITOR:=vi} ${FCEDIT:=$EDITOR}
 : ${LOGNAME:=$(logname)}
 : ${HOSTNAME:=$(uname -n)}
 : ${ECHO_STYLE:=RAW}
