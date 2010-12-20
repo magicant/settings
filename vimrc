@@ -34,7 +34,7 @@ set iminsert=0 imsearch=-1
 set modeline modelines=5
 set hidden confirm
 set nobackup nowritebackup swapsync=
-set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa
+set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa,.mo
 if exists("&fsync")
 	set nofsync
 endif
@@ -133,6 +133,7 @@ noremap Y y$
 map n /<Return>
 map N ?<Return>
 noremap <C-W>Q :quitall<CR>
+noremap <F6> :set list! list?<CR>
 noremap <F9> :set wrap! wrap?<CR>
 noremap \n :cnext<CR>
 noremap \p :cprevious<CR>
