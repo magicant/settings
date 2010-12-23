@@ -4,11 +4,9 @@
 
 program=${0##*/}
 if [ $# -eq 0 ]; then
-	if [ -t 0 ]; then
-		printf 'Usage:  %s filenames...\n' "$program" >&2
-		exit 1
+	if [ ! -t 0 ]; then
+		set -- -
 	fi
-	set -- -
 fi
 case $program in
 		*less) vim=${program%less} ;;
