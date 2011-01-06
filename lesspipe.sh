@@ -82,6 +82,9 @@ if [ "$from" ] && [ "$to" ] && [ "$from" != "$to" ]; then
   $decomp -- "$1" | exec iconv -cs -f "$from"
 elif [ "$decomp" != "cat" ]; then
   exec $decomp -- "$1"
+else
+  # return non-zero status to force less to open the file as usual
+  false
 fi
 
 # vim: ts=4 sw=2 sts=2
