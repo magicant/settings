@@ -2,13 +2,10 @@
 
 # bash/ksh automatically sources /etc/profile before sourcing user's profile
 if [ "${YASH_VERSION+yash}" = "yash" ] && [ -r /etc/profile ]; then
+	alias alias=: 2>/dev/null
 	. /etc/profile
+	\unalias \alias \unalias 2>/dev/null
 fi
-case $0 in
-	# I don't want to unalias ksh's default aliases such as fc and hash.
-	*ksh) ;;
-	*)    unalias -a ;;
-esac
 
 #umask 022
 

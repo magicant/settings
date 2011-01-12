@@ -2,9 +2,13 @@
 
 # read system-wide settings
 if [ -r /etc/yashrc ]; then
+	alias alias=: 2>/dev/null
 	. /etc/yashrc
+	\unalias \alias \unalias 2>/dev/null
 elif [ -r /etc/yash.yashrc ]; then
+	alias alias=: 2>/dev/null
 	. /etc/yash.yashrc
+	\unalias \alias \unalias 2>/dev/null
 fi
 
 # set some options

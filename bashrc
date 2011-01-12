@@ -3,11 +3,13 @@
 # This file may be used to initialize a non-interactive shell.
 
 if [ -r /etc/bashrc ]; then
+	alias alias=: 2>/dev/null
 	. /etc/bashrc
-	unalias -a
+	\unalias \alias \unalias 2>/dev/null
 elif [ -r /etc/bash.bashrc ]; then
+	alias alias=: 2>/dev/null
 	. /etc/bash.bashrc
-	unalias -a
+	\unalias \alias \unalias 2>/dev/null
 fi
 
 # Interactive?
