@@ -70,11 +70,14 @@ case $- in *i*)
 	alias s='sort'
 	alias st='_vcs status'
 	alias t='tail'
-	alias tree='tree -C'
 	alias up='_vcs update'
 
 	if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
 		alias ls='ls --color=tty'
+	fi
+
+	if command -v tree >/dev/null 2>&1; then
+		alias tree='tree -C'
 	fi
 
 	if command -v nkf >/dev/null 2>&1; then

@@ -60,13 +60,16 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	alias s='sort'
 	alias st='_vcs status'
 	alias t='tail'
-	alias tree='tree -C'
 	alias up='_vcs update'
 	alias -g L='|$PAGER'
 	alias -g N='>/dev/null 2>&1' N1='>/dev/null' N2='2>/dev/null'
 
 	if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
 		alias ls='ls --color=tty'
+	fi
+
+	if command -v tree >/dev/null 2>&1; then
+		alias tree='tree -C'
 	fi
 
 	if command -v nkf >/dev/null 2>&1; then
