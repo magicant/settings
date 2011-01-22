@@ -1,11 +1,140 @@
 " .vimrc of magicant
+" vim: ts=4 sw=4 sts=0
 
+" encoding options
 if has("multi_byte")
 	if !has("gui_running")
 		let &termencoding = &encoding
 	endif
 	set encoding=utf-8
 	set fileencodings=ucs-bom,iso-2022-jp,utf-8,sjis,cp932,euc-jp,cp20932
+endif
+
+" moving and searching options
+set ignorecase smartcase
+if has("extra_search")
+	set nohlsearch incsearch
+endif
+
+" tag options
+if has("cscope")
+	set cscopetag cscopetagorder=1 cscopequickfix=s-,c-,d-,i-,t-,e-
+endif
+
+" display options
+if has("linebreak")
+	set showbreak=>>
+endif
+set display=lastline
+set cmdheight=1
+set nolist listchars=eol:$,tab:>.
+set nonumber
+
+" syntax, highlighting and spelling options
+set background=dark
+highlight Normal guibg=Black guifg=LightGray
+if has("autocmd")
+	filetype plugin indent on
+endif
+if has("syntax")
+	syntax enable
+	noremap <F7> :set spell! spell?<CR>
+endif
+
+" window options
+set laststatus=2
+if has("statusline")
+	set statusline=%n\ %f\ %h%m%r%w%y%=%-14.(%l/%L,%v%)\ %P
+endif
+set noequalalways
+if has("windows")
+	set winheight=3
+endif
+set hidden
+
+" terminal options
+if &t_ts == '' && &t_fs == ''
+	if &term =~? '^\(xterm\|gnome\|putty\)\>'
+		let [&t_ts, &t_fs] = ["\e]0;", "\7"]
+	endif
+endif
+if has("title")
+	set title
+endif
+
+" GUI options
+set guicursor+=a:blinkwait500-blinkon500-blinkoff500
+set guioptions+=f guioptions-=tT
+if has("gui_win32")
+	set winaltkeys=yes
+endif
+
+" message options
+if has("cmdline_info")
+	set showcmd
+endif
+set confirm
+
+" editing options
+set backspace=indent,eol,start
+set virtualedit=block
+set formatoptions=qtcronlB
+set noshowmatch
+set nojoinspaces
+set tabstop=4 shiftwidth=4
+set shiftround
+set autoindent
+
+" mapping options
+set notimeout ttimeout timeoutlen=1000 ttimeoutlen=100
+
+" file reading/writing options
+set modeline& modelines&
+set nobackup nowritebackup
+set noautowrite noautowriteall nowriteany
+if exists("&fsync")
+	set nofsync
+endif
+
+" swap file options
+if (has("win32") || has("win64")) && ($TEMP != "")
+	let &directory = ".," . $TEMP
+endif
+set swapsync=
+
+" command line options
+set history=500
+set wildmode=longest:full,full
+if has("wildmenu")
+	set wildmenu
+endif
+set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa,.mo
+
+" external command options
+if &shell =~ 'c\@<!sh$'
+	set shellredir=>%s\ 2>&1
+endif
+
+" quickfix options
+if has("quickfix")
+	if &shell =~ 'c\@<!sh$'
+		set shellpipe=2>&1\|tee
+	endif
+	set errorformat-=%-G%f:%l:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
+	set errorformat-=%-G%f:%l:\ for\ each\ function\ it\ appears\ in.)
+	set errorformat-=%f:%l:%c:%m
+	set errorformat-=%f:%l:%m
+	set errorformat+=%-G%f:%l:\ error:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
+	set errorformat+=%-G%f:%l:\ error:\ for\ each\ function\ it\ appears\ in.)
+	set errorformat+=%f:%l:%c:%m
+	set errorformat+=%f:%l:%m
+	set errorformat+=%D%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ に入ります
+	set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
+endif
+
+" i18n options
+set iminsert=0 imsearch=-1
+if has("multi_byte")
 	if has("autocmd")
 		augroup fileencoding
 			autocmd!
@@ -30,98 +159,11 @@ if has("multi_byte")
 	endfunction
 endif
 
-set iminsert=0 imsearch=-1
-set modeline modelines=5
-set hidden confirm
-set nobackup nowritebackup swapsync=
-set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa,.mo
-if exists("&fsync")
-	set nofsync
-endif
-if (has("win32") || has("win64")) && ($TEMP != "")
-	let &directory = ".," . $TEMP
-endif
+" other options
+set viminfo& viminfo+=/50,:300,@50
 
-highlight Normal guibg=Black guifg=LightGray
-set guioptions+=f guioptions-=tT
-set guicursor+=a:blinkwait500-blinkon500-blinkoff500
-set timeout timeoutlen=1000 ttimeoutlen=100
-if has("gui_win32")
-	set winaltkeys=yes
-endif
 
-set background=dark
-if has("autocmd")
-	filetype plugin indent on
-endif
-if has("syntax")
-	syntax enable
-	noremap <F7> :set spell! spell?<CR>
-endif
-if &t_ts == '' && &t_fs == ''
-	if &term =~? '^\(xterm\|gnome\|putty\)\>'
-		let [&t_ts, &t_fs] = ["\e]0;", "\7"]
-	endif
-endif
-
-set ignorecase smartcase
-if has("extra_search")
-	set nohlsearch incsearch
-endif
-set nolist listchars=eol:$,tab:>.
-set display=lastline
-set noshowmatch
-set backspace=indent,eol,start
-set virtualedit=block
-set nojoinspaces
-set autoindent
-set tabstop=4 shiftwidth=4
-set formatoptions=tcroqnlB
-
-if &shell =~ 'c\@<!sh$'
-	set shellredir=>%s\ 2>&1
-endif
-if has("quickfix")
-	if &shell =~ 'c\@<!sh$'
-		set shellpipe=2>&1\|tee
-	endif
-	set errorformat-=%-G%f:%l:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
-	set errorformat-=%-G%f:%l:\ for\ each\ function\ it\ appears\ in.)
-	set errorformat-=%f:%l:%c:%m
-	set errorformat-=%f:%l:%m
-	set errorformat+=%-G%f:%l:\ error:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
-	set errorformat+=%-G%f:%l:\ error:\ for\ each\ function\ it\ appears\ in.)
-	set errorformat+=%f:%l:%c:%m
-	set errorformat+=%f:%l:%m
-	set errorformat+=%D%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ に入ります
-	set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
-endif
-if has("win32") || has("win64")
-	command! -nargs=* -complete=file -complete=shellcmd Start
-		\ silent ! start <args>
-endif
-
-if has("cscope")
-	set cscopetag cscopetagorder=1 cscopequickfix=s-,c-,d-,i-,t-,e-
-endif
-
-set cmdheight=1 laststatus=2 history=100
-if has("cmdline_info")
-	set showcmd
-endif
-if has("statusline")
-	set statusline=%n\ %f\ %h%m%r%w%y%=%-14.(%l/%L,%v%)\ %P
-endif
-if has("wildmenu")
-	set wildmenu
-endif
-if has("windows")
-	set winheight=3
-endif
-if has("title")
-	set title
-endif
-
+" mappings and commands
 imap <C-@> <Esc>
 cmap <C-@> <C-C>
 vmap <C-@> <Esc>
@@ -137,7 +179,13 @@ noremap <F6> :set list! list?<CR>
 noremap <F9> :set wrap! wrap?<CR>
 noremap \n :cnext<CR>
 noremap \p :cprevious<CR>
+if has("win32") || has("win64")
+	command! -nargs=* -complete=file -complete=shellcmd Start
+		\ silent ! start <args>
+endif
 
+
+" auto commands
 if has("autocmd")
 	augroup autojump
 		autocmd!
@@ -151,6 +199,8 @@ if has("autocmd")
 	augroup END
 endif
 
+
+" other settings
 if has("eval")
 	" for :TOhtml
 	let g:html_use_css=1
@@ -182,6 +232,8 @@ if has("eval")
 	endfunction
 endif
 
+
+" local settings
 if filereadable($HOME."/.vimrc_local")
 	source ~/.vimrc_local
 elseif filereadable($HOME."/_vimrc_local")
