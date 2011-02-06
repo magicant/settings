@@ -201,6 +201,8 @@ case $- in *i*)
 	shopt -s autocd globstar 2>/dev/null
 	HISTFILE=~/.bash_history HISTSIZE=2000 HISTFILESIZE=1000
 	HISTCONTROL=ignoreboth
+	MAILCHECK=0
+	FCEDIT=${EDITOR:-vi}
 
 	args()
 	if [ $# -gt 0 ]; then

@@ -97,6 +97,7 @@ if command -v xdg-open >/dev/null 2>&1; then
 fi
 
 HISTFILE=~/.zsh_history HISTSIZE=2000 SAVEHIST=1000
+MAILCHECK=0
 FCEDIT=${EDITOR:-vi}
 
 autoload -Uz vcs_info

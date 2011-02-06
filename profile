@@ -19,6 +19,7 @@ fi
 #export MANPAGER='less -s'
 #export EDITOR='vim'
 #export MAKEFLAGS="-j$(nproc)"
+#export TREE_CHARSET="$(locale charmap)"
 
 #if ps --version 2>/dev/null | grep procps >/dev/null 2>&1; then
 #	export PS_PERSONALITY=linux

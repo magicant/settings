@@ -120,7 +120,7 @@ fi
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
 HISTFILE=~/.yash_history HISTSIZE=5000 HISTRMDUP=500
-MAILCHECK=60
+MAILCHECK=0
 : ${EDITOR:=vi} ${FCEDIT:=$EDITOR}
 : ${LOGNAME:=$(logname)}
 : ${HOSTNAME:=$(uname -n)}
@@ -211,6 +211,17 @@ if [ -d "$1" ]; then
 	break -i
 fi
 COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_autocd "$@"')
+
+# handle the job ID specified as a command
+_autofg()
+if [ $# -eq 1 ]; then
+	case $1 in (%*)
+		HANDLED=true
+		fg "$1"
+		break -i
+	esac
+fi
+COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_autofg "$@"')
 
 # print file type for unexecutable files
 _print_file_type()

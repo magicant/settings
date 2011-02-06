@@ -81,8 +81,7 @@ set virtualedit=block
 set formatoptions=qtcronlB
 set noshowmatch
 set nojoinspaces
-set tabstop=4 shiftwidth=4
-set shiftround
+set tabstop& shiftwidth& softtabstop& noexpandtab shiftround
 set autoindent
 
 " mapping options
@@ -226,7 +225,12 @@ if has("eval")
 	let s:styles['BSD']    = 'set noet ts=8 sw=4 sts&'
 	let s:styles['Linux']  = 'set noet ts=8 sw=8 sts&'
 	command! -bar -nargs=1 -complete=custom,s:style_complete
-		\ Style execute get(s:styles, <f-args>, '')
+		\ Style call s:style_main(<f-args>)
+	function! s:style_main(style, ...)
+		execute get(s:styles, a:style, '')
+		redraw
+		set et? ts? sw? sts?
+	endfunction
 	function! s:style_complete(...)
 		return join(keys(s:styles), "\n")
 	endfunction
