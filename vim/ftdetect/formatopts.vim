@@ -2,4 +2,4 @@
 " detection
 
 autocmd BufNewFile,BufRead,StdinReadPost *
-	\ setlocal formatoptions+=tcronlB formatoptions-=M
+	\ setlocal formatoptions+=lB formatoptions-=mM
