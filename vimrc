@@ -160,6 +160,7 @@ endif
 
 " other options
 set viminfo& viminfo+=/50,:300,@50
+set pastetoggle=<F5>
 
 
 " mappings and commands
@@ -174,6 +175,7 @@ noremap Y y$
 map n /<Return>
 map N ?<Return>
 noremap <C-W>Q :quitall<CR>
+noremap <F5> :set paste! paste?<CR>
 noremap <F6> :set list! list?<CR>
 noremap <F9> :set wrap! wrap?<CR>
 noremap \n :cnext<CR>
