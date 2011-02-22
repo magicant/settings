@@ -10,6 +10,9 @@ if ! [ -f "$1" ]; then
 	else
 	  exec ls -al -- "$1"
 	fi
+  else
+	# return non-zero status to force less to open the file as usual
+	false
   fi
   exit
 fi
