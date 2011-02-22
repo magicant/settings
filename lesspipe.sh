@@ -33,8 +33,8 @@ case "$r1" in
   *.bz2)  u1="${r1%.bz2}"  decomp="bzcat" ;;
   *.gz)   u1="${r1%.gz}"   decomp="gunzip -c" ;;
   *.[zZ]) u1="${r1%.[zZ]}" decomp="zcat" ;;
-  *.lzma) u1="${r1%.lzma}" decomp="lzmadec" ;;
-  *.xz)   u1="${r1%.xz}"   decomp="xzdec" ;;
+  *.lzma) u1="${r1%.lzma}" decomp="lzma -dc" ;;
+  *.xz)   u1="${r1%.xz}"   decomp="xz -dc" ;;
   *)      u1="$r1"         decomp="cat" ;;
 esac
 case "$u1" in
