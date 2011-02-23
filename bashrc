@@ -71,6 +71,7 @@ case $- in *i*)
 	alias st='_vcs status'
 	alias t='tail'
 	alias up='_vcs update'
+	alias C='LC_ALL=C '
 
 	if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
 		alias ls='ls --color=tty'

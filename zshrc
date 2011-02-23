@@ -71,6 +71,7 @@ alias s='sort'
 alias st='_vcs status'
 alias t='tail'
 alias up='_vcs update'
+alias C='LC_ALL=C '
 alias -g L='|$PAGER'
 alias -g N='>/dev/null 2>&1' N1='>/dev/null' N2='2>/dev/null'
 
