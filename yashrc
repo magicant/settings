@@ -58,6 +58,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	alias pushd='pushd --remove-duplicates'
 	alias r='fc -s'
 	alias s='sort'
+	alias sh='yash --posix'
 	alias st='_vcs status'
 	alias t='tail'
 	alias up='_vcs update'
