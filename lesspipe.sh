@@ -6,10 +6,11 @@ fi
 if ! [ -f "$1" ]; then
   if [ -d "$1" ]; then
 	if ls --color / >/dev/null 2>&1; then
-	  exec ls -al --color -- "$1"
+	  color='--color'
 	else
-	  exec ls -al -- "$1"
+	  color=
 	fi
+	exec ls -al $color -- "$1"
   else
 	# return non-zero status to force less to open the file as usual
 	false
