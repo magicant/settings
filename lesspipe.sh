@@ -10,7 +10,7 @@ if ! [ -f "$1" ]; then
 	else
 	  color=
 	fi
-	exec ls -al $color -- "$1"
+	CLICOLOR= CLICOLOR_FORCE= exec ls -al $color -- "$1"
   else
 	# return non-zero status to force less to open the file as usual
 	false
