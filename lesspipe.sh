@@ -54,7 +54,7 @@ case "$1" in
   # man page
   *.[1-9n] | *.[1-9n].gz | *.man | *.man.gz | *.[0-9][a-z].gz )
 	case "$($decomp -- "$1" | file -)" in
-	  *troff* )  exec man -- "$s1" ; exit ;;
+	  *troff* )  MAN_KEEP_FORMATTING=yes exec man -- "$s1" ; exit ;;
 	esac
 	;;
 
