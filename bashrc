@@ -205,7 +205,7 @@ case $- in *i*)
 	MAILCHECK=0
 	FCEDIT=${EDITOR:-vi}
 
-	args()
+	p()
 	if [ $# -gt 0 ]; then
 		printf '%s\n' "$@"
 	fi

@@ -238,7 +238,7 @@ if [ x"$TERM" = x"dumb" ]; then
 fi
 
 # define some auxiliary functions
-args()
+p()
 if [ $# -gt 0 ]; then
 	printf '%s\n' "$@"
 fi

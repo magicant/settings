@@ -147,7 +147,7 @@ if [ "$_tsl" ] && [ "$_fsl" ]; then
 	}
 fi
 
-args()
+p()
 if [ $# -gt 0 ]; then
 	printf '%s\n' "$@"
 fi
