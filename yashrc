@@ -90,6 +90,8 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 
 	if command -v xdg-open >/dev/null 2>&1; then
 		alias o='xdg-open'
+	elif command -v cygstart >/dev/null 2>&1; then
+		alias o='cygstart'
 	fi
 
 fi

@@ -95,6 +95,8 @@ if command -v vim >/dev/null 2>&1; then
 fi
 if command -v xdg-open >/dev/null 2>&1; then
 	alias o='xdg-open'
+elif command -v cygstart >/dev/null 2>&1; then
+	alias o='cygstart'
 fi
 
 HISTFILE=~/.zsh_history HISTSIZE=2000 SAVEHIST=1000

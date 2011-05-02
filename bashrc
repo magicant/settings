@@ -96,6 +96,8 @@ case $- in *i*)
 
 	if command -v xdg-open >/dev/null 2>&1; then
 		alias o='xdg-open'
+	elif command -v cygstart >/dev/null 2>&1; then
+		alias o='cygstart'
 	fi
 
 	if [ ${SHLVL:-0} -gt 1 ]; then
