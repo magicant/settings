@@ -11,6 +11,9 @@ set mark-symlinked-directories on
 
 "\C-L": redraw-current-line
 
+"\C-P": history-search-backward
+"\C-N": history-search-forward
+
 # for old versions
 "\eOH": beginning-of-line
 "\e[H": beginning-of-line
