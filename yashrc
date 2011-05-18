@@ -197,7 +197,7 @@ _update_vcs_info() {
 			if [ / -ef . ] || [ . -ef .. ]; then
 				exit
 			fi
-			cd -P ..
+			\cd -P ..
 		done
 	)
 	case "$VCS_INFO" in
