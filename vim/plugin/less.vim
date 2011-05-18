@@ -8,7 +8,7 @@ if exists("loaded_vimless")
 elseif !exists("s:loaded")
   let s:loaded = 1
   command -nargs=? -complete=file View call Vimless(<f-args>)
-  execute 'autocmd FuncUndefined Vimless source ' . expand('<sfile>')
+  execute 'autocmd FuncUndefined Vimless source ' . fnameescape(expand('<sfile>'))
   finish
 endif
 let loaded_vimless = 1
