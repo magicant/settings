@@ -3,28 +3,27 @@
 checkgetlatest () {
 	# $1 = ScriptID (decimal integer)
 	# $2 = Script name (any string, which may start with ":AutoInstall:")
-	printf 'GetLatestVimScripts.dat: '
-	if grep "^$1 " "$HOME/.vim/GetLatest/GetLatestVimScripts.dat"; then
+	printf '%s: ' "$GLVSfile"
+	if grep "^$1 " "$GLVS"; then
 		:
 	else
-		echo "$1 1 $2" >>"$HOME/.vim/GetLatest/GetLatestVimScripts.dat"
+		echo "$1 1 $2" >>"$GLVS"
 		echo "$1 1 $2 (added)"
 	fi
 }
 
 set -e
-cd "`dirname $0`"
+# cd "`dirname $0`"
 
-VIMRUNTIME=`echo '!echo $VIMRUNTIME' | vim -e -s`
-if [ -z "$VIMRUNTIME" ]; then
-	printf "cannot find \$VIMRUNTIME."
-	exit 1
-fi
-
-if [ ! -e "$HOME/.vim/GetLatest/GetLatestVimScripts.dat" ]; then
-	mkdir -p "$HOME/.vim/GetLatest"
+GLVSfile="GetLatestVimScripts.dat"
+GLVSdir="$HOME/.vim/GetLatest"
+GLVS="$GLVSdir/$GLVSfile"
+if [ ! -e "$GLVS" ]; then
+	if [ ! -d "$GLVSdir" ]; then
+		mkdir -p "$GLVSdir"
+	fi
 	echo 'ScriptID SourceID Filename
---------------------------' >"$HOME/.vim/GetLatest/GetLatestVimScripts.dat"
+--------------------------' >"$GLVS"
 fi
 checkgetlatest  294 ':AutoInstall: Align.vim'
 checkgetlatest  978 'ftplugin/svn.vim'

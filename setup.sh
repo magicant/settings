@@ -74,16 +74,8 @@ fi
 
 if command -v vim >/dev/null 2>&1; then
 	makelink vimrc .vimrc
+	makelink vim .vim
 	makelink vimless bin/vimless
-	makelink vim/filetype.vim .vim/filetype.vim
-	makelink vim/ftdetect/formatopts.vim .vim/ftdetect/formatopts.vim
-	makelink vim/ftdetect/v.vim .vim/ftdetect/v.vim
-	makelink vim/indent/html.vim .vim/indent/html.vim
-	makelink vim/plugin/less.vim .vim/plugin/less.vim
-	makelink vim/syntax/sh.vim .vim/syntax/sh.vim
-	makelink vim/syntax/html.vim .vim/syntax/html.vim
-	makelink vim/macros/hgcommit.vim .vim/macros/hgcommit.vim
-	makelink vim/macros/less.vim .vim/macros/less.vim
 	vim/setup.sh
 	if command -v gvim >/dev/null 2>&1; then
 		makelink vimless bin/gvimless
