@@ -81,6 +81,7 @@ if command -v vim >/dev/null 2>&1; then
 	makelink vim/indent/html.vim .vim/indent/html.vim
 	makelink vim/plugin/less.vim .vim/plugin/less.vim
 	makelink vim/syntax/sh.vim .vim/syntax/sh.vim
+	makelink vim/syntax/html.vim .vim/syntax/html.vim
 	makelink vim/macros/hgcommit.vim .vim/macros/hgcommit.vim
 	makelink vim/macros/less.vim .vim/macros/less.vim
 	vim/setup.sh
