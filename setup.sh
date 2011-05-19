@@ -17,6 +17,8 @@ makelink () {
 	mkdir -p "$(dirname "$HOME/$2")"
 	if [ -L "$HOME/$2" ]; then
 		echo "Symbolic link ~/$2 already exists"
+	elif [ -d "$HOME/$2" ]; then
+		echo "~/$2 is a directory"
 	elif ln -s "$prefix/$1" "$HOME/$2"; then
 		echo "~/$2" "->" "$prefix/$1"
 	fi
