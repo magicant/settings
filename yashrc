@@ -192,7 +192,7 @@ _update_vcs_info() {
 				exec cat .hg/branch 2>/dev/null
 			elif [ -d .git ]; then
 				printf 'git:'
-				exec git branch >(grep '^\*' | cut -c 3-) 2>/dev/null
+				exec 2>/dev/null <(git branch --no-color | grep '^\*') cut -c 3-
 			fi
 			if [ / -ef . ] || [ . -ef .. ]; then
 				exit

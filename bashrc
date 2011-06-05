@@ -158,7 +158,7 @@ case $- in *i*)
 					exec cat .hg/branch 2>/dev/null
 				elif [ -d .git ]; then
 					printf 'git:'
-					exec git branch >(grep '^\*' | cut -c 3-) 2>/dev/null
+					git branch --no-color 2>/dev/null | grep '^\*' | cut -c 3-
 				fi
 				if [ / -ef . ] || [ . -ef .. ]; then
 					exit
