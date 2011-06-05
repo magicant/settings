@@ -15,6 +15,12 @@ checkgetlatest () {
 set -e
 # cd "`dirname $0`"
 
+(
+cd ~/.vim/spell
+find . -name '*.add' -exec echo vim: mkspell {} \; \
+	-exec sh -c 'echo "mkspell $1" | vim -e -s' dummy {} \;
+)
+
 GLVSfile="GetLatestVimScripts.dat"
 GLVSdir="$HOME/.vim/GetLatest"
 GLVS="$GLVSdir/$GLVSfile"
