@@ -18,7 +18,7 @@ set -e
 (
 cd ~/.vim/spell
 find . -name '*.add' -exec echo vim: mkspell {} \; \
-	-exec sh -c 'echo "mkspell $1" | vim -e -s' dummy {} \;
+	-exec sh -c 'echo "verbose mkspell! $1" | vim -e -s; echo' dummy {} \;
 )
 
 GLVSfile="GetLatestVimScripts.dat"
