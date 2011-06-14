@@ -147,28 +147,44 @@ case $- in *i*)
 
 	# tricks to show VCS info in the prompt
 	_update_vcs_info() {
+		local type branch
 		if [ -d .svn ]; then
-			VCS_INFO=svn
+			VCS_INFO=svn VCS_ROOT=$(
+				while [ -d ../.svn ]; do
+					if [ / -ef . ] || [ . -ef .. ]; then
+						exit
+					fi
+					\cd -P ..
+				done
+				pwd
+			)
 			return
 		fi
-		VCS_INFO=$(
+		{
+			read -r type
+			read -r VCS_ROOT
+			read -r branch
+		} <<<"$(
 			while true; do
 				if [ -d .hg ]; then
-					printf 'hg:'
+					printf 'hg\n%s\n' "$PWD"
 					exec cat .hg/branch 2>/dev/null
-				elif [ -d .git ]; then
-					printf 'git:'
+				elif [ -d .git ] || [ . -ef "${GIT_WORK_TREE-}" ]; then
+					printf 'git\n%s\n' "${GIT_WORK_TREE:-$PWD}"
 					git branch --no-color 2>/dev/null | grep '^\*' | cut -c 3-
+					exit
 				fi
 				if [ / -ef . ] || [ . -ef .. ]; then
 					exit
 				fi
-				cd -P ..
+				\cd -P ..
 			done
-		)
-		case "$VCS_INFO" in
-			hg:  | hg:default) VCS_INFO='hg';;
-			git: | git:master) VCS_INFO='git';;
+		)"
+		case "$type#$branch" in
+			hg#default) VCS_INFO='hg';;
+			git#master) VCS_INFO='git';;
+			*#        ) VCS_INFO="$type";;
+			*         ) VCS_INFO="$type:$branch";;
 		esac
 	}
 	PROMPT_COMMAND='_update_vcs_info'
@@ -234,3 +250,5 @@ esac
 if [ -r ~/.bashrc_local ]; then
 	. ~/.bashrc_local
 fi
+
+# vim: ts=4 sw=4 ft=sh
