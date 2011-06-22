@@ -104,8 +104,8 @@ MAILCHECK=0
 FCEDIT=${EDITOR:-vi}
 
 autoload -Uz vcs_info
-zstyle ':vcs_info:*' formats       '%s:%b'
-zstyle ':vcs_info:*' actionformats '%s:%b!%a'
+zstyle ':vcs_info:*' formats       '%s@%b'
+zstyle ':vcs_info:*' actionformats '%s@%b!%a'
 
 #autoload -Uz colors
 #colors

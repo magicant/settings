@@ -184,7 +184,7 @@ case $- in *i*)
 			hg#default) VCS_INFO='hg';;
 			git#master) VCS_INFO='git';;
 			*#        ) VCS_INFO="$type";;
-			*         ) VCS_INFO="$type:$branch";;
+			*         ) VCS_INFO="$type@$branch";;
 		esac
 	}
 	PROMPT_COMMAND='_update_vcs_info'
