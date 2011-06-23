@@ -97,6 +97,8 @@ if command -v xdg-open >/dev/null 2>&1; then
 	alias o='xdg-open'
 elif command -v cygstart >/dev/null 2>&1; then
 	alias o='cygstart'
+elif [ "$(uname)" = Darwin ] 2>/dev/null; then
+	alias o='open'
 fi
 
 HISTFILE=~/.zsh_history HISTSIZE=2000 SAVEHIST=1000

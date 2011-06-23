@@ -92,6 +92,8 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 		alias o='xdg-open'
 	elif command -v cygstart >/dev/null 2>&1; then
 		alias o='cygstart'
+	elif [ "$(uname)" = Darwin ] 2>/dev/null; then
+		alias o='open'
 	fi
 
 fi

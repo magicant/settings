@@ -98,6 +98,8 @@ case $- in *i*)
 		alias o='xdg-open'
 	elif command -v cygstart >/dev/null 2>&1; then
 		alias o='cygstart'
+	elif [ "$(uname)" = Darwin ] 2>/dev/null; then
+		alias o='open'
 	fi
 
 	if [ ${SHLVL:-0} -gt 1 ]; then
