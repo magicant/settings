@@ -53,7 +53,7 @@ alias mv='mv -i'
 alias rm='rm -i'
 
 alias -- -='cd -'
-alias _vcs='${${vcs_info_msg_0_:?not in version-controlled directory}%%:*}'
+alias _vcs='${${vcs_info_msg_0_:?not in version-controlled directory}%%@*}'
 alias ci='_vcs commit'
 alias dirs='dirs -v'
 alias f='fg'

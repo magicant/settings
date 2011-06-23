@@ -41,7 +41,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	alias rm='rm -i'
 
 	alias -- -='cd -'
-	alias _vcs='${${VCS_INFO:?}%%:*}'
+	alias _vcs='${${VCS_INFO:?}%%@*}'
 	alias cd='pushd --default-directory="$HOME"'
 	alias ci='_vcs commit'
 	alias dirs='dirs -v'
