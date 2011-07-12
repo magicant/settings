@@ -55,6 +55,7 @@ case $- in *i*)
 	alias ..='cd ..'
 	alias _vcs='${VCS_INFO%%@*}'
 	alias ci='_vcs commit'
+	alias co='_vcs checkout'
 	alias dirs='dirs -v'
 	alias f='fg'
 	alias g='grep'
