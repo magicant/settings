@@ -1,0 +1,14 @@
+# source this file from .yashrc_local
+
+if [ -x /usr/libexec/pk-command-not-found ]; then
+	_pcnf()
+	if [ -x /usr/libexec/pk-command-not-found ] &&
+			[ -S /var/run/dbus/system_bus_socket ]; then
+		HANDLED=true
+		/usr/libexec/pk-command-not-found "$@"
+		break -i
+	fi
+	COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_pcnf "$@"')
+fi
+
+# vim: ts=4 sw=4 ft=sh
