@@ -80,6 +80,7 @@ if command -v vim >/dev/null 2>&1; then
 	makelink vimless bin/vimless
 	vim/setup.sh
 	if command -v gvim >/dev/null 2>&1; then
-		makelink vimless bin/gvimless
+		#makelink vimless bin/gvimless
+		ln "$HOME/bin/vimless" "$HOME/bim/gvimless"
 	fi
 fi
