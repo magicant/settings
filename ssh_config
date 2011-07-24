@@ -1,0 +1,9 @@
+Host *
+	Compression yes
+	ControlMaster auto
+	ControlPath ~/.ssh/%r@%h:%p
+	ControlPersist 300
+	ForwardAgent yes
+	HashKnownHosts no
+	ServerAliveCountMax 3
+	ServerAliveInterval 300
