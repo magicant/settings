@@ -85,6 +85,10 @@ if command -v vim >/dev/null 2>&1; then
 	vim/setup.sh
 	if command -v gvim >/dev/null 2>&1; then
 		#makelink vimless bin/gvimless
-		ln "$HOME/bin/vimless" "$HOME/bin/gvimless"
+		if [ -e "$HOME/bin/gvimless" ]; then
+			echo "~/bin/gvimless already exists"
+		else
+			ln "$HOME/bin/vimless" "$HOME/bin/gvimless"
+		fi
 	fi
 fi
