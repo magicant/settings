@@ -8,6 +8,7 @@ if [ "${YASH_VERSION+yash}" = "yash" ] && [ -r /etc/profile ]; then
 fi
 
 #umask 022
+#trap - TSTP TTIN TTOU
 
 #if [ -r ~/.settings/setterm ]; then
 #	. ~/.settings/setterm
