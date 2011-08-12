@@ -127,6 +127,7 @@ fi
 # define some variables
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
+if [ ~ -ef . ]; then PWD=~; fi
 HISTFILE=~/.yash_history HISTSIZE=5000 HISTRMDUP=500
 MAILCHECK=0
 : ${EDITOR:=vi} ${FCEDIT:=$EDITOR}
