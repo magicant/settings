@@ -173,7 +173,7 @@ case $- in *i*)
 				if [ -d .hg ]; then
 					printf 'hg\n%s\n' "$PWD"
 					exec cat .hg/branch 2>/dev/null
-				elif [ -d .git ] || [ . -ef "${GIT_WORK_TREE-}" ]; then
+				elif [ -e .git ] || [ . -ef "${GIT_WORK_TREE-}" ]; then
 					printf 'git\n%s\n' "${GIT_WORK_TREE:-$PWD}"
 					git branch --no-color 2>/dev/null | grep '^\*' | cut -c 3-
 					exit
