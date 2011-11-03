@@ -263,8 +263,8 @@ if exists("b:is_kornshell") || exists("b:is_bash")
 endif
 
 " While and until statements {{{2
-sy region shWhile transparent fold matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!while[^[:blank:]|&;<>()]\@!/ start=/[^[:blank:]|&;<>()]\@<!until[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/ contains=@shCommandsList,shWhileDo contains=@shCommandsList skipwhite nextgroup=@shTrailersList
-sy region shWhileDo contained transparent matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!do[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/me=e-4
+sy region shWhile transparent fold matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!while[^[:blank:]|&;<>()]\@!/ start=/[^[:blank:]|&;<>()]\@<!until[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/ contains=@shCommandsList,shWhileDo skipwhite nextgroup=@shTrailersList
+sy region shWhileDo contained transparent matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!do[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
 " Case statement {{{2
 sy match shCase /[^[:blank:]|&;<>()]\@<!case[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shCaseWord
 sy region shCaseWord contained transparent start=/[^[:blank:]|&;<>()]/ end=/[^[:blank:]|&;<>()]\@!/ contains=@shWordsList skipwhite skipempty nextgroup=shCaseIn,shCaseComment
