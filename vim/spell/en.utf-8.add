@@ -1,8 +1,10 @@
 AWK
 Autoload
 Autoloads
+CVS
 Ctrl
 FreeBSD
+GPG
 IPv4
 IPv6
 NetBSD
@@ -11,6 +13,7 @@ OpenSSH
 POSIX
 POSIXly
 SELinux
+SHA1
 Solaris
 SunOS
 UTC
