@@ -116,6 +116,8 @@ if command -vb bindkey >/dev/null; then
 	if [ "$YASH_VERSION" -vge 2.19 ]; then
 		bindkey -v '\^P' beginning-search-backward
 		bindkey -v '\^N' beginning-search-forward
+		bindkey -a '\^P' beginning-search-backward
+		bindkey -a '\^N' beginning-search-forward
 	fi
 	if [ "$YASH_VERSION" -vge 2.21 ]; then
 		bindkey -v '\P' complete-prev-column

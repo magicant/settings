@@ -4,9 +4,15 @@ if [ -x /usr/libexec/pk-command-not-found ]; then
 	_pcnf()
 	if [ -x /usr/libexec/pk-command-not-found ] &&
 			[ -S /var/run/dbus/system_bus_socket ]; then
-		HANDLED=true
-		/usr/libexec/pk-command-not-found "$@"
-		break -i
+		case $1 in
+			(*/*)
+				;;
+			(*)
+				HANDLED=true
+				/usr/libexec/pk-command-not-found "$@"
+				break -i
+				;;
+		esac
 	fi
 	COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_pcnf "$@"')
 fi
