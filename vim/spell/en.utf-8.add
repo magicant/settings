@@ -22,6 +22,8 @@ X11
 autoload
 autoloaded
 autoloading
+committer
+config
 globbing
 globing/!
 hashtable
@@ -33,6 +35,9 @@ multibyte
 petabyte
 posixly
 primality
+rebase
+rebased
+rebasing
 regex
 subshell
 subshells
@@ -43,6 +48,7 @@ trie
 unexisting
 uninstall
 uninstallation
+unmerged
 unsets
 whitespaces
 wildcard

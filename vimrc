@@ -32,7 +32,11 @@ set nonumber
 
 " syntax, highlighting and spelling options
 set background=dark
-highlight Normal guibg=Black guifg=LightGray
+highlight Normal guifg=LightGray guibg=Black
+highlight DiffAdd ctermbg=4 guibg=#000077
+highlight DiffChange ctermbg=5 guibg=#440055
+highlight DiffDelete ctermfg=0 ctermbg=1 guifg=Black guibg=#550000
+highlight DiffText ctermbg=13 gui=NONE guibg=#9900AA
 if has("autocmd")
 	filetype plugin indent on
 endif
