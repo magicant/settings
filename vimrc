@@ -64,7 +64,7 @@ endif
 
 " GUI options
 set guicursor+=a:blinkwait500-blinkon500-blinkoff500
-set guioptions+=f guioptions-=tT
+set guioptions-=tT
 if has("gui_win32")
 	set winaltkeys=yes
 endif
