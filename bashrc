@@ -152,25 +152,24 @@ case $- in *i*)
 	# tricks to show VCS info in the prompt
 	_update_vcs_info() {
 		local type branch
-		if [ -d .svn ]; then
-			VCS_INFO=svn VCS_ROOT=$(
-				while [ -d ../.svn ]; do
-					if [ / -ef . ] || [ . -ef .. ]; then
-						exit
-					fi
-					\cd -P ..
-				done
-				pwd
-			)
-			return
-		fi
 		{
 			read -r type
 			read -r VCS_ROOT
 			read -r branch
 		} <<<"$(
 			while true; do
-				if [ -d .hg ]; then
+				if [ -d .svn ]; then
+					printf 'svn\n'
+					VCS_ROOT=$PWD
+					while ! [ / -ef . ] && ! [ . -ef .. ]; do
+						\cd -P ..
+						if [ -d .svn ]; then
+							VCS_ROOT=$PWD
+						fi
+					done
+					printf '%s\n' "$VCS_ROOT"
+					exit
+				elif [ -d .hg ]; then
 					printf 'hg\n%s\n' "$PWD"
 					exec cat .hg/branch 2>/dev/null
 				elif [ -e .git ] || [ . -ef "${GIT_WORK_TREE-}" ]; then
