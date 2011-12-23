@@ -28,6 +28,7 @@ highlight PmenuSbar ctermbg=Brown guibg=Brown
 highlight PmenuThumb cterm=NONE ctermbg=Yellow gui=NONE guibg=Yellow
 highlight PreProc ctermfg=177 guifg=#D787FF
 highlight SignColumn ctermfg=Red ctermbg=242 guifg=Red guibg=#555555
+highlight Special ctermfg=224 guifg=#FFD7D7
 highlight Statement cterm=NONE ctermfg=Yellow gui=NONE guifg=#F7F700
 highlight StatusLine cterm=bold ctermfg=White ctermbg=Blue gui=bold guifg=White guibg=Blue
 highlight Todo ctermfg=White ctermbg=27 guifg=White guibg=#005FFF
