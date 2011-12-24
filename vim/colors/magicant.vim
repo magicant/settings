@@ -1,6 +1,6 @@
 " Magicant's vim color file
 " Maintainer:	Watanabe Yuki aka Magicant <magicant.wonderwand@gmail.com>
-" Last Change:	2011 Dec 19
+" Last Change:	2011 Dec 24
 
 set background=dark
 highlight clear
@@ -33,4 +33,4 @@ highlight Statement cterm=NONE ctermfg=Yellow gui=NONE guifg=#F7F700
 highlight StatusLine cterm=bold ctermfg=White ctermbg=Blue gui=bold guifg=White guibg=Blue
 highlight Todo ctermfg=White ctermbg=27 guifg=White guibg=#005FFF
 highlight Type gui=NONE guifg=#66F566
-highlight Visual gui=bold guifg=#404040 guibg=DarkGray
+highlight Visual gui=bold guifg=#333333 guibg=Gray
