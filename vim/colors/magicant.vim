@@ -1,6 +1,6 @@
 " Magicant's vim color file
 " Maintainer:	Watanabe Yuki aka Magicant <magicant.wonderwand@gmail.com>
-" Last Change:	2011 Dec 24
+" Last Change:	2012 Jan 9
 
 set background=dark
 highlight clear
@@ -13,10 +13,10 @@ highlight Normal ctermfg=LightGrey ctermbg=Black guifg=LightGray guibg=Black
 highlight Comment ctermfg=Blue
 highlight Constant ctermfg=174 guifg=#D78787
 highlight Cursor cterm=bold ctermfg=Black ctermbg=Green gui=bold guifg=Black guibg=Green
-highlight DiffAdd ctermbg=4 guibg=#000077
-highlight DiffChange ctermbg=5 guibg=#440055
-highlight DiffDelete ctermfg=0 ctermbg=1 guifg=Black guibg=#550000
-highlight DiffText ctermbg=13 gui=NONE guibg=#9900AA
+highlight DiffAdd ctermbg=DarkRed guibg=#000077
+highlight DiffChange ctermbg=DarkMagenta guibg=#440055
+highlight DiffDelete ctermfg=Black ctermbg=DarkBlue guifg=Black guibg=#550000
+highlight DiffText ctermbg=Magenta gui=NONE guibg=#9900AA
 highlight! link FoldColumn Folded
 highlight Folded guifg=Cyan guibg=#555555
 highlight Identifier cterm=NONE ctermfg=Cyan guifg=#40FFFF
@@ -34,3 +34,13 @@ highlight StatusLine cterm=bold ctermfg=White ctermbg=Blue gui=bold guifg=White 
 highlight Todo ctermfg=White ctermbg=27 guifg=White guibg=#005FFF
 highlight Type gui=NONE guifg=#66F566
 highlight Visual gui=bold guifg=#333333 guibg=Gray
+
+" for terminals with few colors
+if &t_Co <= 16
+  highlight Constant ctermfg=Red
+  highlight LineNr ctermbg=DarkGray
+  highlight PreProc ctermfg=Magenta
+  highlight SignColumn ctermbg=DarkGray
+  highlight Special cterm=bold
+  highlight Todo ctermbg=Blue
+endif
