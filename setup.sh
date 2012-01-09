@@ -59,7 +59,24 @@ fi
 makelink yashrc .yashrc
 makelink zshrc .zshrc
 
-if command -v xclip >/dev/null 2>&1; then
+if command -v xsel >/dev/null 2>&1; then
+	if command -v pbcopy >/dev/null 2>&1; then
+		:
+	elif [ -e "$HOME/bin/pbcopy" ]; then
+		echo "~/bin/pbcopy already exists"
+	elif echo 'exec xsel -i -b "$@"' >"$HOME/bin/pbcopy" &&
+		chmod a+x "$HOME/bin/pbcopy"; then
+		echo "created ~/bin/pbcopy"
+	fi
+	if command -v pbpaste >/dev/null 2>&1; then
+		:
+	elif [ -e "$HOME/bin/pbpaste" ]; then
+		echo "~/bin/pbpaste already exists"
+	elif echo 'exec xsel -o -b "$@"' >"$HOME/bin/pbpaste" &&
+		chmod a+x "$HOME/bin/pbpaste"; then
+		echo "created ~/bin/pbpaste"
+	fi
+elif command -v xclip >/dev/null 2>&1; then
 	if command -v pbcopy >/dev/null 2>&1; then
 		:
 	elif [ -e "$HOME/bin/pbcopy" ]; then
