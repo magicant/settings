@@ -1,6 +1,6 @@
 " Magicant's vim color file
 " Maintainer:	Watanabe Yuki aka Magicant <magicant.wonderwand@gmail.com>
-" Last Change:	2012 Jan 9
+" Last Change:	2012 Jan 12
 
 set background=dark
 highlight clear
@@ -34,6 +34,10 @@ highlight StatusLine cterm=bold ctermfg=White ctermbg=Blue gui=bold guifg=White 
 highlight Todo ctermfg=White ctermbg=27 guifg=White guibg=#005FFF
 highlight Type gui=NONE guifg=#66F566
 highlight Visual gui=bold guifg=#333333 guibg=Gray
+
+highlight diffAdded ctermfg=Cyan guifg=Cyan
+highlight diffChanged ctermfg=Yellow guifg=Yellow
+highlight diffRemoved ctermfg=Red guifg=Red
 
 " for terminals with few colors
 if &t_Co <= 16
