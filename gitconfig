@@ -1,0 +1,13 @@
+[alias]
+	b = branch
+[color]
+	ui = auto
+[color "diff"]
+	frag = yellow
+	func = magenta
+	meta = green
+	new = cyan
+	old = red
+[user]
+	name = WATANABE Yuki
+	email = magicant@wonderwand.net
