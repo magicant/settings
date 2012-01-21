@@ -8,6 +8,12 @@
 	meta = green
 	new = cyan
 	old = red
+[push]
+	default = nothing
+[rebase]
+	autosquash = true
+[rerere]
+	enabled = true
 [user]
 	name = WATANABE Yuki
 	email = magicant@wonderwand.net
