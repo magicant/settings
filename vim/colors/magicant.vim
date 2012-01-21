@@ -9,7 +9,7 @@ if exists("syntax_on")
 endif
 let g:colors_name = expand('<sfile>:t:r')
 
-highlight Normal ctermfg=LightGrey ctermbg=Black guifg=LightGray guibg=Black
+highlight Normal guifg=LightGray guibg=Black
 highlight Comment ctermfg=Blue
 highlight Constant ctermfg=174 guifg=#D78787
 highlight Cursor cterm=bold ctermfg=Black ctermbg=Green gui=bold guifg=Black guibg=Green
