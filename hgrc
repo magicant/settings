@@ -1,5 +1,5 @@
 [diff]
 showfunc = true
 [ui]
-editor = vim -S ~/.vim/macros/hgcommit.vim
+editor = vim -c 'runtime macros/hgcommit.vim'
 username = WATANABE Yuki <magicant@wonderwand.net>
