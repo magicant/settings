@@ -1,5 +1,25 @@
+[color]
+diff.changed = yellow
+diff.deleted = red
+diff.diffline = green
+diff.extended = bold
+diff.file_a = green
+diff.file_b = green
+diff.hunk = yellow
+diff.inserted = cyan
+diff.trailingwhitespace = red_background
+status.added = cyan
+status.clean = none
+status.copied = cyan
+status.deleted = red bold underline
+status.ignored = magenta
+status.modified = yellow
+status.removed = red
+status.unknown = none
 [diff]
 showfunc = true
+[extensions]
+color = 
 [ui]
 editor = vim -c 'runtime macros/hgcommit.vim'
 username = WATANABE Yuki <magicant@wonderwand.net>
