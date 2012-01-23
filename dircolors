@@ -40,6 +40,8 @@ TERM putty-16color
 TERM putty-256color
 TERM putty-vt100
 TERM rxvt
+TERM rxvt-16color
+TERM rxvt-256color
 TERM rxvt-cygwin
 TERM rxvt-cygwin-native
 TERM rxvt-unicode
