@@ -14,6 +14,10 @@ checkgetlatest () {
 
 set -e
 # cd "`dirname $0`"
+if [ ! -O ~/.vim ]; then
+	echo '~/.vim is owned by different user!' >&2
+	exit
+fi
 
 (
 cd ~/.vim/spell

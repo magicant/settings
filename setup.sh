@@ -25,7 +25,7 @@ makelink () {
 }
 
 set -e
-cd "$(dirname $0)"
+cd -- "$(dirname -- "$0")"
 echo Home directory is "$HOME"
 echo Settings directory is "$PWD"
 
