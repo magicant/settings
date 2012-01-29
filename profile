@@ -39,6 +39,7 @@ fi
 #	eval "$(dircolors --sh ~/.dircolors)"
 #	eval "$(TERM=xterm dircolors --sh ~/.dircolors)"
 #fi
+#export CLICOLOR=true
 
 #if [ -r ~/.keychain/"$HOSTNAME"-sh ]; then
 #	. ~/.keychain/"$HOSTNAME"-sh
