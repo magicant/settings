@@ -40,6 +40,15 @@ fi
 #	eval "$(TERM=xterm dircolors --sh ~/.dircolors)"
 #fi
 
+#if [ -r ~/.keychain/"$HOSTNAME"-sh ]; then
+#	. ~/.keychain/"$HOSTNAME"-sh
+#fi
+#if ! ssh-add -l >/dev/null 2>&1; then
+#	find /tmp -depth -name 'ssh-*' -type d -user "${LOGNAME:-$USER}" \
+#		-exec rm -fr {} \;
+#	eval "$(keychain --eval id_rsa)"
+#fi
+
 if [ "${BASH_VERSION+bash}" = "bash" ] && [ -r ~/.bashrc ]; then
 	. ~/.bashrc
 fi
