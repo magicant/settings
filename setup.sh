@@ -109,3 +109,16 @@ if command -v vim >/dev/null 2>&1; then
 		fi
 	fi
 fi
+
+for file in .profile .yash_profile .hgrc .gitconfig
+do
+	if ! [ -r ~/"$file" ]; then
+		echo "WARNING: ~/$file does not exist or is not readable."
+	fi
+done
+for file in .bash_profile .bash_login
+do
+	if [ -e ~/"$file" ]; then
+		echo "WARNING: ~/$file exists."
+	fi
+done
