@@ -10,7 +10,7 @@
 	new = cyan
 	old = red
 [push]
-	default = nothing
+	default = upstream
 [rebase]
 	autosquash = true
 [rerere]
