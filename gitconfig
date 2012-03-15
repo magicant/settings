@@ -9,6 +9,8 @@
 	meta = green
 	new = cyan
 	old = red
+[merge]
+	defaultToUpstream = true
 [push]
 	default = upstream
 [rebase]
