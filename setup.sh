@@ -110,7 +110,7 @@ if command -v vim >/dev/null 2>&1; then
 	fi
 fi
 
-for file in .profile .yash_profile .hgrc .gitconfig
+for file in .profile .yash_profile .hgrc .gitconfig .ssh/config
 do
 	if ! [ -r ~/"$file" ]; then
 		echo "WARNING: ~/$file does not exist or is not readable."

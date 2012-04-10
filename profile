@@ -7,7 +7,9 @@ if [ "${YASH_VERSION+yash}" = "yash" ] && [ -r /etc/profile ]; then
 	\unalias \alias \unalias 2>/dev/null
 fi
 
-#umask 022
+#if [ "$(id -u)" -gt 0 ]; then
+#	umask 022
+#fi
 #trap - TSTP TTIN TTOU
 
 #if [ -r ~/.settings/setterm ]; then
