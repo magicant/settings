@@ -157,6 +157,9 @@ p()
 if [ $# -gt 0 ]; then
 	printf '%s\n' "$@"
 fi
+alert() {
+	printf '\a'
+}
 mkdircd() {
 	mkdir -p "$@" && cd "$1"
 }
