@@ -177,12 +177,17 @@ noremap <C-W>Q :quitall<CR>
 noremap <F5> :set paste! paste?<CR>
 noremap <F6> :set list! list?<CR>
 noremap <F9> :set wrap! wrap?<CR>
-noremap \n :cnext<CR>
-noremap \p :cprevious<CR>
+noremap [q :call <SID>execcommandrange("cprevious")<CR>
+noremap ]q :call <SID>execcommandrange("cnext")<CR>
+noremap [l :call <SID>execcommandrange("lprevious")<CR>
+noremap ]l :call <SID>execcommandrange("lnext")<CR>
 if has("win32") || has("win64")
 	command! -nargs=* -complete=file -complete=shellcmd Start
 		\ silent ! start <args>
 endif
+function! s:execcommandrange(command) range abort
+	execute (a:lastline - a:firstline + 1) . a:command
+endfunction
 
 
 " auto commands
