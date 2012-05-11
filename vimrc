@@ -173,6 +173,15 @@ inoremap <C-U> <C-G>u<C-U>
 noremap Y y$
 map n /<Return>
 map N ?<Return>
+map <D-1> 1gt
+map <D-2> 2gt
+map <D-3> 3gt
+map <D-4> 4gt
+map <D-5> 5gt
+map <D-6> 6gt
+map <D-7> 7gt
+map <D-8> 8gt
+map <D-9> 9gt
 noremap <C-W>Q :quitall<CR>
 noremap <F5> :set paste! paste?<CR>
 noremap <F6> :set list! list?<CR>
