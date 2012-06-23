@@ -4,7 +4,9 @@
 " URL:		http://www.fleiner.com/vim/syntax/html.vim
 
 " Modifier:	magicant <magicant.starmen AT nifty.com>
-" Last Change:  2007 Apr 15
+" Last Change:  2012 Jun 23
+" Definitions for HTML5 by Rodrigo Machado <rcmachado@gmail.com> were imported
+" from https://github.com/othree/html5.vim/tree/master/syntax
 
 " Please check :help html.vim for some comments and a description of the options
 
@@ -94,6 +96,51 @@ syn keyword htmlArg contained headers hreflang lang language longdesc
 syn keyword htmlArg contained multiple nohref nowrap object profile readonly
 syn keyword htmlArg contained rules scheme scope span standby style
 syn keyword htmlArg contained summary tabindex valuetype version
+
+" HTML 5 tags
+syn keyword htmlTagName contained article aside audio canvas command
+syn keyword htmlTagName contained datalist details dialog embed figcaption figure footer
+syn keyword htmlTagName contained header hgroup keygen mark meter menu nav output
+syn keyword htmlTagName contained progress time ruby rt rp section source summary time track video
+syn keyword htmlTagName contained wbr bdi
+
+" HTML 5 arguments
+" Core Attributes
+syn keyword htmlArg contained accesskey class contenteditable contextmenu dir
+syn keyword htmlArg contained draggable hidden id lang spellcheck style tabindex title translate
+" Event-handler Attributes
+syn keyword htmlArg contained onabort onblur oncanplay oncanplaythrough onchange
+syn keyword htmlArg contained onclick oncontextmenu ondblclick ondrag ondragend ondragenter ondragleave ondragover
+syn keyword htmlArg contained ondragstart ondrop ondurationchange onemptied onended onerror onfocus onformchange
+syn keyword htmlArg contained onforminput oninput oninvalid onkeydown onkeypress onkeyup onload onloadeddata
+syn keyword htmlArg contained onloadedmetadata onloadstart onmousedown onmousemove onmouseout onmouseover onmouseup
+syn keyword htmlArg contained onmousewheel onpause onplay onplaying onprogress onratechange onreadystatechange
+syn keyword htmlArg contained onscroll onseeked onseeking onselect onshow onstalled onsubmit onsuspend ontimeupdate
+syn keyword htmlArg contained onvolumechange onwaiting
+" XML Attributes
+syn keyword htmlArg contained xml:lang xml:space xml:base xmlns
+" new features
+" <body>
+syn keyword htmlArg contained onafterprint onbeforeprint onbeforeunload onblur onerror onfocus onhashchange onload
+syn keyword htmlArg contained onmessage onoffline ononline onpopstate onredo onresize onstorage onundo onunload
+" <video>, <audio>, <source>, <track>
+syn keyword htmlArg contained autoplay preload controls loop poster media kind charset srclang track
+" <form>, <input>, <button>
+syn keyword htmlArg contained form autocomplete autofocus list min max step
+syn keyword htmlArg contained formaction autofocus formenctype formmethod formtarget formnovalidate
+syn keyword htmlArg contained required placeholder
+" <command>, <details>, <time>
+syn keyword htmlArg contained label icon open datetime pubdate
+" <script>
+syn keyword htmlArg contained async
+
+" Custom Data Attributes
+" http://dev.w3.org/html5/spec/elements.html#embedding-custom-non-visible-data
+syn match   htmlArg "\<\(data\(\-[a-z]\+\)\+\)\=\>" contained
+
+" Microdata
+" http://dev.w3.org/html5/md/
+syn keyword htmlArg contained itemid itemscope itemtype itemprop itemref
 
 " special characters
 syn match htmlSpecialChar "&#\=[0-9A-Za-z]\{1,8};\="
