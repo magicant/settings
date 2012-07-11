@@ -194,6 +194,7 @@ _update_vcs_info() {
 		read -r VCS_ROOT
 		read -r branch
 	} <(
+		COMMAND_NOT_FOUND_HANDLER=
 		while true; do
 			if [ -d .svn ]; then
 				printf 'svn\n'

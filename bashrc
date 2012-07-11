@@ -157,6 +157,7 @@ case $- in *i*)
 			read -r VCS_ROOT
 			read -r branch
 		} <<<"$(
+			unset -f command_not_found_handle
 			while true; do
 				if [ -d .svn ]; then
 					printf 'svn\n'
