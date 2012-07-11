@@ -13,9 +13,9 @@ highlight Normal guifg=LightGray guibg=Black
 highlight Comment ctermfg=Blue
 highlight Constant ctermfg=174 guifg=#D78787
 highlight Cursor cterm=bold ctermfg=Black ctermbg=Green gui=bold guifg=Black guibg=Green
-highlight DiffAdd ctermbg=DarkRed guibg=#000077
+highlight DiffAdd ctermbg=DarkBlue guibg=#000077
 highlight DiffChange ctermbg=DarkMagenta guibg=#440055
-highlight DiffDelete ctermfg=Black ctermbg=DarkBlue guifg=Black guibg=#550000
+highlight DiffDelete ctermfg=Black ctermbg=DarkRed guifg=Black guibg=#550000
 highlight DiffText ctermbg=Magenta gui=NONE guibg=#9900AA
 highlight! link FoldColumn Folded
 highlight Folded guifg=Cyan guibg=#555555
