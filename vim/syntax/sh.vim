@@ -67,7 +67,8 @@ if has("spell")
 endif
 
 " Clusters {{{1
-sy cluster shWordsList contains=shDollarError,shWordParenError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shExtGlob
+sy cluster shWordsList contains=@shInnerWordsList,shWordParenError
+sy cluster shInnerWordsList contains=shDollarError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shExtGlob
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
 sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase
@@ -75,7 +76,7 @@ sy cluster shTrailersList contains=shSeparator,shPipe,shTrailerLineCont,shAndOr,
 sy cluster shErrorList contains=shSepError,shThenError,shElifError,shElseError,shFiError,shDoError,shDoneError,shInError,shCaseError,shEsacError,shCurlyError,shParenError,shDTestError
 
 " Word {{{1
-" These are 'contained' in shWordsList so that they are treated as part of
+" These are 'contained' in shInnerWordsList so that they are treated as part of
 " a simple command
 if !exists("b:is_kornshell") && !exists("b:is_bash") && !exists("b:is_yash")
 	sy match shDollarError contained /\$/
@@ -103,33 +104,33 @@ sy match shParameter contained /\$\h\w*/
 sy match shParameter contained /\$\d/
 sy match shParameter contained /\$[@*#?$!-]/
 sy region shParameterBrace contained matchgroup=shParameter start=/\${/ end=/}/ contains=@shParamOpsList
-sy region shParamModifier contained matchgroup=shParamOp start=/:\?[-+?=]/ end=/}\@=/ contains=@shWordsList
+sy region shParamModifier contained matchgroup=shParamOp start=/:\?[-+?=]/ end=/}\@=/ contains=@shInnerWordsList
 if exists("b:is_posix")
 	sy match shParamOp contained /{\@<=#/
-	sy region shParamModifier contained matchgroup=shParamOp start=/##\?/ start=/%%\?/ end=/}\@=/ contains=@shWordsList
+	sy region shParamModifier contained matchgroup=shParamOp start=/##\?/ start=/%%\?/ end=/}\@=/ contains=@shInnerWordsList
 endif
 if exists("b:is_kornshell") || exists("b:is_bash")
 	sy match shParamOp contained /{\@<=!/
-	sy region shParamModifier contained matchgroup=shParamOp start=/:[-+?=]\@!/ end=/}\@=/ contains=@shWordsList,shParamColon
-	sy region shParamColon contained matchgroup=shParamOp start=/:/ end=/}\@=/ contains=@shWordsList
+	sy region shParamModifier contained matchgroup=shParamOp start=/:[-+?=]\@!/ end=/}\@=/ contains=@shInnerWordsList,shParamColon
+	sy region shParamColon contained matchgroup=shParamOp start=/:/ end=/}\@=/ contains=@shInnerWordsList
 endif
 if exists("b:is_kornshell")
 	sy match shParamOp contained /{\@<=@/
-	sy region shParamModifier contained matchgroup=shParamOp start=/:#/ end=/}\@=/ contains=@shWordsList
+	sy region shParamModifier contained matchgroup=shParamOp start=/:#/ end=/}\@=/ contains=@shInnerWordsList
 endif
 if exists("b:is_yash")
 	sy region shParamNest contained matchgroup=shParamNest start=/{/ end=/}/ contains=@shParamOpsList
-	sy region shParamModifier contained matchgroup=shParamOp start=":/" end=/}\@=/ contains=@shWordsList,shParamSlash
+	sy region shParamModifier contained matchgroup=shParamOp start=":/" end=/}\@=/ contains=@shInnerWordsList,shParamSlash
 	sy cluster shParamOpsList add=shBackquote,shCmdSub,shParameterBrace,shParamNest,shArith
 endif
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
-	sy region shParamModifier contained matchgroup=shParamOp start="/[#%/]\?" end=/}\@=/ contains=@shWordsList,shParamSlash
-	sy region shParamSlash contained matchgroup=shParamOp start="/" end=/}\@=/ contains=@shWordsList
-	sy region shParamModifier contained matchgroup=shParamOp start=/\[/ end=/]/ contains=@shWordsList,shArithParen
+	sy region shParamModifier contained matchgroup=shParamOp start="/[#%/]\?" end=/}\@=/ contains=@shInnerWordsList,shParamSlash
+	sy region shParamSlash contained matchgroup=shParamOp start="/" end=/}\@=/ contains=@shInnerWordsList
+	sy region shParamModifier contained matchgroup=shParamOp start=/\[/ end=/]/ contains=@shInnerWordsList,shArithParen
 endif
 if exists("b:is_posix")
-	sy region shArith contained matchgroup=shParameter start=/\$((\([^()]*))\@!\)\@!/ end=/))/ contains=@shWordsList,shArithParen
-	sy region shArithParen contained transparent start=/(/ end=/)/ contains=shArithParen
+	sy region shArith contained matchgroup=shParameter start=/\$((\([^()]*))\@!\)\@!/ end=/))/ contains=@shInnerWordsList,shArithParen
+	sy region shArithParen contained transparent start=/(/ end=/)/ contains=@shInnerWordsList,shArithParen
 endif
 sy region shComment start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo
 " We use end=/\n\@=/ rather than end=/$/. Otherwise some syntax doesn't match
