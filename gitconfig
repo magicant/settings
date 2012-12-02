@@ -9,6 +9,8 @@
 	meta = green
 	new = cyan
 	old = red
+[diff]
+	wordRegex = [^[:space:][:punct:]]+|[[:punct:]]
 [merge]
 	defaultToUpstream = true
 [push]
