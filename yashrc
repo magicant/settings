@@ -113,6 +113,7 @@ if command -vb bindkey >/dev/null; then
 	bindkey -v '\$'  backward-kill-line
 	bindkey -v '\^W' backward-delete-viword
 	bindkey -v '\^Y' put-left
+	bindkey -a c     vi-yank-and-change
 	if [ "$YASH_VERSION" -vge 2.19 ]; then
 		bindkey -v '\^P' beginning-search-backward
 		bindkey -v '\^N' beginning-search-forward
