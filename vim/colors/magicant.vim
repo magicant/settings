@@ -12,7 +12,7 @@ let g:colors_name = expand('<sfile>:t:r')
 highlight Normal guifg=LightGray guibg=Black
 highlight Comment ctermfg=Blue
 highlight Constant ctermfg=174 guifg=#D78787
-highlight Cursor cterm=bold ctermfg=Black ctermbg=Green gui=bold guifg=Black guibg=Green
+highlight Cursor cterm=bold ctermfg=Black ctermbg=Green gui=bold guifg=Black guibg=LightGreen
 highlight DiffAdd ctermbg=DarkBlue guibg=#000077
 highlight DiffChange ctermbg=DarkMagenta guibg=#440055
 highlight DiffDelete ctermfg=Black ctermbg=DarkRed guifg=Black guibg=#550000
@@ -34,7 +34,7 @@ highlight Statement cterm=NONE ctermfg=Yellow gui=NONE guifg=#F7F700
 highlight StatusLine cterm=bold ctermfg=White ctermbg=Blue gui=bold guifg=White guibg=Blue
 highlight Todo ctermfg=White ctermbg=27 guifg=White guibg=#005FFF
 highlight Type gui=NONE guifg=#66F566
-highlight Visual gui=bold guifg=#333333 guibg=Gray
+highlight Visual gui=bold guifg=#333333 guibg=LightGray
 
 highlight diffAdded ctermfg=Cyan guifg=Cyan
 highlight diffChanged ctermfg=Yellow guifg=Yellow
