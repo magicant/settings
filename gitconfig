@@ -9,6 +9,13 @@
 	meta = green
 	new = cyan
 	old = red
+[color "status"]
+	added = green
+	branch = cyan
+	changed = red
+	header = normal
+	nobranch = red
+	untracked = blue
 [diff]
 	wordRegex = [^[:space:][:punct:]]+|[[:punct:]]
 [merge]
