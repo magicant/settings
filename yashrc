@@ -72,7 +72,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 		alias ls='ls --color=tty'
 	fi
 
-	if command -v tree >/dev/null 2>&1; then
+	if [ "$termcolor" -ge 8 ] && command -v tree >/dev/null 2>&1; then
 		alias tree='tree -C'
 	fi
 
