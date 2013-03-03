@@ -144,12 +144,15 @@ case $(echo 1) in
 	-) echo command ;;
 	*)     # comment
 	;;     # comment
-		   # comment
+	       # comment
+	-#-#|-#-#)
 	esac   # comment
 case case in esac; case in in esac>/dev/null;
 case error in
 ) ;;
 s;3) echo;; ;;
+(#) bad comment;;
+i|#) bad comment;;
 esac
 case bash-only in
 	1) echo ;;

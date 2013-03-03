@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:				sh, POSIX shell, ksh, bash, yash
 " Maintainer:			Watanabe, Yuki <magicant.starmen AT nifty.com>
-" Last Change:			Sep 19, 2010
+" Last Change:			Mar 03, 2013
 
 " The following variables affect syntax highlighting:
 "   b:is_bourneshell  If set, only the original Bourne shell's syntax is
@@ -201,7 +201,7 @@ endif
 
 " Errors {{{1
 " shDollarError, shSeparator, shWordParenError and shParamError are defined
-" above. shBangError is defined later.
+" above. shBangError and shCaseCommentError are defined later.
 sy match shThenError  /[^[:blank:]|&;<>()]\@<!then[^[:blank:]|&;<>()]\@!/
 sy match shElifError  /[^[:blank:]|&;<>()]\@<!elif[^[:blank:]|&;<>()]\@!/
 sy match shElseError  /[^[:blank:]|&;<>()]\@<!else[^[:blank:]|&;<>()]\@!/
@@ -271,7 +271,8 @@ sy match shCase /[^[:blank:]|&;<>()]\@<!case[^[:blank:]|&;<>()]\@!/ skipwhite ne
 sy region shCaseWord contained transparent start=/[^[:blank:]|&;<>()]/ end=/[^[:blank:]|&;<>()]\@!/ contains=@shWordsList skipwhite skipempty nextgroup=shCaseIn,shCaseComment
 sy region shCaseIn contained transparent fold matchgroup=shConditional start=/[^[:blank:]|&;<>()]\@<!in[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/ contains=shCasePattern,shComment,@shErrorList skipwhite nextgroup=@shTrailersList
 sy region shCaseComment contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shCaseIn
-sy region shCasePattern contained transparent matchgroup=NONE start=/[^[:blank:]#|&;<>()]/ matchgroup=shOperator start=/(/ end=/)/ contains=@shWordsList,shSepError,shCasePipe skipwhite skipempty nextgroup=shCaseCommand,shCaseDSemi
+sy region shCasePattern contained transparent matchgroup=NONE start=/[^[:blank:]#|&;<>()]/ matchgroup=shOperator start=/(/ end=/)/ contains=@shWordsList,shSepError,shCaseCommentError,shCasePipe skipwhite skipempty nextgroup=shCaseCommand,shCaseDSemi
+sy match shCaseCommentError contained /[^[:blank:]|&;<>()]\@<!#/
 sy match shCasePipe contained /|/
 if !exists("b:is_bash")
 	sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;;/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
@@ -322,6 +323,7 @@ hi def link shTodo				Todo
 
 hi def link shBangError			shError
 hi def link shCaseError			shError
+hi def link shCaseCommentError	shError
 hi def link shCurlyError		shError
 hi def link shDoError			shError
 hi def link shDollarError		shError
