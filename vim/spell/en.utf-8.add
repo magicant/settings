@@ -23,6 +23,8 @@ X11
 autoload
 autoloaded
 autoloading
+backquote
+backquotes
 committer
 config
 globbing
