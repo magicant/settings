@@ -1,6 +1,6 @@
 [alias]
 	b = branch
-	graph = log --graph --oneline --decorate
+	graph = log --graph --oneline
 [color]
 	ui = auto
 [color "diff"]
@@ -18,6 +18,8 @@
 	untracked = blue
 [diff]
 	wordRegex = [^[:space:][:punct:]]+|[[:punct:]]
+[log]
+	decorate = short
 [merge]
 	defaultToUpstream = true
 [push]
