@@ -26,6 +26,7 @@
 	default = upstream
 [rebase]
 	autosquash = true
+        stat = true
 [rerere]
 	enabled = true
 [user]
