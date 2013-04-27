@@ -49,6 +49,7 @@ if command -v lesskey >/dev/null 2>&1; then
 	fi
 fi
 makelink lesspipe.sh bin/lesspipe.sh
+makelink minttyrc .minttyrc
 if ! [ $(PATH=$PATH:$PATH:$PATH which -a which 2>/dev/null | wc -l) -ge 3 ]
 then
 	makelink which bin/which
