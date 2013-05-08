@@ -236,11 +236,14 @@ if has("eval")
 	"   original script written by tyru: http://vim-users.jp/2010/05/hack149/
 	"   modified by magicant
 	let s:styles = {}
-	let s:styles['my']     = 'set noet ts=4 sw=4 sts&'
-	let s:styles['short']  = 'set   et ts=2 sw=2 sts&'
-	let s:styles['GNU']    = 'set   et ts=8 sw=2 sts=2'
-	let s:styles['BSD']    = 'set noet ts=8 sw=4 sts&'
-	let s:styles['Linux']  = 'set noet ts=8 sw=8 sts&'
+	let s:styles['tab2']   = 'set noet ts=2 sw=2 sts&'
+	let s:styles['tab4']   = 'set noet ts=4 sw=4 sts&'
+	let s:styles['tab8']   = 'set noet ts=8 sw=8 sts&'
+	let s:styles['mix2']   = 'set noet ts=8 sw=2 sts=2'
+	let s:styles['mix4']   = 'set noet ts=8 sw=4 sts=4'
+	let s:styles['space2'] = 'set   et ts=8 sw=2 sts=2'
+	let s:styles['space4'] = 'set   et ts=8 sw=4 sts=4'
+	let s:styles['space8'] = 'set   et ts=8 sw=8 sts&'
 	command! -bar -nargs=1 -complete=custom,s:style_complete
 		\ Style call s:style_main(<f-args>)
 	function! s:style_main(style, ...)
