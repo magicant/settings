@@ -9,6 +9,12 @@
 	meta = green
 	new = cyan
 	old = red
+[color "grep"]
+	filename = magenta
+	linenumber = green
+	match = red
+	separator = cyan
+	function = yellow
 [color "status"]
 	added = green
 	branch = cyan
