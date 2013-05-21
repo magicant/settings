@@ -244,12 +244,14 @@ if has("eval")
 	let s:styles['space2'] = 'set   et ts=8 sw=2 sts=2'
 	let s:styles['space4'] = 'set   et ts=8 sw=4 sts=4'
 	let s:styles['space8'] = 'set   et ts=8 sw=8 sts&'
-	command! -bar -nargs=1 -complete=custom,s:style_complete
+	command! -bar -nargs=? -complete=custom,s:style_complete
 		\ Style call s:style_main(<f-args>)
-	function! s:style_main(style, ...)
-		execute get(s:styles, a:style, '')
-		redraw
-		set et? ts? sw? sts?
+	function! s:style_main(...)
+		if a:0 == 0
+			set et? ts? sw? sts?
+		else
+			execute get(s:styles, a:1, 'echoerr "Unknown style: " . a:1')
+		endif
 	endfunction
 	function! s:style_complete(...)
 		return join(keys(s:styles), "\n")
