@@ -177,8 +177,8 @@ noremap <C-W>Q :quitall<CR>
 noremap <F5> :set paste! paste?<CR>
 noremap <F6> :set list! list?<CR>
 noremap <F9> :set wrap! wrap?<CR>
-noremap [b :bprevious<CR>
-noremap ]b :bnext<CR>
+noremap [b :call <SID>execcommandrange("bprevious")<CR>
+noremap ]b :call <SID>execcommandrange("bnext")<CR>
 noremap [q :call <SID>execcommandrange("cprevious")<CR>
 noremap ]q :call <SID>execcommandrange("cnext")<CR>
 noremap [l :call <SID>execcommandrange("lprevious")<CR>
