@@ -37,6 +37,7 @@ if has("autocmd")
 endif
 if has("syntax")
 	syntax enable
+	set spell
 	noremap <F7> :set spell! spell?<CR>
 endif
 
