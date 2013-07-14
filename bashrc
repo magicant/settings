@@ -22,7 +22,7 @@ case $- in *i*)
 				TERM=xterm-256color
 				. "${SETTINGSDIR:-$HOME/.settings}/setterm"
 				;;
-			gnome-terminal | */gnome-terminal )
+			gnome-terminal* | */gnome-terminal* )
 				TERM=gnome-256color
 				. "${SETTINGSDIR:-$HOME/.settings}/setterm"
 				;;
