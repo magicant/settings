@@ -1,3 +1,4 @@
+API
 AWK
 Autoload
 Autoloads
@@ -14,6 +15,7 @@ POSIX
 POSIXly
 SELinux
 SHA1
+Sesh
 Solaris
 SunOS
 UI
@@ -27,6 +29,7 @@ backquote
 backquotes
 committer
 config
+decrementation
 globbing
 globing/!
 hashtable
@@ -35,6 +38,9 @@ magicant
 malloced
 metadata
 multibyte
+namespace
+namespaces
+nullable
 petabyte
 posixly
 primality
@@ -53,6 +59,7 @@ undefines
 unexisting
 uninstall
 uninstallation
+unmeaningful
 unmerged
 unsets
 versioned
