@@ -4,10 +4,13 @@ Autoload
 Autoloads
 CVS
 Ctrl
+Dalvik
+EPUB
 FreeBSD
 GPG
 IPv4
 IPv6
+JSON
 NetBSD
 OpenBSD
 OpenSSH
@@ -15,6 +18,7 @@ POSIX
 POSIXly
 SELinux
 SHA1
+SVG
 Sesh
 Solaris
 SunOS
@@ -22,6 +26,9 @@ UI
 URLs
 UTC
 X11
+XHTML
+Xcode
+app
 autoload
 autoloaded
 autoloading
@@ -30,6 +37,8 @@ backquotes
 committer
 config
 decrementation
+fallback
+finalizer
 globbing
 globing/!
 hashtable
@@ -41,12 +50,16 @@ multibyte
 namespace
 namespaces
 nullable
+offsetted
 petabyte
 posixly
 primality
 rebase
 rebased
 rebasing
+refactor
+reflow
+reflowable
 regex
 subshell
 subshells
@@ -63,6 +76,7 @@ unmeaningful
 unmerged
 unsets
 versioned
+viewport
 whitespaces
 wildcard
 wildcards
