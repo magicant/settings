@@ -6,6 +6,7 @@ CopyOnSelect=no
 Term=xterm-256color
 BellSound=yes
 BellTaskbar=no
+Rows=40
 
 Black            =  10,  10,  10
 BoldBlack        =   0,   0,   0
