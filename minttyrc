@@ -1,4 +1,5 @@
-BoldAsFont=no
+BoldAsColour=no
+BoldAsFont=yes
 Transparency=medium
 CursorType=block
 Font=Consolas
