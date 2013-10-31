@@ -12,7 +12,7 @@
 [color "grep"]
 	filename = magenta
 	linenumber = green
-	match = red
+	match = red bold
 	separator = cyan
 	function = yellow
 [color "status"]
