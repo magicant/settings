@@ -37,6 +37,10 @@ backquotes
 committer
 config
 decrementation
+emplaced
+emplacer
+emplaces
+emplacing
 fallback
 finalizer
 globbing
@@ -63,6 +67,7 @@ reflowable
 regex
 subshell
 subshells
+supertype
 terabyte
 terminfo
 timestamp
