@@ -184,6 +184,8 @@ noremap [q :call <SID>execcommandrange("cprevious")<CR>
 noremap ]q :call <SID>execcommandrange("cnext")<CR>
 noremap [l :call <SID>execcommandrange("lprevious")<CR>
 noremap ]l :call <SID>execcommandrange("lnext")<CR>
+noremap <C-Tab> <C-PageDown>
+noremap <C-S-Tab> <C-PageUp>
 if has("win32") || has("win64")
 	command! -nargs=* -complete=file -complete=shellcmd Start
 		\ silent ! start <args>
