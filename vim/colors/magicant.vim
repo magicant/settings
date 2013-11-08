@@ -29,6 +29,7 @@ highlight PmenuThumb cterm=NONE ctermbg=Yellow gui=NONE guibg=Yellow
 highlight PreProc ctermfg=177 guifg=#D787FF
 highlight SignColumn ctermfg=Red ctermbg=242 guifg=Red guibg=#555555
 highlight Special ctermfg=224 guifg=#FFD7D7
+highlight SpecialKey ctermfg=Brown guifg=#996600
 highlight SpellBad ctermbg=DarkRed
 highlight SpellCap ctermbg=DarkBlue gui=undercurl guisp=#00AAFF
 highlight SpellLocal ctermbg=DarkCyan
