@@ -35,6 +35,9 @@
         stat = true
 [rerere]
 	enabled = true
+[status]
+	branch = true
+	short = true
 [user]
 	name = WATANABE Yuki
 	email = magicant@wonderwand.net
