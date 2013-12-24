@@ -148,7 +148,7 @@ endfunction
 function s:MiddleRedraw()
   let l:startofline = &startofline
   set nostartofline
-  normal! Mg0
+  keepjumps normal! Mg0
   let &startofline = l:startofline
   call s:Redraw()
 endfunction
