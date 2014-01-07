@@ -54,7 +54,7 @@ if ! [ $(PATH=$PATH:$PATH:$PATH which -a which 2>/dev/null | wc -l) -ge 3 ]
 then
 	makelink which bin/which
 fi
-if top --version 2>/dev/null | grep -q procps; then
+if echo q | top -v 2>/dev/null | grep -q procps; then
 	makelink toprc .toprc
 fi
 makelink yashrc .yashrc
