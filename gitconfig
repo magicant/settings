@@ -28,6 +28,8 @@
 	decorate = short
 [merge]
 	defaultToUpstream = true
+[mergetool]
+	prompt = false
 [push]
 	default = upstream
 [rebase]
@@ -38,6 +40,14 @@
 [status]
 	branch = true
 	short = true
+[tig]
+	commit-order = topo
+	show-author = false
+[tig "bind"]
+	generic = ^b scroll-page-up
+	generic = ^f scroll-page-down
+[tig "color"]
+	cursor = default default bold underline
 [user]
 	name = WATANABE Yuki
 	email = magicant@wonderwand.net
