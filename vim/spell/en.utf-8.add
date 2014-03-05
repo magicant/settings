@@ -37,6 +37,7 @@ backquotes
 committer
 config
 decrementation
+dereferenceable
 emplaced
 emplacer
 emplaces
@@ -47,6 +48,8 @@ globbing
 globing/!
 hashtable
 iff
+linebreak
+linebreaks
 magicant
 malloced
 metadata
@@ -65,6 +68,7 @@ refactor
 reflow
 reflowable
 regex
+segfault
 subshell
 subshells
 supertype
