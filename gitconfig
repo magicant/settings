@@ -43,6 +43,8 @@
 [tig]
 	commit-order = topo
 	show-author = false
+	show-date = false
+	show-id = true
 [tig "bind"]
 	generic = ^b scroll-page-up
 	generic = ^f scroll-page-down
