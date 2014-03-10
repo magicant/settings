@@ -46,8 +46,11 @@
 	show-date = false
 	show-id = true
 [tig "bind"]
+	generic = G move-last-line
 	generic = ^b scroll-page-up
 	generic = ^f scroll-page-down
+	generic = ^g toggle-rev-graph
+	generic = g move-first-line
 [tig "color"]
 	cursor = default default bold underline
 [user]
