@@ -174,16 +174,28 @@ inoremap <C-U> <C-G>u<C-U>
 noremap Y y$
 map n /<Return>
 map N ?<Return>
+noremap ZA :wall<CR>
+noremap ZU :update<CR>
 noremap <C-W>Q :quitall<CR>
 noremap <F5> :set paste! paste?<CR>
 noremap <F6> :set list! list?<CR>
 noremap <F9> :set wrap! wrap?<CR>
+noremap [a :call <SID>execcommandrange("previous")<CR>
+noremap ]a :call <SID>execcommandrange("next")<CR>
+noremap [A :first<CR>
+noremap ]A :last<CR>
 noremap [b :call <SID>execcommandrange("bprevious")<CR>
 noremap ]b :call <SID>execcommandrange("bnext")<CR>
+noremap [B :bfirst<CR>
+noremap ]B :blast<CR>
 noremap [q :call <SID>execcommandrange("cprevious")<CR>
 noremap ]q :call <SID>execcommandrange("cnext")<CR>
+noremap [Q :cfirst<CR>
+noremap ]Q :clast<CR>
 noremap [l :call <SID>execcommandrange("lprevious")<CR>
 noremap ]l :call <SID>execcommandrange("lnext")<CR>
+noremap [L :lfirst<CR>
+noremap ]L :llast<CR>
 noremap <C-Tab> <C-PageDown>
 noremap <C-S-Tab> <C-PageUp>
 if has("win32") || has("win64")
