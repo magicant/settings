@@ -24,6 +24,12 @@ cd ~/.vim/spell
 find . -name '*.add' -exec echo vim: mkspell {} \; \
 	-exec sh -c 'echo "verbose mkspell! $1" | vim -e -s; echo' dummy {} \;
 )
+(
+cd ~/.vim/after/spell
+echo vim: mkspell cjk.ascii
+echo "verbose mkspell! cjk.ascii.spl cjk.ascii" | vim -e -s
+echo
+)
 
 GLVSfile="GetLatestVimScripts.dat"
 GLVSdir="$HOME/.vim/GetLatest"
