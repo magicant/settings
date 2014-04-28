@@ -17,6 +17,7 @@ OpenSSH
 POSIX
 POSIXly
 SELinux
+SFINAE
 SHA1
 SVG
 Sesh
@@ -50,6 +51,7 @@ hashtable
 iff
 linebreak
 linebreaks
+localizable
 magicant
 malloced
 metadata
