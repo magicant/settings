@@ -155,7 +155,7 @@ endfunction
 
 function s:Redraw()
   redraw
-  file
+  echo '-- VIMLESS --'
 endfunction
 
 function s:Help()
