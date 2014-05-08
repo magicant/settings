@@ -173,7 +173,8 @@ function s:End()
   augroup less
     autocmd!
   augroup END
-  call s:Redraw()
+  redraw
+  file
 endfunction
 
 " vim: sw=2 ts=8
