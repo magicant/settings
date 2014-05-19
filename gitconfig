@@ -39,7 +39,6 @@
 	enabled = true
 [status]
 	branch = true
-	short = true
 [tig]
 	commit-order = topo
 	show-author = false
