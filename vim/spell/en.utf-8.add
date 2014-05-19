@@ -1,7 +1,5 @@
 API
 AWK
-Autoload
-Autoloads
 CVS
 Ctrl
 Dalvik
@@ -33,6 +31,8 @@ app
 autoload
 autoloaded
 autoloading
+autoloads
+awaiter
 backquote
 backquotes
 committer
@@ -63,6 +63,7 @@ offsetted
 petabyte
 posixly
 primality
+proactor
 rebase
 rebased
 rebasing
@@ -74,6 +75,7 @@ segfault
 subshell
 subshells
 supertype
+templated
 terabyte
 terminfo
 timestamp
