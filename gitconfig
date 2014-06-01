@@ -41,15 +41,48 @@
 	branch = true
 [tig]
 	commit-order = topo
-	show-author = false
-	show-date = false
-	show-id = true
+	main-view = id author:no date:no commit-title:graph=yes,refs=yes
+	refs-view = id:no author:no date ref commit-title
+	stash-view = id:no author:no date commit-title
 [tig "bind"]
+	generic = <Backspace> back
+	generic = <Ctrl-B> scroll-page-up
+	generic = <Ctrl-F> scroll-page-down
+	generic = <Ctrl-G> :toggle commit-title-graph
+	generic = <Ctrl-H> back
+	generic = <Ctrl-R> refresh
+	generic = <Ctrl-W> view-next
+	generic = A view-stash
+	generic = B view-blame
+	generic = D view-diff
+	generic = F view-blob
 	generic = G move-last-line
-	generic = ^b scroll-page-up
-	generic = ^f scroll-page-down
-	generic = ^g toggle-rev-graph
+	generic = I view-stage
+	generic = L view-log
+	generic = M view-main
+	generic = P view-pager
+	generic = R view-refs
+	generic = S view-status
+	generic = T view-tree
+	generic = _ maximize
+	generic = a :toggle author
+	generic = b scroll-page-up
+	generic = c none
+	generic = d :toggle date
+	generic = f scroll-page-down
 	generic = g move-first-line
+	generic = w :toggle ignore-space
+	generic = x :toggle id
+	main = G move-last-line
+	main = c ?git checkout %(commit)
+	refs = c ?git checkout %(branch)
+	stage = s stage-split-chunk
+	stash = a ?git stash apply %(stash)
+	stash = p ?git stash pop %(stash)
+	status = M view-main
+	status = c !git commit
+	status = m status-merge
+	status = s ?git stash save
 [tig "color"]
 	cursor = default default bold underline
 [user]
