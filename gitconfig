@@ -41,10 +41,13 @@
 	branch = true
 [tig]
 	commit-order = topo
+	blame-view = id author:no date file-name:auto text
 	main-view = id author:no date:no commit-title:graph=yes,refs=yes
 	refs-view = id:no author:no date ref commit-title
 	stash-view = id:no author:no date commit-title
+	wrap-lines = true
 [tig "bind"]
+	generic = % :toggle file-name
 	generic = <Backspace> back
 	generic = <Ctrl-B> scroll-page-up
 	generic = <Ctrl-F> scroll-page-down
