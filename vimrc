@@ -23,7 +23,7 @@ endif
 
 " display options
 if has("linebreak")
-	set showbreak=>>
+	set linebreak showbreak=>>
 endif
 set display=lastline
 set cmdheight=1
