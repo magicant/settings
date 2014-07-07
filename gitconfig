@@ -24,6 +24,8 @@
 	untracked = blue
 [diff]
 	wordRegex = [^[:space:][:punct:]]+|[[:punct:]]
+[fetch]
+	prune = true
 [log]
 	decorate = short
 [merge]
