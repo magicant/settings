@@ -186,20 +186,12 @@ noremap <C-W>Q :quitall<CR>
 noremap <F5> :set paste! paste?<CR>
 noremap <F6> :set list! list?<CR>
 noremap <F9> :set wrap! wrap?<CR>
-noremap [a :call <SID>execcommandrange("previous")<CR>
-noremap ]a :call <SID>execcommandrange("next")<CR>
 noremap [A :first<CR>
 noremap ]A :last<CR>
-noremap [b :call <SID>execcommandrange("bprevious")<CR>
-noremap ]b :call <SID>execcommandrange("bnext")<CR>
 noremap [B :bfirst<CR>
 noremap ]B :blast<CR>
-noremap [q :call <SID>execcommandrange("cprevious")<CR>
-noremap ]q :call <SID>execcommandrange("cnext")<CR>
 noremap [Q :cfirst<CR>
 noremap ]Q :clast<CR>
-noremap [l :call <SID>execcommandrange("lprevious")<CR>
-noremap ]l :call <SID>execcommandrange("lnext")<CR>
 noremap [L :lfirst<CR>
 noremap ]L :llast<CR>
 noremap <C-Tab> <C-PageDown>
@@ -208,9 +200,19 @@ if has("win32") || has("win64")
 	command! -nargs=* -complete=file -complete=shellcmd Start
 		\ silent ! start <args>
 endif
-function! s:execcommandrange(command) range abort
-	execute (a:lastline - a:firstline + 1) . a:command
-endfunction
+if has("eval")
+	function! s:execcommandrange(command) range abort
+		execute (a:lastline - a:firstline + 1) . a:command
+	endfunction
+	noremap [a :call <SID>execcommandrange("previous")<CR>
+	noremap ]a :call <SID>execcommandrange("next")<CR>
+	noremap [b :call <SID>execcommandrange("bprevious")<CR>
+	noremap ]b :call <SID>execcommandrange("bnext")<CR>
+	noremap [q :call <SID>execcommandrange("cprevious")<CR>
+	noremap ]q :call <SID>execcommandrange("cnext")<CR>
+	noremap [l :call <SID>execcommandrange("lprevious")<CR>
+	noremap ]l :call <SID>execcommandrange("lnext")<CR>
+endif
 if has("gui_macvim")
 	map <D-1> 1gt
 	map <D-2> 2gt

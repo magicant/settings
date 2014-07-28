@@ -7,7 +7,9 @@ highlight clear
 if exists("syntax_on")
   syntax reset
 endif
-let g:colors_name = expand('<sfile>:t:r')
+if has("eval")
+  let g:colors_name = expand('<sfile>:t:r')
+endif
 
 highlight Normal guifg=LightGray guibg=Black
 highlight Comment ctermfg=Blue
