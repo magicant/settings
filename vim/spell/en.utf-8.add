@@ -28,6 +28,7 @@ X11
 XHTML
 Xcode
 app
+assignability
 autoload
 autoloaded
 autoloading
@@ -58,6 +59,7 @@ metadata
 multibyte
 namespace
 namespaces
+nop
 nullable
 offsetted
 petabyte
