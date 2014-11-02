@@ -1,6 +1,6 @@
 " Magicant's vim color file
 " Maintainer:	Watanabe Yuki aka Magicant <magicant.wonderwand@gmail.com>
-" Last Change:	2012 Jan 12
+" Last Change:	2014 Oct 23
 
 set background=dark
 highlight clear
@@ -20,7 +20,7 @@ highlight DiffChange ctermbg=DarkMagenta guibg=#440055
 highlight DiffDelete ctermfg=Black ctermbg=DarkRed guifg=Black guibg=#550000
 highlight DiffText ctermbg=Magenta gui=NONE guibg=#9900AA
 highlight! link FoldColumn Folded
-highlight Folded guifg=Cyan guibg=#555555
+highlight Folded ctermfg=White ctermbg=242 guifg=White guibg=#555555
 highlight Identifier cterm=NONE ctermfg=Cyan guifg=#40FFFF
 highlight! link IncSearch Search
 highlight LineNr ctermfg=Yellow ctermbg=242 guifg=Yellow guibg=#555555
@@ -49,6 +49,7 @@ highlight diffRemoved ctermfg=Red guifg=Red
 " for terminals with few colors
 if &t_Co <= 16
   highlight Constant ctermfg=Red
+  highlight Folded ctermbg=DarkGray
   highlight LineNr ctermbg=DarkGray
   highlight PreProc ctermfg=Magenta
   highlight SignColumn ctermbg=DarkGray
