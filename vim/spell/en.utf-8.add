@@ -8,6 +8,7 @@ FreeBSD
 GPG
 IPv4
 IPv6
+JPEG
 JSON
 NetBSD
 OpenBSD
@@ -36,6 +37,7 @@ autoloads
 awaiter
 backquote
 backquotes
+codebase
 committer
 config
 decrementation
@@ -49,6 +51,7 @@ finalizer
 globbing
 globing/!
 hashtable
+iPhone
 iff
 incrementable
 iterable
@@ -66,6 +69,7 @@ nullable
 offsetted
 petabyte
 posixly
+prefetch
 primality
 proactor
 rebase
@@ -89,6 +93,7 @@ undefines
 unexisting
 uninstall
 uninstallation
+uninstalled
 unmeaningful
 unmerged
 unsets
