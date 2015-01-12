@@ -75,6 +75,10 @@ case $- in *i*)
 	alias up='_vcs update'
 	alias C='LC_ALL=C '
 
+	if echo X | grep --color=auto -q X 2>/dev/null; then
+		alias grep='grep --color=auto'
+	fi
+
 	if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
 		alias ls='ls --color=tty'
 	fi

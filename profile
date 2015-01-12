@@ -32,7 +32,6 @@ fi
 #X
 #END
 #then
-#	export GREP_OPTIONS='--color=auto'
 #	export GREP_COLORS='mt=01;31:fn=01;35:ln=01;32:bn=01;33:se=01;36'
 #	export GREP_COLORS='mt=01;31:fn=95:ln=92:bn=93:se=96'
 #fi
