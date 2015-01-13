@@ -53,12 +53,17 @@ fi
 #	eval "$(keychain --eval id_rsa)"
 #fi
 
-#case $- in (*i*)
-#	if [ "${YASH_VERSION+yash}" != "yash" ]; then
-#		if yash --version >/dev/null 2>&1; then
-#			exec yash
+#case $- in
+#	(*c*)
+#		;;
+#	(*i*)
+#		if [ "${YASH_VERSION+yash}" != "yash" ]; then
+#			if yash --version >/dev/null 2>&1; then
+#				export SHELL="$(command -v yash)"
+#				exec yash
+#			fi
 #		fi
-#	fi
+#		;;
 #esac
 if [ "${BASH_VERSION+bash}" = "bash" ] && [ -r ~/.bashrc ]; then
 	. ~/.bashrc
