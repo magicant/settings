@@ -1,10 +1,10 @@
 #!/bin/sh
 
-makelink () {
+prefix () (
 	case $PWD in
 		${HOME%/}/*)
 			prefix="${PWD#${HOME%/}/}"
-			t="$(dirname "$2")"
+			t="$(dirname "$1")"
 			until [ x"$t" = x"." ]; do
 				prefix="../$prefix"
 				t="$(dirname "$t")"
@@ -14,13 +14,17 @@ makelink () {
 			prefix=$PWD
 			;;
 	esac
+	echo "$prefix/"
+)
+makelink () {
+	prefix=$(prefix "$2")
 	mkdir -p "$(dirname "$HOME/$2")"
 	if [ -L "$HOME/$2" ]; then
 		echo "Symbolic link ~/$2 already exists"
 	elif [ -d "$HOME/$2" ]; then
 		echo "~/$2 is a directory"
-	elif ln -s "$prefix/$1" "$HOME/$2"; then
-		echo "~/$2" "->" "$prefix/$1"
+	elif ln -s "$prefix$1" "$HOME/$2"; then
+		echo "~/$2" "->" "$prefix$1"
 	fi
 }
 
@@ -40,6 +44,15 @@ if command -v dircolors >/dev/null 2>&1; then
 		echo The dircolors command is too old to support your dircolors file
 		echo Use the makedircolors script to fix it
 	fi
+fi
+if [ -e "$HOME/.gitconfig" ]; then
+	echo "File ~/.gitconfig already exists"
+else
+	{
+		echo '[include]'
+		echo "	path = $(prefix ".gitconfig")gitconfig"
+	} >"$HOME/.gitconfig"
+	echo "Created ~/.gitconfig"
 fi
 makelink inputrc .inputrc
 if command -v lesskey >/dev/null 2>&1; then
@@ -111,7 +124,7 @@ if command -v vim >/dev/null 2>&1; then
 	fi
 fi
 
-for file in .profile .yash_profile .hgrc .gitconfig .ssh/config
+for file in .profile .yash_profile .hgrc .ssh/config
 do
 	if ! [ -r ~/"$file" ]; then
 		echo "WARNING: ~/$file does not exist or is not readable."
