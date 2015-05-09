@@ -1,5 +1,9 @@
 # magicant's profile
 
+# For Cygwin
+#export LANG="$(locale -uU)"
+#ulimit -S -c 0
+
 # bash/ksh automatically sources /etc/profile before sourcing user's profile
 if [ "${YASH_VERSION+yash}" = "yash" ] && [ -r /etc/profile ]; then
 	alias alias=: 2>/dev/null
