@@ -24,6 +24,7 @@ endif
 " display options
 if has("linebreak")
 	set linebreak showbreak=>>
+	noremap <S-F9> :set linebreak! linebreak?<CR>
 endif
 set display=lastline
 set cmdheight=1
