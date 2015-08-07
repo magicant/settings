@@ -154,7 +154,7 @@ else
 	uc=$hc    gc=   hc=   # normal
 fi
 PS1='\fo.'$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fd. ${${${PWD:/~/\~}##*/}:-$PWD} ${{?:/0/}:+\\fr.$?\\fd. }${SHLVL:/1}\$ '
-PS1R='\fc.${VCS_INFO}'
+PS1R='\fr.${memo:-"\fc.${VCS_INFO}"}'
 PS1S='\fwt.'
 PS2='\fo.'$gc'>\fD. '
 PS2R=
