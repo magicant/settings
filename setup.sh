@@ -70,6 +70,7 @@ fi
 if echo q | top -v 2>/dev/null | grep -q procps; then
 	makelink toprc .toprc
 fi
+makelink vipipe bin/vipipe
 makelink yashrc .yashrc
 makelink zshrc .zshrc
 

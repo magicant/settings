@@ -1,0 +1,19 @@
+# Read stdin, edit it as a file, and print to stdout.
+# A similar utility is available as "vipe" in moreutils.
+
+set -Ceu
+
+buffer=/tmp/vipipe$$
+
+trap 'rm -fr -- "${buffer}"' EXIT HUP INT TERM QUIT
+cat >"${buffer}"
+exec <&-
+(
+if ! [ -t 2 ]; then 2<>/dev/tty; fi
+exec ${VISUAL:-${EDITOR:-vi}} "${buffer}" <&2 >&2
+)
+exec <"${buffer}"
+rm -- "${buffer}"
+exec cat
+
+# vim: ft=sh ts=4 sw=2 sts=2
