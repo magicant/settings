@@ -34,9 +34,7 @@ echo Home directory is "$HOME"
 echo Settings directory is "$PWD"
 
 makelink bashrc .bashrc
-if command -v colordiff >/dev/null 2>&1; then
-	makelink colordiffrc .colordiffrc
-fi
+makelink colordiffrc .colordiffrc
 if command -v dircolors >/dev/null 2>&1; then
 	if TERM=xterm dircolors dircolors >/dev/null 2>&1; then
 		makelink dircolors .dircolors
@@ -55,8 +53,8 @@ else
 	echo "Created ~/.gitconfig"
 fi
 makelink inputrc .inputrc
+makelink lesskey .lesskey
 if command -v lesskey >/dev/null 2>&1; then
-	makelink lesskey .lesskey
 	if lesskey; then
 		echo updated .less
 	fi
@@ -70,6 +68,9 @@ fi
 if echo q | top -v 2>/dev/null | grep -q procps; then
 	makelink toprc .toprc
 fi
+makelink vimrc .vimrc
+makelink vim .vim
+makelink vimless bin/vimless
 makelink vipipe bin/vipipe
 makelink yashrc .yashrc
 makelink zshrc .zshrc
@@ -111,9 +112,6 @@ elif command -v xclip >/dev/null 2>&1; then
 fi
 
 if command -v vim >/dev/null 2>&1; then
-	makelink vimrc .vimrc
-	makelink vim .vim
-	makelink vimless bin/vimless
 	vim/setup.sh
 	if command -v gvim >/dev/null 2>&1; then
 		#makelink vimless bin/gvimless
