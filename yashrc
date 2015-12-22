@@ -153,7 +153,7 @@ if [ "$(id -u)" -eq 0 ]; then
 else
 	uc=$hc    gc=   hc=   # normal
 fi
-PS1='\fo.'$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fd. ${${${PWD:/~/\~}##*/}:-$PWD} ${{?:/0/}:+\\fr.$?\\fd. }${SHLVL:/1}\$ '
+PS1='\fo.'$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fd. ${${${PWD:/~/\~}##*/}:-$PWD} ${{?:/0/}:+\\fr.$?\\fd. }${{SHLVL-0}:/1}\$ '
 PS1R='\fr.${memo:-"\fc.${VCS_INFO}"}'
 PS1S='\fwt.'
 PS2='\fo.'$gc'>\fD. '
