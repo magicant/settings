@@ -6,10 +6,12 @@ Dalvik
 EPUB
 FreeBSD
 GPG
+GitHub
 IPv4
 IPv6
 JPEG
 JSON
+Kotlin
 NetBSD
 OpenBSD
 OpenSSH
@@ -51,6 +53,7 @@ finalizer
 globbing
 globing/!
 hashtable
+iOS
 iPad
 iPhone
 iff
