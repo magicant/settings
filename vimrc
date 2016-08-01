@@ -128,8 +128,8 @@ if has("quickfix")
 	set errorformat+=%-G%f:%l:\ error:\ for\ each\ function\ it\ appears\ in.)
 	set errorformat+=%f:%l:%c:%m
 	set errorformat+=%f:%l:%m
-	set errorformat+=%D%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ に入ります
-	set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ `%f'\ から出ます
+	set errorformat+=%D%*\\a[%*\\d]:\ ディレクトリ\ %[`']%f'\ に入ります
+	set errorformat+=%X%*\\a[%*\\d]:\ ディレクトリ\ %[`']%f'\ から出ます
 endif
 
 " i18n options
