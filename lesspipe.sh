@@ -39,7 +39,7 @@ case "$r1" in
   *)      u1="$r1"         decomp="cat" ;;
 esac
 case "$u1" in
-  *.tar )  $decomp -- "$1" | tar tvf - | exec sort -k 6 ; exit ;;
+  *.tar )  $decomp -- "$1" | tar tvf - ; exit ;;
 esac
 
 case "${LC_ALL:-${LC_CTYPE:-$LANG}}" in
