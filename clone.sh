@@ -22,3 +22,4 @@ git remote set-head github master
 git remote set-head origin git-svn
 git reset --hard origin
 git svn rebase
+git svn show-ignore >> .git/info/exclude
