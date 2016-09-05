@@ -16,15 +16,18 @@ fi
 case $- in *i*)
 
 	# if the shell is executed in a terminal emulator, set $TERM accordingly
+	# and reset $SHLVL
 	if [ -r "${SETTINGSDIR:-$HOME/.settings}/setterm" ]; then
 		case $(ps -o comm= -p $PPID 2>/dev/null) in
 			xterm | */xterm)
 				TERM=xterm-256color
 				. "${SETTINGSDIR:-$HOME/.settings}/setterm"
+				SHLVL=1
 				;;
 			gnome-terminal* | */gnome-terminal* )
 				TERM=gnome-256color
 				. "${SETTINGSDIR:-$HOME/.settings}/setterm"
+				SHLVL=1
 				;;
 		esac
 	fi
