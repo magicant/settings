@@ -5,7 +5,11 @@
 set -Ceu
 
 if [ "$PWD" != ~/.settings ] && [ "${1-}" != -f ]; then
-  printf 'Use -f to run in a non-standard directory.\n'
+  printf 'Use -f to run in a non-standard directory.\n' >&2
+  exit 1
+fi
+if [ -e .git ] && [ "${1-}" != -f ]; then
+  printf 'Use -f to run in spite of the existing Git repo.\n' >&2
   exit 1
 fi
 
