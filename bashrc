@@ -31,6 +31,9 @@ case $- in *i*)
 				;;
 		esac
 	fi
+	if [ "/proc/$PPID/exe" -ef /usr/bin/mintty.exe ]; then
+		export TERM_PROGRAM=mintty
+	fi
 
 	filter() {
 		sed -e 's;\\;\\\\;g' -e 's;;\\e;g' -e 's;;\\a;g' -e 's;\n;\\n;g'

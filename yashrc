@@ -32,6 +32,9 @@ if [ -r "${SETTINGSDIR:-$HOME/.settings}/setterm" ]; then
 			;;
 	esac
 fi
+if [ "/proc/$PPID/exe" -ef /usr/bin/mintty.exe ]; then
+	export TERM_PROGRAM=mintty
+fi
 
 termcolor=$(tput colors 2>/dev/null)
 : ${PAGER:=more} ${termcolor:=-1}

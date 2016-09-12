@@ -7,3 +7,4 @@ Host *
 	HashKnownHosts no
 	ServerAliveCountMax 3
 	ServerAliveInterval 300
+	SendEnv TERM_PROGRAM

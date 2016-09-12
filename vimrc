@@ -59,6 +59,12 @@ if &t_ts == '' && &t_fs == ''
 		let [&t_ts, &t_fs] = ["\e]0;", "\7"]
 	endif
 endif
+if &t_SI == '' && &t_EI == ''
+	if &term =~? '^gnome\>' || $TERM_PROGRAM =~? '\<mintty\>'
+		" Maybe other terminals like iTerm2 support this, too?
+		let [&t_SI, &t_SR, &t_EI] = ["\<Esc>[5 q", "\<Esc>[3 q", "\<Esc>[0 q"]
+	endif
+endif
 if has("title")
 	set title
 endif
