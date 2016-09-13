@@ -60,6 +60,7 @@ alias rm='rm -i'
 
 alias -- -='cd -'
 alias _vcs='${${vcs_info_msg_0_:?not in version-controlled directory}%%@*}'
+alias be='bundle exec '
 alias ci='_vcs commit'
 alias co='_vcs checkout'
 alias di='_vcs diff'

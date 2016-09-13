@@ -48,6 +48,7 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 
 	alias -- -='cd -'
 	alias _vcs='${${VCS_INFO:?}%%@*}'
+	alias be='bundle exec '
 	alias cd='pushd --default-directory="$HOME"'
 	alias ci='_vcs commit'
 	alias co='_vcs checkout'

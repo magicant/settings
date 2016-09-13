@@ -60,6 +60,7 @@ case $- in *i*)
 	alias -- -='cd -'
 	alias ..='cd ..'
 	alias _vcs='${VCS_INFO%%@*}'
+	alias be='bundle exec '
 	alias ci='_vcs commit'
 	alias co='_vcs checkout'
 	alias di='_vcs diff'
