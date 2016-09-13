@@ -269,4 +269,8 @@ if [ -r ~/.bashrc_local ]; then
 	. ~/.bashrc_local
 fi
 
+if [ -r "${DESK_ENV-}" ]; then
+	. "${DESK_ENV}"
+fi
+
 # vim: ts=4 sw=4 ft=sh

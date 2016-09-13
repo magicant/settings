@@ -183,4 +183,8 @@ if [ -r ~/.zshrc_local ]; then
 	. ~/.zshrc_local
 fi
 
+if [ -r "${DESK_ENV-}" ]; then
+	. "${DESK_ENV}"
+fi
+
 unset termcolor
