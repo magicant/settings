@@ -1,0 +1,22 @@
+# autostow: Download, build, install a tarball software
+#  $1 = URI of the tarball to download from
+
+set -Ceux
+
+uri="${1?please specify URI of tarball to download}"
+filename="${uri##*/}"
+
+mkdir -p ~/Downloads/"$filename"
+cd ~/Downloads/"$filename"
+curl -L "$1" > "$filename"
+tar -x -f "$filename"
+cd */
+
+package="${PWD##*/}"
+
+./configure
+make prefix="/usr/local/stow/$package" install
+cd /usr/local/stow
+stow "$package"
+
+# vim: set ft=sh et sw=4:
