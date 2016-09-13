@@ -59,10 +59,12 @@ if &t_ts == '' && &t_fs == ''
 		let [&t_ts, &t_fs] = ["\e]0;", "\7"]
 	endif
 endif
-if &t_SI == '' && &t_EI == ''
-	if &term =~? '^gnome\>' || $TERM_PROGRAM =~? '\<mintty\>'
-		" Maybe other terminals like iTerm2 support this, too?
-		let [&t_SI, &t_SR, &t_EI] = ["\<Esc>[5 q", "\<Esc>[3 q", "\<Esc>[0 q"]
+if exists('+t_SI') && exists('+t_EI') && &t_SI == '' && &t_EI == ''
+	if &term =~? '^gnome\>' || $TERM_PROGRAM =~? '\<\(mintty\|iTerm\)\>'
+		let [&t_SI, &t_EI] = ["\<Esc>[5 q", "\<Esc>[0 q"]
+		if exists('+t_SR')
+			let &t_SR = "\<Esc>[3 q"
+		endif
 	endif
 endif
 if has("title")
