@@ -48,13 +48,16 @@ fi
 
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01'
 
-#if [ -r ~/.keychain/"$HOSTNAME"-sh ]; then
-#	. ~/.keychain/"$HOSTNAME"-sh
+#if [ -r ~/.ssh/agent@"$HOSTNAME" ]; then
+#	. ~/.ssh/agent@"$HOSTNAME"
 #fi
-#if ! ssh-add -l >/dev/null 2>&1; then
+#if ! ssh-add; then
+#	echo Starting new ssh-agent.
 #	find /tmp -depth -name 'ssh-*' -type d -user "${LOGNAME:-$USER}" \
 #		-exec rm -fr {} \;
-#	eval "$(keychain --eval id_rsa)"
+#	ssh-agent >| ~/.ssh/agent@"$HOSTNAME"
+#	. ~/.ssh/agent@"$HOSTNAME"
+#	ssh-add
 #fi
 
 #case $- in
