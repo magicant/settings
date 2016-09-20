@@ -15,12 +15,16 @@ bindkey -e '\e[1~' beginning-of-line
 bindkey -e '\eOF'  end-of-line
 bindkey -e '\e[4~' end-of-line
 bindkey -e '\e[3~' delete-char
+bindkey -e '\C-P'  history-beginning-search-backward
+bindkey -e '\C-N'  history-beginning-search-forward
 bindkey -v '\eOH'  vi-beginning-of-line
 bindkey -v '\e[1~' vi-beginning-of-line
 bindkey -v '\eOF'  vi-end-of-line
 bindkey -v '\e[4~' vi-end-of-line
 bindkey -v '\e[3~' vi-delete-char
 bindkey -v '\e[2~' vi-insert
+bindkey -v '\C-P'  history-beginning-search-backward
+bindkey -v '\C-N'  history-beginning-search-forward
 bindkey -a '\eOH'  vi-beginning-of-line
 bindkey -a '\e[1~' vi-beginning-of-line
 bindkey -a '\eOF'  vi-end-of-line
