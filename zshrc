@@ -30,7 +30,7 @@ bindkey -a '\e[1~' vi-beginning-of-line
 bindkey -a '\eOF'  vi-end-of-line
 bindkey -a '\e[4~' vi-end-of-line
 bindkey -a '\e[3~' vi-delete-char
-bindkey -e
+bindkey -v
 
 autoload -Uz compinit
 compinit
