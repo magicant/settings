@@ -8,8 +8,8 @@ filename="${uri##*/}"
 
 mkdir -p ~/Downloads/"$filename"
 cd ~/Downloads/"$filename"
-curl -L "$1" > "$filename"
-tar -x -f "$filename"
+curl -fLO "$1"
+tar -x -f *
 cd */
 
 package="${PWD##*/}"
