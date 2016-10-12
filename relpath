@@ -1,0 +1,121 @@
+# Copyright (C) Watanabe Yuki 2016
+
+set -Ceu
+unset CDPATH
+
+print_help_and_exit() {
+  exec cat <<END
+$0: prints a relative pathname
+
+Syntax:
+  ${0##*/} [-av] <to> [<from>]
+
+Options:
+  -a      Print an absolute pathname if a relative pathname is not computable.
+  -v      Verbose
+
+The directory components in <to> and <from> must exist and be accessible.
+END
+}
+
+starts_with()
+case $1 in
+  ("$2"*)
+	true;;
+  (*)
+	false;;
+esac
+
+if [ "$*" = --help ]; then
+  print_help_and_exit
+fi
+
+fallbackabs=false verbose=:
+while getopts ahv opt; do
+  case $opt in
+	(a)
+	  fallbackabs=true;;
+	(h)
+	  print_help_and_exit;;
+	(v)
+	  verbose=;;
+	(*) # unsupported option
+	  exit 2;;
+  esac
+done
+shift $((OPTIND-1))
+
+to=${1?Missing operand...}
+to=${to:?empty pathname is not acceptable}
+from=${2-.}
+from=${from:?empty pathname is not acceptable}
+
+# Don't let the "cd" command treat "-" as "$OLDPWD".
+if [ "$to" = - ]; then
+  to=./-
+fi
+if [ "$from" = - ]; then
+  from=./-
+fi
+
+if [ -d "$to" ]; then
+  absto=$(cd -P -- "$to" && pwd -P)
+else
+  abstodir=$(cd -P -- "$(dirname -- "$to")" && pwd -P)
+  tobase=$(basename -- "$to")
+  absto=${abstodir%/}/${tobase}
+fi
+
+if [ -d "$from" ]; then
+  fromdir=$from
+else
+  fromdir=$(dirname -- "$from")
+fi
+absfrom=$(cd -P -- "$fromdir" && pwd -P)
+
+$verbose printf '%s -> %s\n' "$absfrom" "$absto" >&2
+
+frompart=$absfrom topart=$absto
+
+# Remove common prefixes.
+while [ "$frompart" ] && [ "${frompart%%/*}" = "${topart%%/*}" ]; do
+  case $frompart in
+	(*/*)
+	  frompart=${frompart#*/};;
+	(*)
+	  frompart=
+  esac
+  case $topart in
+	(*/*)
+	  topart=${topart#*/};;
+	(*)
+	  topart=
+  esac
+done
+
+if starts_with "$frompart" / || starts_with "$topart" /; then
+  # One of $absfrom and $absto starts with a single slash while the other a
+  # double. There is no relative pathname between them.
+  if $fallbackabs; then
+	printf '%s\n' "$absto"
+	exit
+  else
+	printf '%s: cannot compute a relative pathname.\n' "$0"
+	exit 1
+  fi
+fi
+
+# Prepend dot-dot components to $topart.
+while [ "$frompart" ]; do
+  case $frompart in
+	(*/*)
+	  frompart=${frompart#*/};;
+	(*)
+	  frompart=
+  esac
+  topart=..${topart:+/$topart}
+done
+
+printf '%s\n' "${topart:-.}"
+
+# vim: ft=sh ts=4 sw=2 sts=2

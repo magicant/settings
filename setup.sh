@@ -68,6 +68,7 @@ fi
 if echo q | top -v 2>/dev/null | grep -q procps; then
 	makelink toprc .toprc
 fi
+makelink relpath bin/relpath
 makelink vimrc .vimrc
 makelink vim .vim
 makelink vimless bin/vimless
