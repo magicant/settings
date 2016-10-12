@@ -6,10 +6,16 @@ makelink () {
 	mkdir -p "$(dirname -- "$HOME/$2")"
 	if [ -L "${HOME%/}/$2" ]; then
 		echo "Symbolic link ~/$2 already exists"
+		if ! diff -q -- "${HOME%/}/$2" "$1" >/dev/null 2>&1; then
+			echo but seems broken
+		fi
 	elif [ -d "${HOME%/}/$2" ]; then
 		echo "~/$2 is a directory"
+		return 1
 	elif ln -s "$(./relpath -- "$1" "${HOME%/}/$2")" "${HOME%/}/$2"; then
 		echo "~/$2" "->" "$1"
+	else
+		return 1
 	fi
 }
 
