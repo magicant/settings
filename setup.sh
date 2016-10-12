@@ -109,7 +109,17 @@ if command -v vim >/dev/null 2>&1; then
 	fi
 fi
 
-for file in .profile .yash_profile .hgrc .ssh/config
+mkdir -p "${HOME%/}/.ssh"
+if [ -e "${HOME%/}/.ssh/config" ]; then
+	echo "~/.ssh/config already exists"
+else
+	(umask go-w && cp ssh_config "${HOME%/}/.ssh/config")
+	echo "Created ~/.ssh/config"
+fi
+
+chmod go-w "$HOME" "${HOME%/}/.ssh"
+
+for file in .profile .yash_profile .hgrc
 do
 	if ! [ -r ~/"$file" ]; then
 		echo "WARNING: ~/$file does not exist or is not readable."
