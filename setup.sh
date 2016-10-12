@@ -1,34 +1,19 @@
 #!/bin/sh
 
-prefix () (
-	case $PWD in
-		${HOME%/}/*)
-			prefix="${PWD#${HOME%/}/}"
-			t="$(dirname "$1")"
-			until [ x"$t" = x"." ]; do
-				prefix="../$prefix"
-				t="$(dirname "$t")"
-			done
-			;;
-		*)
-			prefix=$PWD
-			;;
-	esac
-	echo "$prefix/"
-)
+# $1 = pathname of target, relative to $PWD
+# $2 = pathname of new symlink, relative to $HOME
 makelink () {
-	prefix=$(prefix "$2")
-	mkdir -p "$(dirname "$HOME/$2")"
-	if [ -L "$HOME/$2" ]; then
+	mkdir -p "$(dirname -- "$HOME/$2")"
+	if [ -L "${HOME%/}/$2" ]; then
 		echo "Symbolic link ~/$2 already exists"
-	elif [ -d "$HOME/$2" ]; then
+	elif [ -d "${HOME%/}/$2" ]; then
 		echo "~/$2 is a directory"
-	elif ln -s "$prefix$1" "$HOME/$2"; then
-		echo "~/$2" "->" "$prefix$1"
+	elif ln -s "$(./relpath -- "$1" "${HOME%/}/$2")" "${HOME%/}/$2"; then
+		echo "~/$2" "->" "$1"
 	fi
 }
 
-set -e
+set -Ceu
 cd -- "$(dirname -- "$0")"
 echo Home directory is "$HOME"
 echo Settings directory is "$PWD"
@@ -48,7 +33,7 @@ if [ -e "$HOME/.gitconfig" ]; then
 else
 	{
 		echo '[include]'
-		echo "	path = $(prefix ".gitconfig")gitconfig"
+		echo "	path = $(./relpath -- gitconfig "$HOME/.gitconfig")"
 	} >"$HOME/.gitconfig"
 	echo "Created ~/.gitconfig"
 fi
