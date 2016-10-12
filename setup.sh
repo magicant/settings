@@ -67,6 +67,23 @@ makelink vipipe bin/vipipe
 makelink yashrc .yashrc
 makelink zshrc .zshrc
 
+(
+cd
+if [ -L .yash_profile ]; then
+	echo "Symbolic link ~/.yash_profile already exists"
+	if ! diff -q .yash_profile .profile >/dev/null 2>&1; then
+		echo but seems broken
+	fi
+elif [ -d .yash_profile ]; then
+	echo "~/.yash_profile is a directory"
+	exit 1
+elif ln -s .profile .yash_profile; then
+	echo "~/.yash_profile" "->" "~/.profile"
+else
+	exit 1
+fi
+)
+
 if command -v xsel >/dev/null 2>&1; then
 	if command -v pbcopy >/dev/null 2>&1; then
 		:
