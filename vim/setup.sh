@@ -12,32 +12,26 @@ checkgetlatest () {
 	fi
 }
 
-set -e
-# cd "`dirname $0`"
-if [ ! -O ~/.vim ]; then
-	echo '~/.vim is owned by different user!' >&2
-	exit
-fi
+set -Ceu
+cd -- "$(dirname -- "$0")"
 
 (
-cd ~/.vim/spell
+cd spell
 find . -name '*.add' -exec echo vim: mkspell {} \; \
 	-exec sh -c 'echo "verbose mkspell! $1" | vim -e -s; echo' dummy {} \;
 )
 (
-cd ~/.vim/after/spell
+cd after/spell
 echo vim: mkspell cjk.ascii
 echo "verbose mkspell! cjk.ascii.spl cjk.ascii" | vim -e -s
 echo
 )
 
 GLVSfile="GetLatestVimScripts.dat"
-GLVSdir="$HOME/.vim/GetLatest"
+GLVSdir="GetLatest"
 GLVS="$GLVSdir/$GLVSfile"
-if [ ! -e "$GLVS" ]; then
-	if [ ! -d "$GLVSdir" ]; then
-		mkdir -p "$GLVSdir"
-	fi
+if ! [ -e "$GLVS" ]; then
+	mkdir -p "$GLVSdir"
 	echo 'ScriptID SourceID Filename
 --------------------------' >"$GLVS"
 fi
