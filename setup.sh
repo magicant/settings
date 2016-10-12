@@ -121,13 +121,13 @@ chmod go-w "$HOME" "${HOME%/}/.ssh"
 
 for file in .profile .yash_profile .hgrc
 do
-	if ! [ -r ~/"$file" ]; then
+	if ! [ -r "${HOME%/}/$file" ]; then
 		echo "WARNING: ~/$file does not exist or is not readable."
 	fi
 done
 for file in .bash_profile .bash_login
 do
-	if [ -e ~/"$file" ]; then
+	if [ -e "${HOME%/}/$file" ]; then
 		echo "WARNING: ~/$file exists."
 	fi
 done
