@@ -12,7 +12,7 @@ makelink () {
 	elif [ -d "${HOME%/}/$2" ]; then
 		echo "~/$2 is a directory"
 		return 1
-	elif ln -s "$(./relpath -- "$1" "${HOME%/}/$2")" "${HOME%/}/$2"; then
+	elif ./relpath -s -- "$1" "${HOME%/}/$2"; then
 		echo "~/$2" "->" "$1"
 	else
 		return 1

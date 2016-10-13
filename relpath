@@ -8,10 +8,11 @@ print_help_and_exit() {
 $0: prints a relative pathname
 
 Syntax:
-  ${0##*/} [-av] <to> [<from>]
+  ${0##*/} [-asv] <to> [<from>]
 
 Options:
   -a      Print an absolute pathname if a relative pathname is not computable.
+  -s      Create a symbolic link instead of printing a pathname.
   -v      Verbose
 
 The directory components in <to> and <from> must exist and be accessible.
@@ -30,13 +31,15 @@ if [ "$*" = --help ]; then
   print_help_and_exit
 fi
 
-fallbackabs=false verbose=:
-while getopts ahv opt; do
+fallbackabs=false symlink=false verbose=:
+while getopts ahsv opt; do
   case $opt in
 	(a)
 	  fallbackabs=true;;
 	(h)
 	  print_help_and_exit;;
+	(s)
+	  symlink=true;;
 	(v)
 	  verbose=;;
 	(*) # unsupported option
@@ -116,6 +119,12 @@ while [ "$frompart" ]; do
   topart=..${topart:+/$topart}
 done
 
-printf '%s\n' "${topart:-.}"
+: "${topart:=.}"
+
+if "$symlink"; then
+  exec ln -s -- "$topart" "$from"
+else
+  printf '%s\n' "$topart"
+fi
 
 # vim: ft=sh ts=4 sw=2 sts=2
