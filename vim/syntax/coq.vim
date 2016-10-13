@@ -1,0 +1,1 @@
+../GetLatest/coq.vim
