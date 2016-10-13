@@ -1,9 +1,8 @@
 #!/bin/sh
 
-# $1 = pathname of target, relative to $PWD
+# $1 = pathname of target, relative to $PWD or absolute
 # $2 = pathname of new symlink, relative to $HOME
 makelink () {
-	mkdir -p "$(dirname -- "$HOME/$2")"
 	if [ -L "${HOME%/}/$2" ]; then
 		echo "Symbolic link ~/$2 already exists"
 		if ! diff -q -- "${HOME%/}/$2" "$1" >/dev/null 2>&1; then
@@ -12,7 +11,8 @@ makelink () {
 	elif [ -d "${HOME%/}/$2" ]; then
 		echo "~/$2 is a directory"
 		return 1
-	elif ./relpath -s -- "$1" "${HOME%/}/$2"; then
+	elif mkdir -p "$(dirname -- "${HOME%/}/$2")" &&
+			./relpath -s -- "$1" "${HOME%/}/$2"; then
 		echo "~/$2" "->" "$1"
 	else
 		return 1
@@ -66,23 +66,7 @@ makelink vimless bin/vimless
 makelink vipipe bin/vipipe
 makelink yashrc .yashrc
 makelink zshrc .zshrc
-
-(
-cd
-if [ -L .yash_profile ]; then
-	echo "Symbolic link ~/.yash_profile already exists"
-	if ! diff -q .yash_profile .profile >/dev/null 2>&1; then
-		echo but seems broken
-	fi
-elif [ -d .yash_profile ]; then
-	echo "~/.yash_profile is a directory"
-	exit 1
-elif ln -s .profile .yash_profile; then
-	echo "~/.yash_profile" "->" "~/.profile"
-else
-	exit 1
-fi
-)
+makelink "${HOME%/}/.profile" .yash_profile
 
 if command -v xsel >/dev/null 2>&1; then
 	if command -v pbcopy >/dev/null 2>&1; then
@@ -142,7 +126,7 @@ fi
 
 chmod go-w "$HOME" "${HOME%/}/.ssh"
 
-for file in .profile .yash_profile .hgrc
+for file in .profile .hgrc
 do
 	if ! [ -r "${HOME%/}/$file" ]; then
 		echo "WARNING: ~/$file does not exist or is not readable."
