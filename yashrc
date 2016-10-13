@@ -72,8 +72,11 @@ if command -vb alias >/dev/null; then  # check if alias is enabled
 	alias -g L='|$PAGER'
 	alias -g N='>/dev/null 2>&1' N1='>/dev/null' N2='2>/dev/null'
 
-	if echo X | grep --color=auto -q X 2>/dev/null; then
+	if grep --color=auto -q X <<<X 2>/dev/null; then
 		alias grep='grep --color=auto'
+	fi
+	if ggrep --color=auto -q X <<<X 2>/dev/null; then
+		alias g='ggrep' ggrep='ggrep --color=auto'
 	fi
 
 	if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
