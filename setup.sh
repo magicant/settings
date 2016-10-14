@@ -13,7 +13,7 @@ makelink () {
 	elif [ -d "$2" ]; then
 		echo "${3:-$2} is a directory"
 		return 1
-	elif mkdir -p "$(dirname -- "$2")" && ./relpath -s -- "$1" "$2"; then
+	elif mkdir -p "$(dirname -- "$2")" && bin/relpath -s -- "$1" "$2"; then
 		echo "${3:-$2}" "->" "${4:-$1}"
 	else
 		return 1
@@ -47,7 +47,7 @@ if [ -e "$HOME/.gitconfig" ]; then
 else
 	{
 		echo '[include]'
-		echo "	path = $(./relpath -- gitconfig "$HOME/.gitconfig")"
+		echo "	path = $(bin/relpath -- gitconfig "$HOME/.gitconfig")"
 	} >"$HOME/.gitconfig"
 	echo "Created ~/.gitconfig"
 fi
@@ -58,69 +58,39 @@ if command -v lesskey >/dev/null 2>&1; then
 		echo updated .less
 	fi
 fi
-makelinkhome lesspipe.sh bin/lesspipe.sh
 makelinkhome minttyrc .minttyrc
-if ! [ $(PATH=$PATH:$PATH:$PATH which -a which 2>/dev/null | wc -l) -ge 3 ]
-then
-	makelinkhome which bin/which
-fi
 if echo q | top -v 2>/dev/null | grep -q procps; then
 	makelinkhome toprc .toprc
 fi
-makelinkhome relpath bin/relpath
 makelinkhome vimrc .vimrc
 makelinkhome vim .vim
-makelinkhome vimless bin/vimless
-makelinkhome vipipe bin/vipipe
 makelinkhome yashrc .yashrc
 makelinkhome zshrc .zshrc
 makelinkhome "${HOME%/}/.profile" .yash_profile "~/.profile"
 
-if command -v xsel >/dev/null 2>&1; then
-	if command -v pbcopy >/dev/null 2>&1; then
-		:
-	elif [ -e "$HOME/bin/pbcopy" ]; then
-		echo "~/bin/pbcopy already exists"
-	elif echo 'exec xsel -i -b "$@"' >"$HOME/bin/pbcopy" &&
-		chmod a+x "$HOME/bin/pbcopy"; then
-		echo "created ~/bin/pbcopy"
-	fi
-	if command -v pbpaste >/dev/null 2>&1; then
-		:
-	elif [ -e "$HOME/bin/pbpaste" ]; then
-		echo "~/bin/pbpaste already exists"
-	elif echo 'exec xsel -o -b "$@"' >"$HOME/bin/pbpaste" &&
-		chmod a+x "$HOME/bin/pbpaste"; then
-		echo "created ~/bin/pbpaste"
-	fi
-elif command -v xclip >/dev/null 2>&1; then
-	if command -v pbcopy >/dev/null 2>&1; then
-		:
-	elif [ -e "$HOME/bin/pbcopy" ]; then
-		echo "~/bin/pbcopy already exists"
-	elif echo 'exec xclip -in -selection clipboard "$@"' >"$HOME/bin/pbcopy" &&
-		chmod a+x "$HOME/bin/pbcopy"; then
-		echo "created ~/bin/pbcopy"
-	fi
-	if command -v pbpaste >/dev/null 2>&1; then
-		:
-	elif [ -e "$HOME/bin/pbpaste" ]; then
-		echo "~/bin/pbpaste already exists"
-	elif echo 'exec xclip -out -selection clipboard "$@"' >"$HOME/bin/pbpaste" &&
-		chmod a+x "$HOME/bin/pbpaste"; then
-		echo "created ~/bin/pbpaste"
-	fi
+# Install my own "which" if the system-provided "which" does not support the -a
+# option
+if [ "$(PATH=$PATH:$PATH which -a which 2>/dev/null)" = \
+		"$(which -a which 2>/dev/null)" ]; then
+	makelink libexec/which bin/which
+fi
+
+# Install my own "pbcopy" & "pbpaste" if the system does not provide them.
+if command -v pbcopy >/dev/null 2>&1; then
+	echo "pbcopy command already exists"
+else
+	makelink libexec/pbcopy bin/pbcopy
+fi
+if command -v pbpaste >/dev/null 2>&1; then
+	echo "pbpaste command already exists"
+else
+	makelink libexec/pbpaste bin/pbpaste
 fi
 
 if command -v vim >/dev/null 2>&1; then
 	vim/setup.sh
 	if command -v gvim >/dev/null 2>&1; then
-		#makelinkhome vimless bin/gvimless
-		if [ -e "$HOME/bin/gvimless" ]; then
-			echo "~/bin/gvimless already exists"
-		else
-			ln "$HOME/bin/vimless" "$HOME/bin/gvimless"
-		fi
+		makelink bin/vimless bin/gvimless
 	fi
 fi
 

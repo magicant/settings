@@ -20,7 +20,7 @@ fi
 #	. ~/.settings/setterm
 #fi
 
-#export PATH="$HOME/bin:$PATH"
+#export PATH="$HOME/bin:$HOME/.settings/bin:$PATH"
 #export PAGER='less' LESSOPEN='|lesspipe.sh %s'
 #unset  LESSCLOSE
 #export MANPAGER='less -s'
