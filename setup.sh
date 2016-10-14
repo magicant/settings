@@ -1,22 +1,30 @@
 #!/bin/sh
 
-# $1 = pathname of target, relative to $PWD or absolute
-# $2 = pathname of new symlink, relative to $HOME
+# $1 = pathname of target
+# $2 = pathname of new symlink
+# $3 = user-friendly representation of $2, optional
+# $4 = user-friendly representation of $1, optional
 makelink () {
-	if [ -L "${HOME%/}/$2" ]; then
-		echo "Symbolic link ~/$2 already exists"
-		if ! diff -q -- "${HOME%/}/$2" "$1" >/dev/null 2>&1; then
+	if [ -L "$2" ]; then
+		echo "Symbolic link ${3:-$2} already exists"
+		if ! diff -q -- "$1" "$2" >/dev/null 2>&1; then
 			echo but seems broken
 		fi
-	elif [ -d "${HOME%/}/$2" ]; then
-		echo "~/$2 is a directory"
+	elif [ -d "$2" ]; then
+		echo "${3:-$2} is a directory"
 		return 1
-	elif mkdir -p "$(dirname -- "${HOME%/}/$2")" &&
-			./relpath -s -- "$1" "${HOME%/}/$2"; then
-		echo "~/$2" "->" "$1"
+	elif mkdir -p "$(dirname -- "$2")" && ./relpath -s -- "$1" "$2"; then
+		echo "${3:-$2}" "->" "${4:-$1}"
 	else
 		return 1
 	fi
+}
+
+# $1 = pathname of target, relative to $PWD or absolute
+# $2 = pathname of new symlink, relative to $HOME
+# $3 = user-friendly representation of $1, optional
+makelinkhome() {
+	makelink "$1" "${HOME%/}/$2" "~/$2" "${3:-$1}"
 }
 
 set -Ceu
@@ -24,11 +32,11 @@ cd -- "$(dirname -- "$0")"
 echo Home directory is "$HOME"
 echo Settings directory is "$PWD"
 
-makelink bashrc .bashrc
-makelink colordiffrc .colordiffrc
+makelinkhome bashrc .bashrc
+makelinkhome colordiffrc .colordiffrc
 if command -v dircolors >/dev/null 2>&1; then
 	if TERM=xterm dircolors dircolors >/dev/null 2>&1; then
-		makelink dircolors .dircolors
+		makelinkhome dircolors .dircolors
 	else
 		echo The dircolors command is too old to support your dircolors file
 		echo Use the makedircolors script to fix it
@@ -43,30 +51,30 @@ else
 	} >"$HOME/.gitconfig"
 	echo "Created ~/.gitconfig"
 fi
-makelink inputrc .inputrc
-makelink lesskey .lesskey
+makelinkhome inputrc .inputrc
+makelinkhome lesskey .lesskey
 if command -v lesskey >/dev/null 2>&1; then
 	if lesskey; then
 		echo updated .less
 	fi
 fi
-makelink lesspipe.sh bin/lesspipe.sh
-makelink minttyrc .minttyrc
+makelinkhome lesspipe.sh bin/lesspipe.sh
+makelinkhome minttyrc .minttyrc
 if ! [ $(PATH=$PATH:$PATH:$PATH which -a which 2>/dev/null | wc -l) -ge 3 ]
 then
-	makelink which bin/which
+	makelinkhome which bin/which
 fi
 if echo q | top -v 2>/dev/null | grep -q procps; then
-	makelink toprc .toprc
+	makelinkhome toprc .toprc
 fi
-makelink relpath bin/relpath
-makelink vimrc .vimrc
-makelink vim .vim
-makelink vimless bin/vimless
-makelink vipipe bin/vipipe
-makelink yashrc .yashrc
-makelink zshrc .zshrc
-makelink "${HOME%/}/.profile" .yash_profile
+makelinkhome relpath bin/relpath
+makelinkhome vimrc .vimrc
+makelinkhome vim .vim
+makelinkhome vimless bin/vimless
+makelinkhome vipipe bin/vipipe
+makelinkhome yashrc .yashrc
+makelinkhome zshrc .zshrc
+makelinkhome "${HOME%/}/.profile" .yash_profile "~/.profile"
 
 if command -v xsel >/dev/null 2>&1; then
 	if command -v pbcopy >/dev/null 2>&1; then
@@ -107,7 +115,7 @@ fi
 if command -v vim >/dev/null 2>&1; then
 	vim/setup.sh
 	if command -v gvim >/dev/null 2>&1; then
-		#makelink vimless bin/gvimless
+		#makelinkhome vimless bin/gvimless
 		if [ -e "$HOME/bin/gvimless" ]; then
 			echo "~/bin/gvimless already exists"
 		else
