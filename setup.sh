@@ -6,9 +6,17 @@
 # $4 = user-friendly representation of $1, optional
 makelink () {
 	if [ -L "$2" ]; then
-		echo "Symbolic link ${3:-$2} already exists"
-		if ! diff -q -- "$1" "$2" >/dev/null 2>&1; then
-			echo but seems broken
+		if
+			if [ -d "$1" ]; then
+				test "$(cd -P -- "$1" && pwd -P)" \
+					= "$(cd -P -- "$2" && pwd -P)"
+			else
+				diff -q -- "$1" "$2"
+			fi 2>/dev/null
+		then
+			echo "Symbolic link ${3:-$2} already exists"
+		else
+			echo "Symbolic link ${3:-$2} seems broken"
 		fi
 	elif [ -d "$2" ]; then
 		echo "${3:-$2} is a directory"
