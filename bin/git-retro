@@ -1,0 +1,87 @@
+#!/bin/sh
+
+set -Ceu
+
+print_help() {
+    printf '%s: find the oldest commit a patch applies to\n' "${0}"
+    printf '\n'
+    printf 'Usage:\n'
+    printf '    %s <patch_commit> <commit>...\n' "${0##*/}"
+    printf '    %s <commit>\n' "${0##*/}"
+    printf '\n'
+    printf 'Finds the oldest commit to which <patch_commit> is applicable.\n'
+    printf 'If <patch_commit> is omitted, HEAD is assumed.\n'
+    printf 'The result is searched among the ancestors of <patch_commit>\n'
+    printf 'but excluding ancestors of <commit>.\n'
+}
+
+# $1 = commit id
+has_unique_parent() {
+    git show --pretty=%P "$1" |
+    {
+        read -r first_parent rest
+        ! [ "${rest-}" ] && [ "${first_parent}" ]
+    }
+}
+
+if [ "${1-}" = ---test ]
+then
+    trap 'git reset --hard' EXIT
+    ! git -c rerere.enabled=false cherry-pick -n "${2}"
+    exit
+fi
+
+# Parse options
+while getopts h opt
+do
+    case "${opt}" in
+        (h)
+            print_help
+            exit
+            ;;
+    esac
+done
+shift "$((OPTIND - 1))"
+
+if [ "${#}" -eq 1 ]
+then
+    set HEAD "${@}"
+fi
+
+if [ "${#}" -lt 2 ]
+then
+    printf 'Missing arguments.\n' >&2
+    exit 2
+fi
+
+if git bisect log >/dev/null 2>&1
+then
+    printf 'Error: bisect has already started.\n' >&2
+    exit 1
+fi
+
+patch_commit="$(git log --pretty=format:%H --no-walk "${1}")"
+shift
+
+has_unique_parent "${patch_commit}" || {
+    printf 'Error: The specified patch commit has more than one parent.\n' >&2
+    exit 1
+}
+
+# Ensure clean working tree
+stash="$(git stash create)"
+if [ "${stash}" ]
+then
+    git reset --hard
+    trap 'git stash apply --index --quiet "${stash}"' EXIT
+fi
+
+# Find the result
+git bisect start "${patch_commit}" "${@}"
+git bisect run "${0}" ---test "${patch_commit}"
+result="$(git log --pretty=format:%H --no-walk refs/bisect/bad)"
+git bisect reset
+
+printf '%s is the first applicable commit.\n' "${result}"
+
+# vim: set et sw=4 sts=4:
