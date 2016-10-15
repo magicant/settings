@@ -18,13 +18,23 @@ makelink () {
 		else
 			echo "Symbolic link ${3:-$2} seems broken"
 		fi
-	elif [ -d "$2" ]; then
-		echo "${3:-$2} is a directory"
-		return 1
-	elif mkdir -p "$(dirname -- "$2")" && bin/relpath -s -- "$1" "$2"; then
+		return
+	fi
+	if [ -e "$2" ]; then
+		if [ -e "$2.bak" ]; then
+			echo "File ${3:-$2} is not symlink and backup file ${3:-$2}.bak already exists"
+			return
+		fi
+		if mv -- "$2" "$2.bak"; then
+			echo "Moved ${3:-$2} to ${3:-$2}.bak"
+		else
+			return # non-zero exit status
+		fi
+	fi
+	if mkdir -p "$(dirname -- "$2")" && bin/relpath -s -- "$1" "$2"; then
 		echo "${3:-$2}" "->" "${4:-$1}"
 	else
-		return 1
+		return # non-zero exit status
 	fi
 }
 
