@@ -1,14 +1,14 @@
 " Magicant's vim color file
-" Maintainer:	Watanabe Yuki aka Magicant <magicant.wonderwand@gmail.com>
-" Last Change:	2014 Oct 23
+" Maintainer:   Watanabe Yuki aka Magicant <magicant.wonderwand@gmail.com>
+" Last Change:  2014 Oct 23
 
 set background=dark
 highlight clear
 if exists("syntax_on")
-  syntax reset
+    syntax reset
 endif
 if has("eval")
-  let g:colors_name = expand('<sfile>:t:r')
+    let g:colors_name = expand('<sfile>:t:r')
 endif
 
 highlight Normal guifg=LightGray guibg=Black
@@ -48,19 +48,21 @@ highlight diffRemoved ctermfg=Red guifg=Red
 
 " for terminals with few colors
 if &t_Co <= 16
-  highlight Constant ctermfg=Red
-  highlight DiffAdd ctermbg=DarkBlue
-  highlight DiffChange ctermbg=DarkMagenta
-  highlight DiffDelete ctermbg=DarkRed
-  highlight DiffText ctermbg=Magenta
-  highlight Folded ctermbg=DarkGray
-  highlight LineNr ctermbg=DarkGray
-  highlight PreProc ctermfg=Magenta
-  highlight SignColumn ctermbg=DarkGray
-  highlight Special cterm=bold
-  highlight SpellBad ctermbg=DarkRed
-  highlight SpellCap ctermbg=DarkBlue
-  highlight SpellLocal ctermbg=DarkCyan
-  highlight SpellRare ctermbg=DarkMagenta
-  highlight Todo ctermbg=Blue
+    highlight Constant ctermfg=Red
+    highlight DiffAdd ctermbg=DarkBlue
+    highlight DiffChange ctermbg=DarkMagenta
+    highlight DiffDelete ctermbg=DarkRed
+    highlight DiffText ctermbg=Magenta
+    highlight Folded ctermbg=DarkGray
+    highlight LineNr ctermbg=DarkGray
+    highlight PreProc ctermfg=Magenta
+    highlight SignColumn ctermbg=DarkGray
+    highlight Special cterm=bold
+    highlight SpellBad ctermbg=DarkRed
+    highlight SpellCap ctermbg=DarkBlue
+    highlight SpellLocal ctermbg=DarkCyan
+    highlight SpellRare ctermbg=DarkMagenta
+    highlight Todo ctermbg=Blue
 endif
+
+" vim: et sw=4 sts=4

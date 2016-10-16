@@ -1,12 +1,12 @@
 # Copyright (C) Watanabe Yuki 2016
 
 if command -v xsel >/dev/null 2>&1; then
-  exec xsel -i -b "$@"
+    exec xsel -i -b "$@"
 elif command -v xclip >/dev/null 2>&1; then
-  exec xclip -in -selection clipboard "$@"
+    exec xclip -in -selection clipboard "$@"
 else
-  echo pbcopy: command not found >&2
-  exit 127
+    echo pbcopy: command not found >&2
+    exit 127
 fi
 
-# vim: ft=sh ts=4 sw=2 sts=2
+# vim: ft=sh et sw=4 sts=4

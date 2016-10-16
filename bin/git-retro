@@ -84,4 +84,4 @@ git bisect reset
 
 printf '%s is the first applicable commit.\n' "${result}"
 
-# vim: set et sw=4 sts=4:
+# vim: ft=sh et sw=4 sts=4

@@ -4,22 +4,22 @@
 set -e
 
 if [ $# -lt 2 ]; then
-	printf 'Usage:  %s original_dircolors new_dircolors\n' "$0"
-	exit 2
+    printf 'Usage:  %s original_dircolors new_dircolors\n' "$0"
+    exit 2
 elif ! [ -r "$1" ]; then
-	printf 'Cannot read "%s"\n' "$1"
-	exit 1
+    printf 'Cannot read "%s"\n' "$1"
+    exit 1
 elif [ -h "$2" ]; then
-	printf '"%s" is a symbolic link\n' "$2"
-	exit 1
+    printf '"%s" is a symbolic link\n' "$2"
+    exit 1
 fi
 
 LC_ALL=C dircolors "$1" 2>&1 >/dev/null | while read -r line; do
-	case "$line" in
-		*'unrecognized keyword '*)
-			keyword=${line##*unrecognized keyword }
-			printf '%s\n' "$keyword"
-	esac
+    case "$line" in
+        *'unrecognized keyword '*)
+            keyword=${line##*unrecognized keyword }
+            printf '%s\n' "$keyword"
+    esac
 done >/tmp/makedircolors.$$
 
 grep -Fv -f /tmp/makedircolors.$$ "$1" > "$2"
@@ -28,3 +28,5 @@ printf 'Removed keywords:\n'
 cat /tmp/makedircolors.$$
 
 rm /tmp/makedircolors.$$
+
+# vim: ft=sh et sw=4 sts=4

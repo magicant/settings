@@ -4,7 +4,7 @@ set -Ceu
 unset CDPATH
 
 print_help_and_exit() {
-  exec cat <<END
+    exec cat <<END
 $0: prints a relative pathname
 
 Syntax:
@@ -21,30 +21,30 @@ END
 
 starts_with()
 case $1 in
-  ("$2"*)
-	true;;
-  (*)
-	false;;
+    ("$2"*)
+        true;;
+    (*)
+        false;;
 esac
 
 if [ "$*" = --help ]; then
-  print_help_and_exit
+    print_help_and_exit
 fi
 
 fallbackabs=false symlink=false verbose=:
 while getopts ahsv opt; do
-  case $opt in
-	(a)
-	  fallbackabs=true;;
-	(h)
-	  print_help_and_exit;;
-	(s)
-	  symlink=true;;
-	(v)
-	  verbose=;;
-	(*) # unsupported option
-	  exit 2;;
-  esac
+    case $opt in
+        (a)
+            fallbackabs=true;;
+        (h)
+            print_help_and_exit;;
+        (s)
+            symlink=true;;
+        (v)
+            verbose=;;
+        (*) # unsupported option
+            exit 2;;
+    esac
 done
 shift $((OPTIND-1))
 
@@ -55,24 +55,24 @@ from=${from:?empty pathname is not acceptable}
 
 # Don't let the "cd" command treat "-" as "$OLDPWD".
 if [ "$to" = - ]; then
-  to=./-
+    to=./-
 fi
 if [ "$from" = - ]; then
-  from=./-
+    from=./-
 fi
 
 if [ -d "$to" ]; then
-  absto=$(cd -P -- "$to" && pwd -P)
+    absto=$(cd -P -- "$to" && pwd -P)
 else
-  abstodir=$(cd -P -- "$(dirname -- "$to")" && pwd -P)
-  tobase=$(basename -- "$to")
-  absto=${abstodir%/}/${tobase}
+    abstodir=$(cd -P -- "$(dirname -- "$to")" && pwd -P)
+    tobase=$(basename -- "$to")
+    absto=${abstodir%/}/${tobase}
 fi
 
 if [ -d "$from" ]; then
-  fromdir=$from
+    fromdir=$from
 else
-  fromdir=$(dirname -- "$from")
+    fromdir=$(dirname -- "$from")
 fi
 absfrom=$(cd -P -- "$fromdir" && pwd -P)
 
@@ -82,49 +82,49 @@ frompart=$absfrom topart=$absto
 
 # Remove common prefixes.
 while [ "$frompart" ] && [ "${frompart%%/*}" = "${topart%%/*}" ]; do
-  case $frompart in
-	(*/*)
-	  frompart=${frompart#*/};;
-	(*)
-	  frompart=
-  esac
-  case $topart in
-	(*/*)
-	  topart=${topart#*/};;
-	(*)
-	  topart=
-  esac
+    case $frompart in
+        (*/*)
+            frompart=${frompart#*/};;
+        (*)
+            frompart=
+    esac
+    case $topart in
+        (*/*)
+            topart=${topart#*/};;
+        (*)
+            topart=
+    esac
 done
 
 if starts_with "$frompart" / || starts_with "$topart" /; then
-  # One of $absfrom and $absto starts with a single slash while the other a
-  # double. There is no relative pathname between them.
-  if $fallbackabs; then
-	printf '%s\n' "$absto"
-	exit
-  else
-	printf '%s: cannot compute a relative pathname.\n' "$0"
-	exit 1
-  fi
+    # One of $absfrom and $absto starts with a single slash while the other a
+    # double. There is no relative pathname between them.
+    if $fallbackabs; then
+        printf '%s\n' "$absto"
+        exit
+    else
+        printf '%s: cannot compute a relative pathname.\n' "$0"
+        exit 1
+    fi
 fi
 
 # Prepend dot-dot components to $topart.
 while [ "$frompart" ]; do
-  case $frompart in
-	(*/*)
-	  frompart=${frompart#*/};;
-	(*)
-	  frompart=
-  esac
-  topart=..${topart:+/$topart}
+    case $frompart in
+        (*/*)
+            frompart=${frompart#*/};;
+        (*)
+            frompart=
+    esac
+    topart=..${topart:+/$topart}
 done
 
 : "${topart:=.}"
 
 if "$symlink"; then
-  exec ln -s -- "$topart" "$from"
+    exec ln -s -- "$topart" "$from"
 else
-  printf '%s\n' "$topart"
+    printf '%s\n' "$topart"
 fi
 
-# vim: ft=sh ts=4 sw=2 sts=2
+# vim: ft=sh et sw=4 sts=4

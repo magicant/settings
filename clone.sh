@@ -5,12 +5,12 @@
 set -Ceu
 
 if [ "$PWD" != ~/.settings ] && [ "${1-}" != -f ]; then
-  printf 'Use -f to run in a non-standard directory.\n' >&2
-  exit 1
+    printf 'Use -f to run in a non-standard directory.\n' >&2
+    exit 1
 fi
 if [ -e .git ] && [ "${1-}" != -f ]; then
-  printf 'Use -f to run in spite of the existing Git repo.\n' >&2
-  exit 1
+    printf 'Use -f to run in spite of the existing Git repo.\n' >&2
+    exit 1
 fi
 
 set -x
@@ -27,3 +27,5 @@ git remote set-head origin git-svn
 git reset --hard origin
 git svn rebase
 git svn show-ignore >> .git/info/exclude
+
+# vim: ft=sh et sw=4 sts=4

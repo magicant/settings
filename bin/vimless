@@ -4,22 +4,22 @@
 
 program=${0##*/}
 if [ $# -eq 0 ]; then
-	if [ ! -t 0 ]; then
-		set -- -
-	fi
+    if [ ! -t 0 ]; then
+        set -- -
+    fi
 fi
 case $program in
-		*less) vim=${program%less} ;;
-		*    ) vim=vim ;;
+        *less) vim=${program%less} ;;
+        *    ) vim=vim ;;
 esac
 if [ -t 1 ]; then
-	exec $vim -R --noplugin \
-		--cmd 'let no_plugin_maps = 1' \
-		-c 'runtime plugin/less.vim' \
-		-c 'runtime macros/less.vim' \
-		+1 "$@"
+    exec $vim -R --noplugin \
+        --cmd 'let no_plugin_maps = 1' \
+        -c 'runtime plugin/less.vim' \
+        -c 'runtime macros/less.vim' \
+        +1 "$@"
 else
-	exec cat "$@"
+    exec cat "$@"
 fi
 
-# vim: set ft=sh ts=4 sw=4:
+# vim: ft=sh et sw=4 sts=4

@@ -10,7 +10,7 @@
 " Last Change:  2013-02-24
 
 if exists("b:current_syntax")
-  finish
+    finish
 endif
 let b:current_syntax = "asciidoc"
 
@@ -177,4 +177,4 @@ if version >= 700
     setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+
 endif
 
-" vim: wrap et sw=2 sts=2:
+" vim: et sw=4 sts=4

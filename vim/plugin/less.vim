@@ -4,12 +4,12 @@
 " License: Vim License
 
 if exists("loaded_vimless")
-  finish
+    finish
 elseif !exists("s:loaded")
-  let s:loaded = 1
-  command -nargs=? -complete=file View call Vimless(<f-args>)
-  execute 'autocmd FuncUndefined Vimless source ' . fnameescape(expand('<sfile>'))
-  finish
+    let s:loaded = 1
+    command -nargs=? -complete=file View call Vimless(<f-args>)
+    execute 'autocmd FuncUndefined Vimless source ' . fnameescape(expand('<sfile>'))
+    finish
 endif
 let loaded_vimless = 1
 
@@ -35,146 +35,146 @@ noremap <script> <SID>v       :call <SID>End()<CR>
 
 function Vimless(...)
 
-  " Open the specified file
-  if a:0 > 0
-    execute "view +1 " . fnameescape(a:1)
-  endif
+    " Open the specified file
+    if a:0 > 0
+        execute "view +1 " . fnameescape(a:1)
+    endif
 
-  " Don't use swapfile
-  setlocal noswapfile
+    " Don't use swapfile
+    setlocal noswapfile
 
-  " Don't allow modifying/writing the text
-  setlocal nomodifiable readonly
+    " Don't allow modifying/writing the text
+    setlocal nomodifiable readonly
 
-  " Open folds
-  if has("folding")
-    setlocal nofoldenable
-  endif
+    " Open folds
+    if has("folding")
+        setlocal nofoldenable
+    endif
 
-  " Give help
-  noremap <buffer> <script> h <SID><F1>
+    " Give help
+    noremap <buffer> <script> h <SID><F1>
 
-  " Redraw
-  noremap <buffer> <script> <C-G> <SID><C-G>
-  noremap <buffer> <script> <C-L> <SID><C-G>
-  noremap <buffer> <script> <C-R> <SID><C-G>
-  noremap <buffer> <script> L     <SID><C-G>
-  noremap <buffer> <script> r     <SID><C-G>
-  noremap <buffer> <script> R     <SID><C-G>
-  noremap <buffer> <script> =     <SID><C-G>
+    " Redraw
+    noremap <buffer> <script> <C-G> <SID><C-G>
+    noremap <buffer> <script> <C-L> <SID><C-G>
+    noremap <buffer> <script> <C-R> <SID><C-G>
+    noremap <buffer> <script> L     <SID><C-G>
+    noremap <buffer> <script> r     <SID><C-G>
+    noremap <buffer> <script> R     <SID><C-G>
+    noremap <buffer> <script> =     <SID><C-G>
 
-  " Scroll one page forward
-  noremap <buffer> <script> <C-F>      <SID><C-F>
-  noremap <buffer> <script> <Space>    <SID><C-F>
-  noremap <buffer> <script> <PageDown> <SID><C-F>
-  noremap <buffer> <script> <S-Down>   <SID><C-F>
-  noremap <buffer> <script> <C-V>      <SID><C-F>
-  noremap <buffer> <script> f          <SID><C-F>
+    " Scroll one page forward
+    noremap <buffer> <script> <C-F>      <SID><C-F>
+    noremap <buffer> <script> <Space>    <SID><C-F>
+    noremap <buffer> <script> <PageDown> <SID><C-F>
+    noremap <buffer> <script> <S-Down>   <SID><C-F>
+    noremap <buffer> <script> <C-V>      <SID><C-F>
+    noremap <buffer> <script> f          <SID><C-F>
 
-  " Re-read file and page forward "tail -f"
-  noremap <buffer> <script> F <SID>F
+    " Re-read file and page forward "tail -f"
+    noremap <buffer> <script> F <SID>F
 
-  " Scroll half a page forward
-  noremap <buffer> <script> <C-D> <SID><C-D>
-  noremap <buffer> <script> d     <SID><C-D>
+    " Scroll half a page forward
+    noremap <buffer> <script> <C-D> <SID><C-D>
+    noremap <buffer> <script> d     <SID><C-D>
 
-  " Scroll one line forward
-  noremap <buffer> <script> <C-E>  <SID><C-E>
-  noremap <buffer> <script> <Down> <SID><C-E>
-  noremap <buffer> <script> <CR>   <SID><C-E>
-  noremap <buffer> <script> <C-M>  <SID><C-E>
-  noremap <buffer> <script> <C-N>  <SID><C-E>
-  noremap <buffer> <script> <C-J>  <SID><C-E>
-  noremap <buffer> <script> e      <SID><C-E>
-  noremap <buffer> <script> j      <SID><C-E>
-  noremap <buffer> <script> +      <SID><C-E>
+    " Scroll one line forward
+    noremap <buffer> <script> <C-E>  <SID><C-E>
+    noremap <buffer> <script> <Down> <SID><C-E>
+    noremap <buffer> <script> <CR>   <SID><C-E>
+    noremap <buffer> <script> <C-M>  <SID><C-E>
+    noremap <buffer> <script> <C-N>  <SID><C-E>
+    noremap <buffer> <script> <C-J>  <SID><C-E>
+    noremap <buffer> <script> e      <SID><C-E>
+    noremap <buffer> <script> j      <SID><C-E>
+    noremap <buffer> <script> +      <SID><C-E>
 
-  " Scroll one page backward
-  noremap <buffer> <script> <C-B>     <SID><C-B>
-  noremap <buffer> <script> <PageUp>  <SID><C-B>
-  noremap <buffer> <script> <S-Space> <SID><C-B>
-  noremap <buffer> <script> <S-Up>    <SID><C-B>
-  noremap <buffer> <script> b         <SID><C-B>
-  noremap <buffer> <script> <A-v>     <SID><C-B>
+    " Scroll one page backward
+    noremap <buffer> <script> <C-B>     <SID><C-B>
+    noremap <buffer> <script> <PageUp>  <SID><C-B>
+    noremap <buffer> <script> <S-Space> <SID><C-B>
+    noremap <buffer> <script> <S-Up>    <SID><C-B>
+    noremap <buffer> <script> b         <SID><C-B>
+    noremap <buffer> <script> <A-v>     <SID><C-B>
 
-  " Scroll half a page backward
-  noremap <buffer> <script> <C-U> <SID><C-U>
-  noremap <buffer> <script> u     <SID><C-U>
+    " Scroll half a page backward
+    noremap <buffer> <script> <C-U> <SID><C-U>
+    noremap <buffer> <script> u     <SID><C-U>
 
-  " Scroll one line backward
-  noremap <buffer> <script> <C-Y> <SID><C-Y>
-  noremap <buffer> <script> <Up>  <SID><C-Y>
-  noremap <buffer> <script> <C-P> <SID><C-Y>
-  noremap <buffer> <script> <C-K> <SID><C-Y>
-  noremap <buffer> <script> k     <SID><C-Y>
-  noremap <buffer> <script> y     <SID><C-Y>
-  noremap <buffer> <script> -     <SID><C-Y>
+    " Scroll one line backward
+    noremap <buffer> <script> <C-Y> <SID><C-Y>
+    noremap <buffer> <script> <Up>  <SID><C-Y>
+    noremap <buffer> <script> <C-P> <SID><C-Y>
+    noremap <buffer> <script> <C-K> <SID><C-Y>
+    noremap <buffer> <script> k     <SID><C-Y>
+    noremap <buffer> <script> y     <SID><C-Y>
+    noremap <buffer> <script> -     <SID><C-Y>
 
-  " Start of file
-  noremap <buffer> <script> gg       <SID>gg
-  noremap <buffer> <script> <Home>   <SID>gg
-  noremap <buffer> <script> <C-Home> <SID>gg
-  noremap <buffer> <script> <        <SID>gg
-  noremap <buffer> <script> <A-<>    <SID>gg
+    " Start of file
+    noremap <buffer> <script> gg       <SID>gg
+    noremap <buffer> <script> <Home>   <SID>gg
+    noremap <buffer> <script> <C-Home> <SID>gg
+    noremap <buffer> <script> <        <SID>gg
+    noremap <buffer> <script> <A-<>    <SID>gg
 
-  " End of file
-  noremap <buffer> <script> G       <SID>G
-  noremap <buffer> <script> <End>   <SID>G
-  noremap <buffer> <script> <C-End> <SID>G
-  noremap <buffer> <script> >       <SID>G
-  noremap <buffer> <script> <A->>   <SID>G
+    " End of file
+    noremap <buffer> <script> G       <SID>G
+    noremap <buffer> <script> <End>   <SID>G
+    noremap <buffer> <script> <C-End> <SID>G
+    noremap <buffer> <script> >       <SID>G
+    noremap <buffer> <script> <A->>   <SID>G
 
-  " Scroll half a page right
-  noremap <buffer> <script> <Right> <SID><Right>
-  noremap <buffer> <script> <A-)>   <SID><Right>
+    " Scroll half a page right
+    noremap <buffer> <script> <Right> <SID><Right>
+    noremap <buffer> <script> <A-)>   <SID><Right>
 
-  " Scroll half a page left
-  noremap <buffer> <script> <Left> <SID><Left>
-  noremap <buffer> <script> <A-(>  <SID><Left>
+    " Scroll half a page left
+    noremap <buffer> <script> <Left> <SID><Left>
+    noremap <buffer> <script> <A-(>  <SID><Left>
 
-  " Go to percentage
-  noremap <buffer> <script> % <SID>%
-  noremap <buffer> <script> p <SID>%
+    " Go to percentage
+    noremap <buffer> <script> % <SID>%
+    noremap <buffer> <script> p <SID>%
 
-  " Quitting
-  noremap <buffer> <script> q <SID>q
-  noremap <buffer> <script> Q <SID>q
+    " Quitting
+    noremap <buffer> <script> q <SID>q
+    noremap <buffer> <script> Q <SID>q
 
-  " Switch to editing (switch off less mode)
-  noremap <buffer> <script> v <SID>v
+    " Switch to editing (switch off less mode)
+    noremap <buffer> <script> v <SID>v
 
 endfunction
 
 function s:MiddleRedraw()
-  let l:startofline = &startofline
-  set nostartofline
-  keepjumps normal! Mg0
-  let &startofline = l:startofline
-  call s:Redraw()
+    let l:startofline = &startofline
+    set nostartofline
+    keepjumps normal! Mg0
+    let &startofline = l:startofline
+    call s:Redraw()
 endfunction
 
 function s:Redraw()
-  redraw
-  echo '-- VIMLESS --'
+    redraw
+    echo '-- VIMLESS --'
 endfunction
 
 function s:Help()
-  echo "<Space>   One page forward          b         One page backward"
-  echo "d         Half a page forward       u         Half a page backward"
-  echo "<Enter>   One line forward          k         One line backward"
-  echo "G         End of file               gg        Start of file"
-  echo "N%        percentage in file"
-  echo "q         Quit                      v         Exit less mode"
+    echo "<Space>   One page forward          b         One page backward"
+    echo "d         Half a page forward       u         Half a page backward"
+    echo "<Enter>   One line forward          k         One line backward"
+    echo "G         End of file               gg        Start of file"
+    echo "N%        percentage in file"
+    echo "q         Quit                      v         Exit less mode"
 endfunction
 
 function s:End()
-  setlocal swapfile& modifiable& readonly&
-  mapclear <buffer>
-  augroup less
-    autocmd!
-  augroup END
-  redraw
-  file
+    setlocal swapfile& modifiable& readonly&
+    mapclear <buffer>
+    augroup less
+        autocmd!
+    augroup END
+    redraw
+    file
 endfunction
 
-" vim: sw=2 ts=8
+" vim: et sw=4 sts=4

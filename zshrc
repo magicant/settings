@@ -38,21 +38,21 @@ compinit
 # if the shell is executed in a terminal emulator, set $TERM accordingly
 # and reset $SHLVL
 if [ -r "${SETTINGSDIR:-$HOME/.settings}/setterm" ]; then
-	case $(ps -o comm= -p $PPID 2>/dev/null) in
-		xterm | */xterm)
-			TERM=xterm-256color
-			. "${SETTINGSDIR:-$HOME/.settings}/setterm"
-			SHLVL=1
-			;;
-		gnome-terminal* | */gnome-terminal* )
-			TERM=gnome-256color
-			. "${SETTINGSDIR:-$HOME/.settings}/setterm"
-			SHLVL=1
-			;;
-	esac
+    case $(ps -o comm= -p $PPID 2>/dev/null) in
+        xterm | */xterm)
+            TERM=xterm-256color
+            . "${SETTINGSDIR:-$HOME/.settings}/setterm"
+            SHLVL=1
+            ;;
+        gnome-terminal* | */gnome-terminal* )
+            TERM=gnome-256color
+            . "${SETTINGSDIR:-$HOME/.settings}/setterm"
+            SHLVL=1
+            ;;
+    esac
 fi
 if [ "/proc/$PPID/exe" -ef /usr/bin/mintty.exe ]; then
-	export TERM_PROGRAM=mintty
+    export TERM_PROGRAM=mintty
 fi
 
 termcolor=$(tput colors 2>/dev/null)
@@ -89,35 +89,35 @@ alias -g L='|$PAGER'
 alias -g N='>/dev/null 2>&1' N1='>/dev/null' N2='2>/dev/null'
 
 if grep --color=auto -q X <<<X 2>/dev/null; then
-	alias grep='grep --color=auto'
+    alias grep='grep --color=auto'
 fi
 if ggrep --color=auto -q X <<<X 2>/dev/null; then
-	alias g='ggrep' ggrep='ggrep --color=auto'
+    alias g='ggrep' ggrep='ggrep --color=auto'
 fi
 if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
-	alias ls='ls --color=tty'
+    alias ls='ls --color=tty'
 fi
 if command -v tree >/dev/null 2>&1; then
-	alias tree='tree -C'
+    alias tree='tree -C'
 fi
 if command -v nkf >/dev/null 2>&1; then
-	case "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" in
-		*utf8* |*utf-8* |*UTF8* |*UTF-8* )
-			alias nkf='nkf -xw --no-best-fit-chars';;
-		*eucjp*|*euc-jp*|*EUCJP*|*EUC-JP*)
-			alias nkf='nkf -xe';;
-	esac
+    case "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" in
+        *utf8* |*utf-8* |*UTF8* |*UTF-8* )
+            alias nkf='nkf -xw --no-best-fit-chars';;
+        *eucjp*|*euc-jp*|*EUCJP*|*EUC-JP*)
+            alias nkf='nkf -xe';;
+    esac
 fi
 if command -v vim >/dev/null 2>&1; then
-	alias vi='vim' view='vim -R' vl='vimless'
-	alias -g V='|vimless'
+    alias vi='vim' view='vim -R' vl='vimless'
+    alias -g V='|vimless'
 fi
 if command -v xdg-open >/dev/null 2>&1; then
-	alias o='xdg-open'
+    alias o='xdg-open'
 elif command -v cygstart >/dev/null 2>&1; then
-	alias o='cygstart'
+    alias o='cygstart'
 elif [ "$(uname)" = Darwin ] 2>/dev/null; then
-	alias o='open'
+    alias o='open'
 fi
 
 HISTFILE=~/.zsh_history HISTSIZE=2000 SAVEHIST=1000
@@ -132,14 +132,14 @@ zstyle ':vcs_info:*' actionformats '%s@%b!%a'
 #colors
 
 if [ -n "${SSH_CONNECTION-}" ] && [ -z "${SSH_LOCAL-}" ]; then
-	hc='%F{yellow}'
+    hc='%F{yellow}'
 else
-	hc='%F{green}'
+    hc='%F{green}'
 fi
 if [ "$EUID" -eq 0 ]; then
-	uc='%F{red}' gc='%F{red}'
+    uc='%F{red}' gc='%F{red}'
 else
-	uc="$hc"     gc=''        hc=''
+    uc="$hc"     gc=''        hc=''
 fi
 PS1=$uc'%B%n'$hc'@%m%f %. ${SHLVL:/1}z%(!.#.$)%f%b '
 PS2=$gc'%B%_>%f%b '
@@ -148,50 +148,52 @@ SPROMPT='Did you mean "%r"? [ynae] '
 unset uc gc hc esc bell
 
 case "$TERM" in
-	xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
-		_tsl='\033]0;' _fsl='\033\\' ;;
-	cygwin)
-		_tsl='\033];' _fsl='\a' ;;
-	*)
-		_tsl=$( (tput tsl 0; echo) 2>/dev/null |
-		sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
-		_fsl=$( (tput fsl  ; echo) 2>/dev/null |
-		sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g') ;;
+    xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
+        _tsl='\033]0;' _fsl='\033\\' ;;
+    cygwin)
+        _tsl='\033];' _fsl='\a' ;;
+    *)
+        _tsl=$( (tput tsl 0; echo) 2>/dev/null |
+        sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
+        _fsl=$( (tput fsl  ; echo) 2>/dev/null |
+        sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g') ;;
 esac
 if [ "$_tsl" ] && [ "$_fsl" ]; then
-	precmd () {
-		printf "$_tsl"'%s@%s:%s'"$_fsl" \
-			"$USER" "${HOST%%.*}" "${${PWD:/~/~}/#~\//~/}"
-		LC_ALL=en_US.UTF-8 vcs_info 2>/dev/null
-	}
-	ssh () {
-		if [ -t 1 ]; then printf "$_tsl"'ssh %s'"$_fsl" "$*"; fi
-		command ssh "$@"
-	}
+    precmd () {
+        printf "$_tsl"'%s@%s:%s'"$_fsl" \
+            "$USER" "${HOST%%.*}" "${${PWD:/~/~}/#~\//~/}"
+        LC_ALL=en_US.UTF-8 vcs_info 2>/dev/null
+    }
+    ssh () {
+        if [ -t 1 ]; then printf "$_tsl"'ssh %s'"$_fsl" "$*"; fi
+        command ssh "$@"
+    }
 fi
 
 p()
 if [ $# -gt 0 ]; then
-	printf '%s\n' "$@"
+    printf '%s\n' "$@"
 fi
 alert() {
-	printf '\a'
+    printf '\a'
 }
 mkdircd() {
-	mkdir -p "$@" && cd "$1"
+    mkdir -p "$@" && cd "$1"
 }
 
 # use more as pager in dumb terminal
 if [ x"$TERM" = x"dumb" ]; then
-	PAGER=more
+    PAGER=more
 fi
 
 if [ -r ~/.zshrc_local ]; then
-	. ~/.zshrc_local
+    . ~/.zshrc_local
 fi
 
 if [ -r "${DESK_ENV-}" ]; then
-	. "${DESK_ENV}"
+    . "${DESK_ENV}"
 fi
 
 unset termcolor
+
+# vim: ft=zsh et sw=4 sts=4

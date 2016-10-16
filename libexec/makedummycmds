@@ -3,22 +3,24 @@
 # Should be executed in ~/bin or /usr/local/bin
 
 hascommand () (
-	IFS=:
-	for dir in $PATH; do
-		if [ -x "$dir/$1" ]; then
-			return
-		fi
-	done
-	false
+    IFS=:
+    for dir in $PATH; do
+        if [ -x "$dir/$1" ]; then
+            return
+        fi
+    done
+    false
 )
 
 echo '"${0##*/}" "$@"' >|.shellcmd || exit
 chmod a+x .shellcmd
 for cmd in alias bg cd command false fc fg getopts hash jobs kill pwd read \
-	true type ulimit umask unalias wait # newgrp
+    true type ulimit umask unalias wait # newgrp
 do
-	if ! hascommand $cmd; then
-		ln .shellcmd $cmd && echo created $cmd
-	fi
+    if ! hascommand $cmd; then
+        ln .shellcmd $cmd && echo created $cmd
+    fi
 done
 rm .shellcmd
+
+# vim: ft=sh et sw=4 sts=4

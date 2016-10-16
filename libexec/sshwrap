@@ -5,27 +5,29 @@ ssh_agent=/usr/bin/ssh-agent
 ssh_add=/usr/bin/ssh-add
 
 checkopt() {
-	case "$1" in
-		-h|-\?|--help)
-			false;;
-		-f|-t)        
-			test x"${0##*/}" != x"scp";;
-		*)
-			true;;
-	esac
+    case "$1" in
+        -h|-\?|--help)
+            false;;
+        -f|-t)        
+            test x"${0##*/}" != x"scp";;
+        *)
+            true;;
+    esac
 }
 
 if [ $# -gt 0 ] && checkopt "$1"; then
-	if ! [ x"${SSH_AUTH_SOCK:+set}" = x"set" ]; then
-		SSH_AUTH_SOCK=~/.ssh/@$(uname -n)
-		if ! [ -e "$SSH_AUTH_SOCK" ]; then
-			command eval "$(umask 022 && $ssh_agent -a "$SSH_AUTH_SOCK" || echo exit)" >/dev/tty
-		fi
-		export SSH_AUTH_SOCK
-	fi
-	if [ x"${SSH_AUTH_SOCK:+set}" = x"set" ] && ! $ssh_add -l >/dev/null 2>&1
-	then
-		({ command exec </dev/tty; } 2>/dev/null; $ssh_add -t "$lifetine") || exit
-	fi
+    if ! [ x"${SSH_AUTH_SOCK:+set}" = x"set" ]; then
+        SSH_AUTH_SOCK=~/.ssh/@$(uname -n)
+        if ! [ -e "$SSH_AUTH_SOCK" ]; then
+            command eval "$(umask 022 && $ssh_agent -a "$SSH_AUTH_SOCK" || echo exit)" >/dev/tty
+        fi
+        export SSH_AUTH_SOCK
+    fi
+    if [ x"${SSH_AUTH_SOCK:+set}" = x"set" ] && ! $ssh_add -l >/dev/null 2>&1
+    then
+        ({ command exec </dev/tty; } 2>/dev/null; $ssh_add -t "$lifetine") || exit
+    fi
 fi
 exec "/usr/bin/${0##*/}" "$@"
+
+# vim: ft=sh et sw=4 sts=4

@@ -2,44 +2,44 @@
 
 all=false
 while [ x"$1" = x"-a" ]; do
-	all=true
-	shift
+    all=true
+    shift
 done
 if [ x"$1" = x"--" ]; then
-	shift
+    shift
 else
-	case "$1" in
-		-*) printf '%s: invalid option: %s\n' "$0" "$1" >&2; exit 2
-	esac
+    case "$1" in
+        -*) printf '%s: invalid option: %s\n' "$0" "$1" >&2; exit 2
+    esac
 fi
 
 IFS=':'
 found=true
 for cmd
 do
-	foundsub=false
-	case $cmd in
-	*/*)
-		if [ -x "$cmd" ]; then
-			foundsub=true
-			printf '%s\n' "$cmd"
-		fi
-		;;
-	*)
-		for dir in $PATH
-		do
-			full="${dir:-.}/$cmd" 
-			if [ -x "$full" ]; then
-				foundsub=true
-				printf '%s\n' "$full"
-				$all || break
-			fi
-		done
-		;;
-	esac
-	$foundsub || found=false
+    foundsub=false
+    case $cmd in
+    */*)
+        if [ -x "$cmd" ]; then
+            foundsub=true
+            printf '%s\n' "$cmd"
+        fi
+        ;;
+    *)
+        for dir in $PATH
+        do
+            full="${dir:-.}/$cmd" 
+            if [ -x "$full" ]; then
+                foundsub=true
+                printf '%s\n' "$full"
+                $all || break
+            fi
+        done
+        ;;
+    esac
+    $foundsub || found=false
 done
 
 $found
 
-# vim: ts=4 sw=4 sts=4
+# vim: ft=sh et sw=4 sts=4

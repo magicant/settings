@@ -19,4 +19,4 @@ make prefix="/usr/local/stow/$package" install
 cd /usr/local/stow
 stow "$package"
 
-# vim: set ft=sh et sw=4:
+# vim: ft=sh et sw=4 sts=4

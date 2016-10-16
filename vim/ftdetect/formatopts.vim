@@ -2,4 +2,6 @@
 " detection
 
 autocmd BufNewFile,BufRead,StdinReadPost *
-	\ setlocal formatoptions+=lB formatoptions-=mM
+    \ setlocal formatoptions+=lB formatoptions-=mM
+
+" vim: et sw=4 sts=4
