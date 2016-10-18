@@ -43,6 +43,8 @@
 	enabled = true
 [status]
 	branch = true
+[svn]
+	pushmergeinfo = true
 [tig]
 	commit-order = topo
 	blame-view = id author:no date file-name:auto text
