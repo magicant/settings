@@ -5,7 +5,7 @@ if command -v xsel >/dev/null 2>&1; then
 elif command -v xclip >/dev/null 2>&1; then
     exec xclip -out -selection clipboard "$@"
 else
-    echo pbcopy: command not found >&2
+    echo pbpaste: command not found >&2
     exit 127
 fi
 
