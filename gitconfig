@@ -22,6 +22,8 @@
 	header = normal
 	nobranch = red
 	untracked = blue
+[commit]
+	verbose = true
 [diff]
 	wordRegex = [^[:space:][:punct:]]+|[[:punct:]]
 [fetch]
