@@ -26,6 +26,8 @@
 	wordRegex = [^[:space:][:punct:]]+|[[:punct:]]
 [fetch]
 	prune = true
+[gc]
+	worktreePruneExpire = now
 [log]
 	decorate = short
 [merge]
