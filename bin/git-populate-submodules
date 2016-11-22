@@ -1,0 +1,184 @@
+#!/bin/sh
+
+set -Ceu
+
+: GIT_CLONES_DIR=${GIT_CLONES_DIR:="$HOME/.gitclones"}
+
+print_help() {
+    cat <<END
+$0: clone submodules in \$GIT_CLONES_DIR and make worktrees
+
+This command substitutes "git submodule update"
+
+Syntax:
+    ${0##*/} [-CInrU]
+
+Options:
+    -C      Don't force use of SSH instead of HTTPS for cloning from GitHub.
+    -I      Don't "git submodule init".
+    -n      Dry run.
+    -P      Don't "git worktree prune"
+    -r      Recursive.
+    -U      Don't "git submodule update".
+END
+}
+
+# $1 = repository path
+canonicalize_remote_url() {
+    if ! [ -e "$1" ]; then
+        return
+    fi
+    git -C "$1" config --get-regexp --name-only '^remote\..*\.url$' |
+    while read -r name; do
+        url=$(git -C "$1" config "$name")
+        case $url in (https://github.com/*)
+            url="ssh://git@${url#https://}"
+            ${dry_run:+echo} git -C "$1" config "$name" "$url"
+        esac
+    done
+}
+
+# $1 = repository path
+# $2 = remote URL
+has_remote() {
+    if ! [ -e "$1" ]; then
+        return 1
+    fi
+    git -C "$1" config --get-regexp --name-only '^remote\..*\.url' |
+    while read -r name; do
+        git -C "$1" config "$name"
+    done |
+    grep -Fqx "$2"
+}
+
+# $1 = repository path
+new_remote_name() {
+    if ! [ -e "$1" ]; then
+        echo origin\?
+        return
+    fi
+    count=$(git -C "$1" remote | wc -l)
+    count=$(($count + 0)) # Remove whitespaces
+    echo "origin${count#0}"
+}
+
+canonicalize_url=true
+init=true
+dry_run=
+prune_worktrees=true
+recursive=false
+update=true
+while getopts ChInPrU opt; do
+    case $opt in
+        C)
+            canonicalize_url=true
+            ;;
+        h)
+            print_help
+            exit
+            ;;
+        I)
+            init=false
+            ;;
+        n)
+            dry_run=:
+            ;;
+        P)
+            prune_worktrees=false
+            ;;
+        r)
+            recursive=true
+            ;;
+        U)
+            update=false
+            ;;
+        *) # Unknown option
+            exit 2
+            ;;
+    esac
+done
+if ! $update && $recursive; then
+    printf '%s: -r and -U are mutually exclusive.\n' "$0" >&2
+    exit 2
+fi
+# Don't shift arguments so this script can re-invoke itself recursively.
+#shift $((OPTIND-1))
+
+cdup=$(git rev-parse --show-cdup)
+cd -P -- "./$cdup"
+
+${dry_run:+echo} mkdir -p -- "$GIT_CLONES_DIR"
+
+if $init; then
+    ${dry_run:+echo} git submodule init
+fi
+
+# The main part of this script: Clone repos to $GIT_CLONES_DIR.
+git config --get-regexp --name-only '^submodule\..*\.url$' |
+while read -r name; do
+    name=${name#submodule.}
+    name=${name%.url}
+
+    path=$(git config --file=.gitmodules "submodule.$name.path" 2>/dev/null) ||
+        continue
+    path_in_config=$(git config "submodule.$name.path" 2>/dev/null)} &&
+        path=$path_in_config
+    if [ -e "$path/.git" ]; then
+        continue # Skip existing worktree
+    fi
+
+    url=$(git config "submodule.$name.url")
+    if $canonicalize_url; then
+        case $url in (https://github.com/*)
+            url="ssh://git@${url#https://}"
+            ${dry_run:+echo} git config "submodule.$name.url" "$url"
+        esac
+    fi
+
+    reponame=${url%/}
+    reponame=${reponame%.git}
+    reponame=${reponame%/}
+    reponame=${reponame#*[:/]}
+    reponame=${reponame##*/}
+    clonepath=${GIT_CLONES_DIR%/}/${reponame}.git
+
+    # Init
+    if ! [ -e "$clonepath/HEAD" ]; then
+        ${dry_run:+echo} git init --bare "$clonepath"
+        ${dry_run:+echo} git -C "$clonepath" config core.logAllRefUpdates true
+    fi
+
+    # Add remote
+    if $canonicalize_url; then
+        canonicalize_remote_url "$clonepath"
+    fi
+    if ! has_remote "$clonepath" "$url"; then
+        ${dry_run:+echo} git -C "$clonepath" remote add \
+            "$(new_remote_name "$clonepath")" "$url"
+        ${dry_run:+echo} git -C "$clonepath" remote update --prune
+        if ! $dry_run false; then
+            head=$(git -C "$clonepath" rev-list -1 FETCH_HEAD)
+        else
+            head='???'
+        fi
+        ${dry_run:+echo} git -C "$clonepath" update-ref --no-deref HEAD "$head"
+    fi
+
+    # Prune worktrees
+    ${dry_run:+echo} git -C "$clonepath" worktree prune --verbose
+
+    # Make worktree
+    abspath=${PWD%/}/$path
+    ${dry_run:+echo} git -C "$clonepath" worktree add --detach "$abspath"
+done
+
+if $update; then
+    ${dry_run:+echo} git submodule update
+fi
+
+if $recursive && ! [ "${GIT_POPULATING_RECURSIVELY-}" ]; then
+    export GIT_POPULATING_RECURSIVELY=1
+    exec git submodule foreach --recursive "$0" "$@"
+fi
+
+# vim: et sw=4 sts=4
