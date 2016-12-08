@@ -13,9 +13,8 @@ case $program in
         *    ) vim=vim ;;
 esac
 if [ -t 1 ]; then
-    exec $vim -R --noplugin \
+    exec $vim -R \
         --cmd 'let no_plugin_maps = 1' \
-        -c 'runtime plugin/less.vim' \
         -c 'runtime macros/less.vim' \
         +1 "$@"
 else
