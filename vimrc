@@ -7,6 +7,7 @@ if has("multi_byte")
     endif
     set encoding=utf-8
     set fileencodings=ucs-bom,iso-2022-jp,utf-8,sjis,cp932,euc-jp,cp20932
+    scriptencoding utf-8
 endif
 
 " moving and searching options

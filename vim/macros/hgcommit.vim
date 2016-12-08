@@ -4,6 +4,8 @@
 " To use this file, put the following line in the [ui] section of ~/.hgrc:
 " editor = vim -S <path to this file>
 
+scriptencoding utf-8
+
 function! Hg_diff_window()
     let regexes = ['^HG: changed \(.*\)$', '^HG: \(.*\) を変更$']
     let files = []
