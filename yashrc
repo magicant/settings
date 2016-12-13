@@ -1,293 +1,101 @@
-# magicant's .yashrc for yash 2.18 and later
+# magicant's .yashrc
 
-# read system-wide settings
-if [ -r /etc/yashrc ]; then
-    alias alias=: 2>/dev/null
-    . /etc/yashrc
-    \unalias \alias \unalias 2>/dev/null
-elif [ -r /etc/yash.yashrc ]; then
-    alias alias=: 2>/dev/null
-    . /etc/yash.yashrc
-    \unalias \alias \unalias 2>/dev/null
+# load yashrc-old if yash is too old.
+if ! (. --autoload --no-alias config 2>/dev/null &&
+    test -r "$yashdatadir/initialization/common") then
+  . "${SETTINGSDIR:-$HOME/.settings}/yashrc-old"
+  return
 fi
 
-# set some options
-set --braceexpand --extendedglob --noclobber --nounset
-# below are only available when lineedit is enabled
-set --notifyle --histspace --le-noconvmeta 2>/dev/null
+# firstly, load the common customization script
+. --autoload --no-alias initialization/common
 
 # if the shell is executed in a terminal emulator, set $TERM accordingly
 # and reset $SHLVL
-if [ -r "${SETTINGSDIR:-$HOME/.settings}/setterm" ]; then
-    case $(ps -o comm= -p $PPID 2>/dev/null) in
-        xterm | */xterm)
-            TERM=xterm-256color
-            . "${SETTINGSDIR:-$HOME/.settings}/setterm"
-            unset SHLVL
-            ;;
-        gnome-terminal* | */gnome-terminal* )
-            TERM=gnome-256color
-            . "${SETTINGSDIR:-$HOME/.settings}/setterm"
-            unset SHLVL
-            ;;
-    esac
-fi
-if [ "/proc/$PPID/exe" -ef /usr/bin/mintty.exe ]; then
-    export TERM_PROGRAM=mintty
-fi
-
-termcolor=$(tput colors 2>/dev/null)
-: ${PAGER:=more} ${termcolor:=-1}
-
-# define aliases
-if command -vb alias >/dev/null; then  # check if alias is enabled
-
-    alias cp='cp -i'  # IMPORTANT!
-    alias mv='mv -i'
-    alias rm='rm -i'
-
-    alias -- -='cd -'
-    alias _vcs='${${VCS_INFO:?}%%@*}'
-    alias be='bundle exec '
-    alias cd='pushd --default-directory="$HOME"'
-    alias ci='_vcs commit'
-    alias co='_vcs checkout'
-    alias di='_vcs diff'
-    alias dirs='dirs -v'
-    alias f='fg'
-    alias g='grep'
-    alias j='jobs'
-    alias la='ls -a'
-    alias l='$PAGER'
-    alias ll='ls -l'
-    alias lla='ll -a'
-    alias log='_vcs log'
-    alias m='make'
-    alias pushd='pushd --remove-duplicates'
-    alias r='fc -s'
-    alias sh='yash --posix'
-    alias st='_vcs status'
-    alias up='_vcs update'
-    alias C='LC_ALL=C '
-    alias -g L='|$PAGER'
-    alias -g N='>/dev/null 2>&1' N1='>/dev/null' N2='2>/dev/null'
-
-    if grep --color=auto -q X <<<X 2>/dev/null; then
-        alias grep='grep --color=auto'
-    fi
-    if ggrep --color=auto -q X <<<X 2>/dev/null; then
-        alias g='ggrep' ggrep='ggrep --color=auto'
-    fi
-
-    if [ "$termcolor" -ge 8 ] && ls --color=tty -d . >/dev/null 2>&1; then
-        alias ls='ls --color=tty'
-    fi
-
-    if [ "$termcolor" -ge 8 ] && command -v tree >/dev/null 2>&1; then
-        alias tree='tree -C'
-    fi
-
-    if command -v nkf >/dev/null 2>&1; then
-        case "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" in
-            *utf8* |*utf-8* |*UTF8* |*UTF-8* )
-                alias nkf='nkf -xw --no-best-fit-chars';;
-            *eucjp*|*euc-jp*|*EUCJP*|*EUC-JP*)
-                alias nkf='nkf -xe';;
-        esac
-    fi
-
-    if command -v vim >/dev/null 2>&1; then
-        alias vi='vim' view='vim -R' vl='vimless'
-        alias -g V='|vimless'
-    fi
-
-    if command -v xdg-open >/dev/null 2>&1; then
-        alias o='xdg-open'
-    elif command -v cygstart >/dev/null 2>&1; then
-        alias o='cygstart'
-    elif [ "$(uname)" = Darwin ] 2>/dev/null; then
-        alias o='open'
-    fi
-
-fi
-
-# add key bindings to vi mode, some of which are from emacs mode.
-if command -vb bindkey >/dev/null; then
-    bindkey -v '\^A' beginning-of-line
-    bindkey -v '\^B' backward-char
-    bindkey -v '\^D' eof-or-delete
-    bindkey -v '\#'  eof-or-delete
-    bindkey -v '\^E' end-of-line
-    bindkey -v '\^F' forward-char
-    bindkey -v '\^K' forward-kill-line
-    bindkey -v '\^U' backward-kill-line
-    bindkey -v '\$'  backward-kill-line
-    bindkey -v '\^W' backward-delete-viword
-    bindkey -v '\^Y' put-left
-    bindkey -a c     vi-yank-and-change
-    if [ "$YASH_VERSION" -vge 2.19 ]; then
-        bindkey -v '\^P' beginning-search-backward
-        bindkey -v '\^N' beginning-search-forward
-        bindkey -a '\^P' beginning-search-backward
-        bindkey -a '\^N' beginning-search-forward
-    fi
-    if [ "$YASH_VERSION" -vge 2.21 ]; then
-        bindkey -v '\P' complete-prev-column
-        bindkey -v '\N' complete-next-column
-        bindkey -v '\^O' clear-candidates
-    fi
-fi
-
-# define some variables
-{ SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
-export SHLVL
-if [ ~ -ef . ]; then PWD=~; fi
-HISTFILE=~/.yash_history HISTSIZE=5000 HISTRMDUP=500
-MAILCHECK=0
-: ${EDITOR:=vi} ${FCEDIT:=$EDITOR}
-: ${LOGNAME:=$(logname)}
-: ${HOSTNAME:=$(uname -n)}
-: ${ECHO_STYLE:=RAW}
-COMMAND_NOT_FOUND_HANDLER=()
-PROMPT_COMMAND=()
-YASH_AFTER_CD=()
-
-# define prompt
-if [ -n "${SSH_CONNECTION-}" ] && [ -z "${SSH_LOCAL-}" ]; then
-    hc='\fy.'             # yellow in remote host
-else
-    hc='\fg.'             # green for local
-fi
-if [ "$(id -u)" -eq 0 ]; then
-    uc='\fr.' gc='\fr.'   # red for root
-else
-    uc=$hc    gc=   hc=   # normal
-fi
-PS1='\fo.'$uc'${LOGNAME}'$hc'@${HOSTNAME%%.*}\fd. ${${${PWD:/~/\~}##*/}:-$PWD} ${{?:/0/}:+\\fr.$?\\fd. }${{SHLVL-0}:/1}\$ '
-PS1R='\fr.${memo:-"\fc.${VCS_INFO}"}'
-PS1S='\fwt.'
-PS2='\fo.'$gc'>\fD. '
-PS2R=
-PS2S=$PS1S
-PS4='\fyto.+\fD. '
-PS4S='\fyt.'
-unset uc gc hc
-
-# set window title
-case "$TERM" in
-    xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
-        _tsl='\033]0;' _fsl='\033\\' ;;
-    cygwin)
-        _tsl='\033];' _fsl='\a' ;;
-    *)
-        _tsl=$( (tput tsl 0; echo) 2>/dev/null |
-        sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g')
-        _fsl=$( (tput fsl  ; echo) 2>/dev/null |
-        sed -e 's;\\;\\\\;g' -e 's;;\\033;g' -e 's;;\\a;g' -e 's;%;%%;g') ;;
+case ${$(ps -o comm= -p $PPID 2>/dev/null)##*/} in
+  (xterm)
+    TERM=xterm-256color
+    . "${SETTINGSDIR:-$HOME/.settings}/setterm"
+    SHLVL=1
+    ;;
+  (gnome-terminal*)
+    TERM=gnome-256color
+    . "${SETTINGSDIR:-$HOME/.settings}/setterm"
+    SHLVL=1
+    ;;
 esac
-if [ "$_tsl" ] && [ "$_fsl" ]; then
-    _set_term_title()
-    if [ -t 2 ]; then
-        printf "$_tsl"'%s@%s:%s'"$_fsl" "${LOGNAME}" "${HOSTNAME%%.*}" \
-            "${${PWD:/$HOME/\~}/#$HOME\//\~\/}" >&2
-    fi
-    PROMPT_COMMAND=("$PROMPT_COMMAND" '_set_term_title')
-    ssh() {
-        if [ -t 2 ]; then printf "$_tsl"'ssh %s'"$_fsl" "$*" >&2; fi
-        command ssh "$@"
-    }
+if [ "/proc/$PPID/exe" -ef /usr/bin/mintty.exe ]; then
+  export TERM_PROGRAM=mintty
 fi
 
-# tricks to show VCS info in the prompt
-_update_vcs_info() {
-    typeset type branch
-    {
-        read -r type
-        read -r VCS_ROOT
-        read -r branch
-    } <(
-        COMMAND_NOT_FOUND_HANDLER=
-        while true; do
-            if [ -d .svn ]; then
-                printf 'svn\n'
-                VCS_ROOT=$PWD
-                while ! [ / -ef . ] && ! [ . -ef .. ]; do
-                    \cd -P ..
-                    if [ -d .svn ]; then
-                        VCS_ROOT=$PWD
-                    fi
-                done
-                printf '%s\n' "$VCS_ROOT"
-                exit
-            elif [ -d .hg ]; then
-                printf 'hg\n%s\n' "$PWD"
-                exec cat .hg/branch 2>/dev/null
-            elif [ -e .git ] || [ . -ef "${GIT_WORK_TREE-}" ]; then
-                printf 'git\n%s\n' "${GIT_WORK_TREE:-$PWD}"
-                exec 2>/dev/null <(git branch --no-color | grep '^\*') cut -c 3-
-            fi
-            if [ / -ef . ] || [ . -ef .. ]; then
-                exit
-            fi
-            \cd -P ..
-        done
-    )
-    case "$type#$branch" in
-        hg#default) VCS_INFO='hg';;
-        git#master) VCS_INFO='git';;
-        *#        ) VCS_INFO="$type";;
-        *         ) VCS_INFO="$type@$branch";;
-    esac
+# I prefer Vim
+set --vi
+
+# define aliases/functions that are missing in initialization/common
+alias C='LC_ALL=C '
+alias be='bundle exec '
+alias f='fg'
+alias g='grep'
+alias j='jobs'
+alias l='$PAGER'
+alias m='make'
+alias vl='vimless'
+alias --global L='|$PAGER'
+alias --global N='>/dev/null 2>&1' N1='>/dev/null' N2='2>/dev/null'
+alias --global V='|vimless'
+
+cd() {
+  pushd --default-directory="$HOME" "$@";
 }
-PROMPT_COMMAND=("$PROMPT_COMMAND" '_update_vcs_info')
+dirs()
+  if [ -t 1 ]; then
+    command dirs -v "$@"
+  else
+    command dirs "$@"
+  fi
+pushd() {
+  command pushd --remove-duplicates "$@"
+}
+p()
+  if [ $# -gt 0 ]; then
+    printf '%s\n' "$@"
+  fi
+alert() {
+  printf '\a'
+}
+mkdircd() {
+  mkdir -p "$@" && cd "$1"
+}
 
-# autocd alternative for yash 2.13 and later
-_autocd()
-if [ -d "$1" ]; then 
-    HANDLED=true
-    cd "$@"
-    break -i
-fi
-COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_autocd "$@"')
+# My LS_COLORS just does not work for tree. I dunno why.
+alias tree='tree -C'
 
-# handle the job ID specified as a command
-_autofg()
-if [ $# -eq 1 ]; then
-    case $1 in (%*)
-        HANDLED=true
-        fg "$1"
-        break -i
-    esac
+# make nkf more useful (for Japanese environments)
+if command --identify nkf >/dev/null 2>&1; then
+  case "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" in
+    (*utf8* |*utf-8* |*UTF8* |*UTF-8* )
+      nkf() { command nkf -xw --no-best-fit-chars "$@"; }
+      ;;
+    (*eucjp*|*euc-jp*|*EUCJP*|*EUC-JP*)
+      nkf() { command nkf -xe "$@"; }
+      ;;
+  esac
 fi
-COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_autofg "$@"')
 
-# print file type for unexecutable files
-_print_file_type()
-if [ -e "$1" ] && ! [ -d "$1" ]; then
-    file "$1"
-fi
-COMMAND_NOT_FOUND_HANDLER=("$COMMAND_NOT_FOUND_HANDLER" '_print_file_type "$@"')
+# more key binding
+bindkey --vi-insert '\^G' forward-semiword
+
+# needed for ~ to appear in the prompt on some environments
+if [ ~ -ef . ]; then PWD=~; fi
 
 # use more as pager in dumb terminal
 if [ x"$TERM" = x"dumb" ]; then
-    PAGER=more
+  PAGER=more
 fi
-
-# define some auxiliary functions
-p()
-if [ $# -gt 0 ]; then
-    printf '%s\n' "$@"
-fi
-alert() {
-    printf '\a'
-}
-mkdircd() {
-    mkdir -p "$@" && cd "$1"
-}
 
 # read local settings
 if [ -r ~/.yashrc_local ]; then
-    . ~/.yashrc_local
+  . ~/.yashrc_local
 fi
 
 # read desk-specific settings
@@ -295,6 +103,4 @@ if [ -r "${DESK_ENV-}" ]; then
     . "${DESK_ENV}"
 fi
 
-unset termcolor
-
-# vim: ft=sh et sw=4 sts=4
+# vim: set et sw=2 sts=2 tw=78 ft=sh:
