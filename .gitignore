@@ -21,6 +21,8 @@
 /vim/doc/surround.txt
 /vim/doc/tags
 
+/vim/pack/_/
+
 /vim/plugin/AlignMapsPlugin.vim
 /vim/plugin/AlignPlugin.vim
 /vim/plugin/cecutil.vim
