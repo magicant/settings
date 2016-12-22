@@ -1,6 +1,8 @@
 [alias]
 	b = branch
 	graph = log --graph --oneline
+	incoming = log ..@{u}
+	outgoing = log @{u}..
 [color]
 	ui = auto
 [color "diff"]
