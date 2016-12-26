@@ -1,0 +1,25 @@
+# Completion setting for relpath
+
+function completion/relpath {
+
+    typeset OPTIONS ARGOPT PREFIX
+    OPTIONS=( #>#
+    "a; fall back to an absolute path on error"
+    "h --help; print help"
+    "s; make a symbolic link instead of printing a path"
+    "v; print absolute paths specified"
+    ) #<#
+
+    command -f completion//parseoptions -n
+    case $ARGOPT in
+        (-)
+            command -f completion//completeoptions
+            ;;
+        ('')
+            complete -f
+            ;;
+    esac
+
+}
+
+# vim: set et sw=4 sts=4 tw=78 ft=sh:

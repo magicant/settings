@@ -1,4 +1,7 @@
-# Copyright (C) Watanabe Yuki 2016
+# Creates a relative pathname.
+
+# See also: realpath --relative-to=<from> <to>
+# See also: ln --symbolic --relative <to> <from>
 
 set -Ceu
 unset CDPATH
