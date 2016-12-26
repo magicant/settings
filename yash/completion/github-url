@@ -1,0 +1,32 @@
+# Completion setting for "github-url"
+
+function completion/github-url {
+
+    typeset OPTIONS ARGOPT PREFIX
+    OPTIONS=( #>#
+    "g; print in the GitHub-flavored markdown format"
+    "h; print help"
+    "m; print in the markdown format"
+    "n; don't print a newline at the end"
+    "p:; specify a prefix that is prepended to the output"
+    "t; print in the textile format"
+    "s:; specify a suffix that is appended to the output"
+    "u; print a plain URL"
+    "v; append commit subjects"
+    ) #<#
+
+    command -f completion//parseoptions -n
+    case $ARGOPT in
+        (-)
+            command -f completion//completeoptions
+            ;;
+        ('')
+            command -f completion//getoperands
+            WORDS=(git log "${WORDS}")
+            command -f completion//reexecute
+            ;;
+    esac
+
+}
+
+# vim: set et sw=4 sts=4 tw=78 ft=sh:

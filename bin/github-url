@@ -1,0 +1,101 @@
+# Run in a Git repository, prints a formatted reference to commits.
+
+set -Ceu
+
+print_help() {
+    cat <<END
+${0}: print a formatted reference to Git commits.
+
+Syntax:
+    ${0##*/} [-[gmtu]] [-n] [-v] [-p <prefix>] [-s <suffix>] [<operand>...]
+
+Format options:
+    -g      GitHub-flavored markdown reference (foo/bar@1234567)
+    -m      Markdown link
+    -t      Textile link
+    -u      Plain URL (default)
+
+Other options:
+    -n      Omit the last newline
+    -p ...  Prepend the specified format to the result
+    -s ...  Append the specified format to the result
+    -v      Append commit subject
+
+Operands are intactly passed as arguments to "git log".
+END
+}
+
+format=url newline=true prefix= suffix= verbose=false
+while getopts ghmnp:s:tuv opt
+do
+    case ${opt} in
+        (g)
+            format=github ;;
+        (h)
+            print_help; exit ;;
+        (m)
+            format=markdown ;;
+        (n)
+            newline=false ;;
+        (p)
+            prefix=${OPTARG} ;;
+        (s)
+            suffix=${OPTARG} ;;
+        (t)
+            format=textile ;;
+        (u)
+            format=url ;;
+        (v)
+            verbose=true ;;
+        (*)
+            exit 2 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+# Determine the remote
+remoteurl=$(git config --get \
+    "$(git config --get-regexp --name-only 'remote\..*\.url' '.*github\.com.*' |
+        head -n 1)")
+case ${remoteurl} in
+    (git@github.com:*.git)
+        remote=${remoteurl#git@github.com:} ;;
+    (ssh://git@github.com/*.git)
+        remote=${remoteurl#ssh://git@github.com/} ;;
+    (https://*github.com/*.git)
+        remote=${remoteurl#https://*github.com/} ;;
+    (*)
+        remote= ;;
+esac
+remote=${remote%.git}
+if ! [ "${remote}" ]; then
+    printf 'No github.com in remotes\n' 1>&2
+    exit 1
+fi
+
+# Construct format
+commiturlformat="https://github.com/${remote}/commit/%H"
+case ${format} in
+    (github)
+        format="${remote}@%h" ;;
+    (markdown)
+        format="[%h](${commiturlformat})" ;;
+    (textile)
+        format="\"%h\":${commiturlformat}" ;;
+    (url)
+        format="${commiturlformat}" ;;
+esac
+if "${verbose}"; then
+    format="${format} %s"
+fi
+format="${prefix}${format}${suffix}" 
+if "${newline}"; then
+    format="tformat:${format}"
+else
+    format="format:${format}"
+fi
+
+# Print!
+exec git --no-pager log --no-walk --format="${format}" "$@"
+
+# vim: ft=sh et sw=4 sts=4

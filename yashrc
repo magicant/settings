@@ -10,6 +10,12 @@ fi
 # firstly, load the common customization script
 . --autoload --no-alias initialization/common
 
+# Additional load path
+if [ "${_old_loadpath+set}" != set ]; then
+  _old_loadpath=("$YASH_LOADPATH")
+fi
+YASH_LOADPATH=("${SETTINGSDIR:-$HOME/.settings}/yash" "$_old_loadpath")
+
 # if the shell is executed in a terminal emulator, set $TERM accordingly
 # and reset $SHLVL
 case ${$(ps -o comm= -p $PPID 2>/dev/null)##*/} in
