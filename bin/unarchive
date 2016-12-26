@@ -1,0 +1,57 @@
+# Extracts archive files
+
+set -Ceu
+unset CDPATH
+
+print_help() {
+    cat <<END
+${0}: extract archive files
+
+Syntax:
+    ${0##*/} <archive>...
+END
+}
+
+while getopts h opt
+do
+  case ${opt} in
+    (h)
+      print_help; exit ;;
+    (*) # unknown option
+      exit 2 ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+for file do
+  if ! [ -e "${file}" ]; then
+    printf '%s: %s: file not found\n' "${0}" "${file}" >&2
+    false
+  fi
+
+  case ${file} in
+    #(*?.tar.gz|*?.tar.xz)
+    # Not supported yet ;;
+    (*?.zip|*?.jar|*?.epub|*?.apk|*?.ipa)
+      dir=${file%.*}
+      mkdir -- "${dir}"
+      (cd -P -- "${dir}" && unzip -q "../${file##*/}")
+      ;;
+    (*)
+      printf '%s: %s: unsupported file\n' "${0}" "${file}" >&2
+      false
+      ;;
+  esac
+
+  # If the archive extracts to a single directory with the same name as the
+  # containing directory, remove the redundant containing directory.
+  if [ "${dir##*/}" = "$(ls -A1 "${dir}")" ]; then
+    if ! [ -e "${dir}_${$}" ]; then
+      mv -- "${dir}" "${dir}_${$}"
+      mv -- "${dir}_${$}/${dir##*/}" "${dir}"
+      rmdir -- "${dir}_${$}"
+    fi
+  fi
+done
+
+# vim: set et sw=2 sts=2 tw=78 ft=sh:
