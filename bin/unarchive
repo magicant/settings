@@ -30,8 +30,16 @@ for file do
   fi
 
   case ${file} in
-    #(*?.tar.gz|*?.tar.xz)
-    # Not supported yet ;;
+    (*?.tar.gz)
+      dir=${file%.tar.gz}
+      mkdir -- "${dir}"
+      (cd -P -- "${dir}" && gzip -cd "../${file##*/}" | tar -x -f -)
+      ;;
+    (*?.tar.xz)
+      dir=${file%.tar.xz}
+      mkdir -- "${dir}"
+      (cd -P -- "${dir}" && xz -cd "../${file##*/}" | tar -x -f -)
+      ;;
     (*?.zip|*?.jar|*?.epub|*?.apk|*?.ipa)
       dir=${file%.*}
       mkdir -- "${dir}"
