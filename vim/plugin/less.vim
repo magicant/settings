@@ -14,23 +14,23 @@ endif
 let loaded_vimless = 1
 
 
-noremap <script> <SID><F1>    :call <SID>Help()<CR>
-noremap <script> <SID>M       :call <SID>MiddleRedraw()<CR>
-noremap <script> <SID><C-G>   :call <SID>Redraw()<CR>
-noremap <script> <SID><C-F>   <C-F><SID>M
-noremap <script> <SID>F       :edit<CR>G<SID><C-G>gs<SID>F
-noremap <script> <SID><C-D>   <C-D><SID>M
-noremap <script> <SID><C-E>   <C-E><SID>M
-noremap <script> <SID><C-B>   <C-B><SID>M
-noremap <script> <SID><C-U>   <C-U><SID>M
-noremap <script> <SID><C-Y>   <C-Y><SID>M
-noremap <script> <SID>gg      gg<SID><C-G>
-noremap <script> <SID>G       G<SID><C-G>
-noremap <script> <SID><Right> zL<SID>M
-noremap <script> <SID><Left>  zH<SID>M
-noremap <script> <SID>%       %<SID>M
-noremap <script> <SID>q       :quit<CR>
-noremap <script> <SID>v       :call <SID>End()<CR>
+noremap <script> <special> <SID><F1>    :call <SID>Help()<CR>
+noremap <script> <special> <SID>M       :call <SID>MiddleRedraw()<CR>
+noremap <script> <special> <SID><C-G>   :call <SID>Redraw()<CR>
+noremap <script> <special> <SID><C-F>   <C-F><SID>M
+noremap <script> <special> <SID>F       :edit<CR>G<SID><C-G>gs<SID>F
+noremap <script> <special> <SID><C-D>   <C-D><SID>M
+noremap <script> <special> <SID><C-E>   <C-E><SID>M
+noremap <script> <special> <SID><C-B>   <C-B><SID>M
+noremap <script> <special> <SID><C-U>   <C-U><SID>M
+noremap <script> <special> <SID><C-Y>   <C-Y><SID>M
+noremap <script> <special> <SID>gg      gg<SID><C-G>
+noremap <script> <special> <SID>G       G<SID><C-G>
+noremap <script> <special> <SID><Right> zL<SID>M
+noremap <script> <special> <SID><Left>  zH<SID>M
+noremap <script> <special> <SID>%       %<SID>M
+noremap <script> <special> <SID>q       :quit<CR>
+noremap <script> <special> <SID>v       :call <SID>End()<CR>
 
 
 function Vimless(...)
@@ -52,96 +52,96 @@ function Vimless(...)
     endif
 
     " Give help
-    noremap <buffer> <script> h <SID><F1>
+    nnoremap <buffer> <nowait> <script> <special> h <SID><F1>
 
     " Redraw
-    noremap <buffer> <script> <C-G> <SID><C-G>
-    noremap <buffer> <script> <C-L> <SID><C-G>
-    noremap <buffer> <script> <C-R> <SID><C-G>
-    noremap <buffer> <script> L     <SID><C-G>
-    noremap <buffer> <script> r     <SID><C-G>
-    noremap <buffer> <script> R     <SID><C-G>
-    noremap <buffer> <script> =     <SID><C-G>
+    nnoremap <buffer> <nowait> <script> <special> <C-G> <SID><C-G>
+    nnoremap <buffer> <nowait> <script> <special> <C-L> <SID><C-G>
+    nnoremap <buffer> <nowait> <script> <special> <C-R> <SID><C-G>
+    nnoremap <buffer> <nowait> <script> <special> L     <SID><C-G>
+    nnoremap <buffer> <nowait> <script> <special> r     <SID><C-G>
+    nnoremap <buffer> <nowait> <script> <special> R     <SID><C-G>
+    nnoremap <buffer> <nowait> <script> <special> =     <SID><C-G>
 
     " Scroll one page forward
-    noremap <buffer> <script> <C-F>      <SID><C-F>
-    noremap <buffer> <script> <Space>    <SID><C-F>
-    noremap <buffer> <script> <PageDown> <SID><C-F>
-    noremap <buffer> <script> <S-Down>   <SID><C-F>
-    noremap <buffer> <script> <C-V>      <SID><C-F>
-    noremap <buffer> <script> f          <SID><C-F>
+    nnoremap <buffer> <nowait> <script> <special> <C-F>      <SID><C-F>
+    nnoremap <buffer> <nowait> <script> <special> <Space>    <SID><C-F>
+    nnoremap <buffer> <nowait> <script> <special> <PageDown> <SID><C-F>
+    nnoremap <buffer> <nowait> <script> <special> <S-Down>   <SID><C-F>
+    nnoremap <buffer> <nowait> <script> <special> <C-V>      <SID><C-F>
+    nnoremap <buffer> <nowait> <script> <special> f          <SID><C-F>
 
     " Re-read file and page forward "tail -f"
-    noremap <buffer> <script> F <SID>F
+    nnoremap <buffer> <nowait> <script> <special> F <SID>F
 
     " Scroll half a page forward
-    noremap <buffer> <script> <C-D> <SID><C-D>
-    noremap <buffer> <script> d     <SID><C-D>
+    nnoremap <buffer> <nowait> <script> <special> <C-D> <SID><C-D>
+    nnoremap <buffer> <nowait> <script> <special> d     <SID><C-D>
 
     " Scroll one line forward
-    noremap <buffer> <script> <C-E>  <SID><C-E>
-    noremap <buffer> <script> <Down> <SID><C-E>
-    noremap <buffer> <script> <CR>   <SID><C-E>
-    noremap <buffer> <script> <C-M>  <SID><C-E>
-    noremap <buffer> <script> <C-N>  <SID><C-E>
-    noremap <buffer> <script> <C-J>  <SID><C-E>
-    noremap <buffer> <script> e      <SID><C-E>
-    noremap <buffer> <script> j      <SID><C-E>
-    noremap <buffer> <script> +      <SID><C-E>
+    nnoremap <buffer> <nowait> <script> <special> <C-E>  <SID><C-E>
+    nnoremap <buffer> <nowait> <script> <special> <Down> <SID><C-E>
+    nnoremap <buffer> <nowait> <script> <special> <CR>   <SID><C-E>
+    nnoremap <buffer> <nowait> <script> <special> <C-M>  <SID><C-E>
+    nnoremap <buffer> <nowait> <script> <special> <C-N>  <SID><C-E>
+    nnoremap <buffer> <nowait> <script> <special> <C-J>  <SID><C-E>
+    nnoremap <buffer> <nowait> <script> <special> e      <SID><C-E>
+    nnoremap <buffer> <nowait> <script> <special> j      <SID><C-E>
+    nnoremap <buffer> <nowait> <script> <special> +      <SID><C-E>
 
     " Scroll one page backward
-    noremap <buffer> <script> <C-B>     <SID><C-B>
-    noremap <buffer> <script> <PageUp>  <SID><C-B>
-    noremap <buffer> <script> <S-Space> <SID><C-B>
-    noremap <buffer> <script> <S-Up>    <SID><C-B>
-    noremap <buffer> <script> b         <SID><C-B>
-    noremap <buffer> <script> <A-v>     <SID><C-B>
+    nnoremap <buffer> <nowait> <script> <special> <C-B>     <SID><C-B>
+    nnoremap <buffer> <nowait> <script> <special> <PageUp>  <SID><C-B>
+    nnoremap <buffer> <nowait> <script> <special> <S-Space> <SID><C-B>
+    nnoremap <buffer> <nowait> <script> <special> <S-Up>    <SID><C-B>
+    nnoremap <buffer> <nowait> <script> <special> b         <SID><C-B>
+    nnoremap <buffer> <nowait> <script> <special> <A-v>     <SID><C-B>
 
     " Scroll half a page backward
-    noremap <buffer> <script> <C-U> <SID><C-U>
-    noremap <buffer> <script> u     <SID><C-U>
+    nnoremap <buffer> <nowait> <script> <special> <C-U> <SID><C-U>
+    nnoremap <buffer> <nowait> <script> <special> u     <SID><C-U>
 
     " Scroll one line backward
-    noremap <buffer> <script> <C-Y> <SID><C-Y>
-    noremap <buffer> <script> <Up>  <SID><C-Y>
-    noremap <buffer> <script> <C-P> <SID><C-Y>
-    noremap <buffer> <script> <C-K> <SID><C-Y>
-    noremap <buffer> <script> k     <SID><C-Y>
-    noremap <buffer> <script> y     <SID><C-Y>
-    noremap <buffer> <script> -     <SID><C-Y>
+    nnoremap <buffer> <nowait> <script> <special> <C-Y> <SID><C-Y>
+    nnoremap <buffer> <nowait> <script> <special> <Up>  <SID><C-Y>
+    nnoremap <buffer> <nowait> <script> <special> <C-P> <SID><C-Y>
+    nnoremap <buffer> <nowait> <script> <special> <C-K> <SID><C-Y>
+    nnoremap <buffer> <nowait> <script> <special> k     <SID><C-Y>
+    nnoremap <buffer> <nowait> <script> <special> y     <SID><C-Y>
+    nnoremap <buffer> <nowait> <script> <special> -     <SID><C-Y>
 
     " Start of file
-    noremap <buffer> <script> gg       <SID>gg
-    noremap <buffer> <script> <Home>   <SID>gg
-    noremap <buffer> <script> <C-Home> <SID>gg
-    noremap <buffer> <script> <        <SID>gg
-    noremap <buffer> <script> <A-<>    <SID>gg
+    nnoremap <buffer> <nowait> <script> <special> gg       <SID>gg
+    nnoremap <buffer> <nowait> <script> <special> <Home>   <SID>gg
+    nnoremap <buffer> <nowait> <script> <special> <C-Home> <SID>gg
+    nnoremap <buffer> <nowait> <script> <special> <        <SID>gg
+    nnoremap <buffer> <nowait> <script> <special> <A-<>    <SID>gg
 
     " End of file
-    noremap <buffer> <script> G       <SID>G
-    noremap <buffer> <script> <End>   <SID>G
-    noremap <buffer> <script> <C-End> <SID>G
-    noremap <buffer> <script> >       <SID>G
-    noremap <buffer> <script> <A->>   <SID>G
+    nnoremap <buffer> <nowait> <script> <special> G       <SID>G
+    nnoremap <buffer> <nowait> <script> <special> <End>   <SID>G
+    nnoremap <buffer> <nowait> <script> <special> <C-End> <SID>G
+    nnoremap <buffer> <nowait> <script> <special> >       <SID>G
+    nnoremap <buffer> <nowait> <script> <special> <A->>   <SID>G
 
     " Scroll half a page right
-    noremap <buffer> <script> <Right> <SID><Right>
-    noremap <buffer> <script> <A-)>   <SID><Right>
+    nnoremap <buffer> <nowait> <script> <special> <Right> <SID><Right>
+    nnoremap <buffer> <nowait> <script> <special> <A-)>   <SID><Right>
 
     " Scroll half a page left
-    noremap <buffer> <script> <Left> <SID><Left>
-    noremap <buffer> <script> <A-(>  <SID><Left>
+    nnoremap <buffer> <nowait> <script> <special> <Left> <SID><Left>
+    nnoremap <buffer> <nowait> <script> <special> <A-(>  <SID><Left>
 
     " Go to percentage
-    noremap <buffer> <script> % <SID>%
-    noremap <buffer> <script> p <SID>%
+    nnoremap <buffer> <nowait> <script> <special> % <SID>%
+    nnoremap <buffer> <nowait> <script> <special> p <SID>%
 
     " Quitting
-    noremap <buffer> <script> q <SID>q
-    noremap <buffer> <script> Q <SID>q
+    nnoremap <buffer> <nowait> <script> <special> q <SID>q
+    nnoremap <buffer> <nowait> <script> <special> Q <SID>q
 
     " Switch to editing (switch off less mode)
-    noremap <buffer> <script> v <SID>v
+    nnoremap <buffer> <nowait> <script> <special> v <SID>v
 
 endfunction
 
