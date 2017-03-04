@@ -89,7 +89,7 @@ if command --identify nkf >/dev/null 2>&1; then
 fi
 
 # more key binding
-bindkey --vi-insert '\^G' forward-semiword
+bindkey --vi-insert '\^G' forward-viword
 
 # needed for ~ to appear in the prompt on some environments
 if [ ~ -ef . ]; then PWD=~; fi
