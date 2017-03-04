@@ -26,6 +26,8 @@
 	untracked = blue
 [commit]
 	verbose = true
+[core]
+	excludesFile = ~/.settings/gitignore
 [diff]
 	wordRegex = [^[:space:][:punct:]]+|[[:punct:]]
 [fetch]
