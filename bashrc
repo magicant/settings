@@ -248,7 +248,7 @@ case $- in *i*)
     alert() {
         printf '\a'
     }
-    mkdircd() {
+    mkcd() {
         mkdir -p "$@" && cd "$1"
     }
 
