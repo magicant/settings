@@ -71,7 +71,7 @@ update=true
 while getopts ChInPrU opt; do
     case $opt in
         C)
-            canonicalize_url=true
+            canonicalize_url=false
             ;;
         h)
             print_help
