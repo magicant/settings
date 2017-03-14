@@ -10,6 +10,8 @@ $0: clone submodules in \$GIT_CLONES_DIR and make worktrees
 
 This command substitutes "git submodule update"
 
+For details, see: http://qiita.com/magicant/items/99741de9f71c4c710ae3
+
 Syntax:
     ${0##*/} [-CInrU]
 
