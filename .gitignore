@@ -6,6 +6,11 @@
 /bin/sshwrap
 /bin/which
 
+/byobu/.*
+/byobu/disable-autolaunch
+/byobu/no-logout-on-detach
+/byobu/status.disable
+
 /vim/.VimballRecord
 /vim/.netrwhist
 /vim/GetLatest

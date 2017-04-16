@@ -50,6 +50,7 @@ echo Home directory is "$HOME"
 echo Settings directory is "$PWD"
 
 makelinkhome bashrc .bashrc
+makelinkhome byobu .byobu
 makelinkhome colordiffrc .colordiffrc
 if command -v dircolors >/dev/null 2>&1; then
     if TERM=xterm dircolors dircolors >/dev/null 2>&1; then
