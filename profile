@@ -60,6 +60,10 @@ fi
 #   ssh-add
 #fi
 
+#if ! [ "${TMUX-}" ]; then
+#   tmux list-sessions 2>/dev/null
+#fi
+
 #case $- in
 #   (*c*)
 #       ;;
