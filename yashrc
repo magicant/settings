@@ -99,6 +99,10 @@ if [ x"$TERM" = x"dumb" ]; then
   PAGER=more
 fi
 
+if [ "${TMUX-}" ]; then
+  tmux set-window-option automatic-rename on
+fi
+
 # read local settings
 if [ -r ~/.yashrc_local ]; then
   . ~/.yashrc_local
