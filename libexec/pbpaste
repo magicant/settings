@@ -1,6 +1,8 @@
 # Copyright (C) Watanabe Yuki 2016
 
-if command -v xsel >/dev/null 2>&1; then
+if [ -r /dev/clipboard ]; then
+    exec cat /dev/clipboard
+elif command -v xsel >/dev/null 2>&1; then
     exec xsel -o -b "$@"
 elif command -v xclip >/dev/null 2>&1; then
     exec xclip -out -selection clipboard "$@"
