@@ -189,8 +189,8 @@ noremap <C-K><C-U> :update<CR>
 noremap <C-K>u :update<CR>
 noremap <C-K><C-W> :write<CR>
 noremap <C-K>w :write<CR>
-noremap <C-K><C-X> :xall<CR>
-noremap <C-K>x :xall<CR>
+noremap <C-K><C-X> :exit<CR>
+noremap <C-K>x :exit<CR>
 noremap <C-W>Q :quitall<CR>
 noremap <F5> :set paste! paste?<CR>
 noremap <F6> :set list! list?<CR>
