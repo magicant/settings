@@ -129,9 +129,6 @@ while read -r name; do
         continue
     path_in_config=$(git config "submodule.$name.path" 2>/dev/null)} &&
         path=$path_in_config
-    if [ -e "$path/.git" ]; then
-        continue # Skip existing worktree
-    fi
 
     url=$(git config "submodule.$name.url")
     if $canonicalize_url; then
@@ -174,8 +171,10 @@ while read -r name; do
     ${dry_run:+echo} git -C "$clonepath" worktree prune --verbose
 
     # Make worktree
-    abspath=${PWD%/}/$path
-    ${dry_run:+echo} git -C "$clonepath" worktree add --detach "$abspath"
+    if ! [ -e "$path/.git" ]; then # Skip existing worktree
+        abspath=${PWD%/}/$path
+        ${dry_run:+echo} git -C "$clonepath" worktree add --detach "$abspath"
+    fi
 done
 
 if $update; then
