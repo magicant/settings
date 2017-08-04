@@ -59,7 +59,8 @@ case "$1" in
         ;;
 
     # archive
-    *.zip | *.jar | *.nbm)  exec zipinfo -- "$1"                ; exit ;; 
+    *.zip | *.jar | *.nbm | *.apk)
+                            exec zipinfo -- "$1"                ; exit ;;
     *.rpm )                 exec rpm -qivl --changelog -p "$s1" ; exit ;; 
     *.cpio | *.cpi )        exec cpio -itv <"$1"                ; exit ;; 
     *.a )                   exec ar -tv "$s1"                   ; exit ;; 
