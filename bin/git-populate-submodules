@@ -16,7 +16,8 @@ Syntax:
     ${0##*/} [-CInrU]
 
 Options:
-    -C      Don't force use of SSH instead of HTTPS for cloning from GitHub.
+    -c      Force use of SSH instead of HTTPS for cloning from GitHub.
+    -C      Cancel -c.
     -I      Don't "git submodule init".
     -n      Dry run.
     -P      Don't "git worktree prune"
@@ -64,16 +65,19 @@ new_remote_name() {
     echo "origin${count#0}"
 }
 
-canonicalize_url=true
+canonicalize_url=false
 init=true
 dry_run=
 prune_worktrees=true
 recursive=false
 update=true
-while getopts ChInPrU opt; do
+while getopts CchInPrU opt; do
     case $opt in
         C)
             canonicalize_url=false
+            ;;
+        c)
+            canonicalize_url=true
             ;;
         h)
             print_help
