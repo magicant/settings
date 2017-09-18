@@ -4,6 +4,22 @@
 #export LANG="$(locale -uU)"
 #ulimit -S -c 0
 
+# Normalize home directory path
+#case $HOME in /home/*)
+#    case $PWD in
+#        $HOME)
+#            cd -P .
+#            HOME=$PWD
+#            ;;
+#        $HOME/*)
+#            cd -P .
+#            HOME=$(cd && pwd -P)
+#            ;;
+#        *)
+#            HOME=$(cd && pwd -P)
+#    esac
+#esac
+
 # bash/ksh automatically sources /etc/profile before sourcing user's profile
 if [ "${YASH_VERSION+yash}" = "yash" ] && [ -r /etc/profile ]; then
     alias alias=: 2>/dev/null
