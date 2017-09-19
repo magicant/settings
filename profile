@@ -57,7 +57,7 @@ fi
 #fi
 
 #if command -v dircolors >/dev/null 2>&1; then
-#   eval "$(dircolors --sh ~/.dircolors)"
+#    eval "$(dircolors --sh ~/.dircolors)"
 #    eval "$(TERM=xterm dircolors --sh ~/.dircolors)"
 #fi
 #export CLICOLOR=true
