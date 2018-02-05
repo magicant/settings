@@ -73,6 +73,7 @@ case $- in *i*)
     alias l='$PAGER'
     alias ll='ls -l'
     alias lla='ll -a'
+    alias lo='ls -o'
     alias log='_vcs log'
     alias m='make'
     alias r='fc -s'
