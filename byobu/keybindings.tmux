@@ -1,2 +1,21 @@
 set -g prefix F12
 unbind-key -n C-a
+unbind-key -n F1
+unbind-key -n F5
+unbind-key -n C-F5
+unbind-key -n M-F5
+unbind-key -n S-F5
+unbind-key -n C-S-F5
+unbind-key -n F6
+unbind-key -n C-F6
+unbind-key -n M-F6
+unbind-key -n S-F6
+unbind-key -n F7
+unbind-key -n F8
+unbind-key -n C-F8
+unbind-key -n M-F8
+unbind-key -n S-F8
+unbind-key -n F9
+unbind-key -n C-F9
+unbind-key -n M-F9
+unbind-key -n S-F9
