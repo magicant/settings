@@ -8,9 +8,13 @@ augroup filetypedetect
 
 autocmd! BufRead,BufNewFile install-sh call SetFileTypeShell("sh")
 
-autocmd! BufRead,BufNewFile .yashrc*,yashrc,yash.yashrc,.yash_profile,*.yash call SetFileTypeYash()
+autocmd! BufRead,BufNewFile .yashrc*,yashrc,yash.yashrc,.yash_profile,*.yash call s:setFileTypeYash()
 
-function! SetFileTypeYash()
+silent! function SetFileTypeShell(...)
+    call call('dist#ft#SetFileTypeShell', a:000)
+endfunction
+
+function! s:setFileTypeYash()
     if exists("b:is_sh")
         unlet b:is_sh
     endif
