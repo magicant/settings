@@ -29,7 +29,9 @@
 [core]
 	excludesFile = ~/.settings/gitignore
 [diff]
-	wordRegex = [^[:space:][:punct:]]+|[[:punct:]]
+	wordRegex = [[:upper:][:lower:][:digit:]]+|[[:graph:]]
+	# [:alnum:] includes non-alphabetic characters that should be separated
+	# one by one, hence [:upper:][:lower:][:digit:]
 [fetch]
 	prune = true
 [gc]
