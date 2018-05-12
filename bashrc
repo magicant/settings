@@ -43,9 +43,7 @@ case $- in *i*)
     }
     termcolor=$(tput colors 2>/dev/null)
     case "$TERM" in
-        xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*)
-            tsl='\e]0;' fsl='\e\\' ;;
-        cygwin)
+        xterm|xterm[+-]*|gnome|gnome[+-]*|putty|putty[+-]*|cygwin)
             tsl='\e];' fsl='\a' ;;
         *)
             tsl=$(tputn tsl 0 | filter) fsl=$(tputn fsl | filter) ;;
