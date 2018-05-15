@@ -76,10 +76,6 @@ fi
 #    ssh-add
 #fi
 
-#if ! [ "${TMUX-}" ]; then
-#    tmux list-sessions 2>/dev/null
-#fi
-
 # Notify status of ~/.settings
 #(
 #    set -Ceu
@@ -94,6 +90,10 @@ fi
 #    echo "$now" >| "$gitdir/.updatestamp"
 #    git remote update >/dev/null 2>&1&
 #)
+
+#if ! [ "${TMUX-}" ]; then
+#    tmux list-sessions 2>/dev/null
+#fi
 
 #case $- in
 #    (*c*)
