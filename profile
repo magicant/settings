@@ -81,14 +81,16 @@ fi
 #    set -Ceu
 #    cd ~/.settings
 #    git diff --quiet origin/master || echo '~/.settings is out of sync!'
-#    gitdir=$(git rev-parse --git-dir)
-#    now=$(date +%Y-%m-%d)
-#    prevcheck=$(cat "$gitdir/.updatestamp" 2>/dev/null) || prevcheck=
-#    if [ "$prevcheck" = "$now" ]; then
-#        exit
-#    fi
-#    echo "$now" >| "$gitdir/.updatestamp"
-#    git remote update >/dev/null 2>&1&
+#    (
+#        gitdir=$(git rev-parse --git-dir)
+#        now=$(date +%Y-%m-%d)
+#        prevcheck=$(cat "$gitdir/.updatestamp" 2>/dev/null) || prevcheck=
+#        if [ "$prevcheck" = "$now" ]; then
+#            exit
+#        fi
+#        echo "$now" >| "$gitdir/.updatestamp"
+#        git remote update >/dev/null 2>&1
+#    )&
 #)
 
 #if ! [ "${TMUX-}" ]; then
