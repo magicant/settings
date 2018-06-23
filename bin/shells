@@ -1,0 +1,22 @@
+# Invokes various shells with the same arguments.
+
+set -Cu
+
+if [ $# -eq 0 ]; then
+    printf '%s: missing arguments.\n' "$0" 2>&1
+    exit 2
+fi
+
+first=true
+for shell in sh bash dash ksh mksh yash zsh
+do
+    if "$first"; then
+        first=false
+    else
+        echo
+    fi
+    printf '==> %s <==\n' "$shell"
+    "$shell" "$@"
+done
+
+# vim: ft=sh et sw=4 sts=4
