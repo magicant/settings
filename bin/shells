@@ -8,7 +8,10 @@ if [ $# -eq 0 ]; then
 fi
 
 first=true
-for shell in sh bash dash ksh mksh yash zsh
+for shell in sh bash 'bash --posix' dash ksh \
+    mksh 'mksh -o posix' 'mksh -o sh' \
+    yash 'yash -o posix' \
+    zsh 'zsh --emulate sh' 'zsh --emulate ksh'
 do
     if "$first"; then
         first=false
@@ -16,7 +19,7 @@ do
         echo
     fi
     printf '==> %s <==\n' "$shell"
-    "$shell" "$@"
+    $shell "$@"
 done
 
 # vim: ft=sh et sw=4 sts=4
