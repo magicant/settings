@@ -42,6 +42,9 @@
 	defaultToUpstream = true
 [mergetool]
 	prompt = false
+[pager]
+	branch = false
+	config = false
 [pull]
 	ff = only
 [push]
