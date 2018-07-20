@@ -45,6 +45,7 @@
 [pager]
 	branch = false
 	config = false
+	ls-files = true
 [pull]
 	ff = only
 [push]
