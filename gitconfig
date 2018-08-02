@@ -55,6 +55,8 @@
         stat = true
 [rerere]
 	enabled = true
+[stash]
+	showPatch = true
 [status]
 	branch = true
 [svn]
