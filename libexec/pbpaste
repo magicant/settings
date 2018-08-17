@@ -6,6 +6,8 @@ elif command -v xsel >/dev/null 2>&1; then
     exec xsel -o -b "$@"
 elif command -v xclip >/dev/null 2>&1; then
     exec xclip -out -selection clipboard "$@"
+elif command -v win32yank.exe >/dev/null 2>&1; then
+    exec win32yank.exe -o "$@"
 else
     echo pbpaste: command not found >&2
     exit 127
