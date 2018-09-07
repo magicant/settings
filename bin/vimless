@@ -2,9 +2,11 @@
 # Shell script to start Vim with less.vim.
 # Read stdin if no arguments were given.
 
+set -Ceu
+
 program=${0##*/}
 if [ $# -eq 0 ]; then
-    if [ ! -t 0 ]; then
+    if ! [ -t 0 ]; then
         set -- -
     fi
 fi
