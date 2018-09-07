@@ -5,17 +5,22 @@
 set -Ceu
 
 program=${0##*/}
-if [ $# -eq 0 ]; then
-    if ! [ -t 0 ]; then
-        set -- -
-    fi
-fi
+vim_options=
+
 case $program in
         *less) vim=${program%less} ;;
         *    ) vim=vim ;;
 esac
+
+if [ $# -eq 0 ] && ! [ -t 0 ]; then
+    set -- -
+    if $vim --not-a-term -u NONE -c q <>/dev/null 2>&0; then
+        vim_options='--not-a-term'
+    fi
+fi
+
 if [ -t 1 ]; then
-    exec $vim -R \
+    exec $vim $vim_options -R \
         --cmd 'let no_plugin_maps = 1' \
         -c 'runtime macros/less.vim' \
         +1 "$@"
