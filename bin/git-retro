@@ -8,11 +8,17 @@ print_help() {
     printf 'Usage:\n'
     printf '    %s <patch_commit> <commit>...\n' "${0##*/}"
     printf '    %s <commit>\n' "${0##*/}"
+    printf '    %s -c|-f <commit>...\n' "${0##*/}"
     printf '\n'
     printf 'Finds the oldest commit to which <patch_commit> is applicable.\n'
     printf 'If <patch_commit> is omitted, HEAD is assumed.\n'
     printf 'The result is searched among the ancestors of <patch_commit>\n'
     printf 'but excluding ancestors of <commit>.\n'
+    printf '\n'
+    printf 'With the -f option, the HEAD commit is amended for fixing up the\n'
+    printf 'commit found.\n'
+    printf 'With the -c option, the currently staged change is committed for\n'
+    printf 'the fix-up\n'
 }
 
 # $1 = commit id
@@ -32,18 +38,28 @@ then
 fi
 
 # Parse options
-while getopts h opt
+make_commit=false fixup=false
+while getopts cfh opt
 do
     case "${opt}" in
+        (c)
+            make_commit=true fixup=true
+            ;;
+        (f)
+            fixup=true
+            ;;
         (h)
             print_help
             exit
+            ;;
+        (*)
+            exit 2
             ;;
     esac
 done
 shift "$((OPTIND - 1))"
 
-if [ "${#}" -eq 1 ]
+if [ "${#}" -eq 1 ] || "${fixup}"
 then
     set HEAD "${@}"
 fi
@@ -58,6 +74,11 @@ if git bisect log >/dev/null 2>&1
 then
     printf 'Error: bisect has already started.\n' >&2
     exit 1
+fi
+
+if "${make_commit}"
+then
+    git commit -m FIXUP
 fi
 
 patch_commit="$(git log --pretty=format:%H --no-walk "${1}")"
@@ -83,5 +104,10 @@ result="$(git log --pretty=format:%H --no-walk refs/bisect/bad)"
 git bisect reset
 
 printf '%s is the first applicable commit.\n' "${result}"
+
+if "${fixup}"
+then
+    git commit --amend --fixup="${result}"
+fi
 
 # vim: ft=sh et sw=4 sts=4
