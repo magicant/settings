@@ -4,6 +4,10 @@ set -Ceu
 
 : GIT_CLONES_DIR=${GIT_CLONES_DIR:="$HOME/.gitclones"}
 
+# "git submodule foreach" sets $GIT_DIR to ".git",
+# which does not work with our scheme.
+unset GIT_DIR
+
 print_help() {
     cat <<END
 $0: clone submodules in \$GIT_CLONES_DIR and make worktrees
