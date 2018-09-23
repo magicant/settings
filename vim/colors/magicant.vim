@@ -38,6 +38,9 @@ highlight SpellLocal ctermbg=24
 highlight SpellRare ctermbg=90
 highlight Statement cterm=NONE ctermfg=Yellow gui=NONE guifg=#F7F700
 highlight StatusLine cterm=bold ctermfg=White ctermbg=Blue gui=bold guifg=White guibg=Blue
+highlight StatusLineNC term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
+highlight StatusLineTerm cterm=bold ctermfg=White ctermbg=DarkGreen gui=bold guifg=White guibg=DarkGreen
+highlight StatusLineTermNC term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
 highlight Todo ctermfg=White ctermbg=27 guifg=White guibg=#005FFF
 highlight Type gui=NONE guifg=#66F566
 highlight Visual gui=bold guifg=#333333 guibg=LightGray
