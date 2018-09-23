@@ -123,7 +123,13 @@ endif
 set suffixes+=.out,.a,.cmi,.cmo,.cmx,.cma,.cmxa,.mo
 
 " external command options
-if &shell =~ 'c\@<!sh$'
+if &shell !~? '\<yash$'
+    silent let @_ = system("yash --version")
+    if v:shell_error == 0
+        set shell=yash
+    endif
+endif
+if &shell =~? 'c\@<!sh$'
     set shellredir=>%s\ 2>&1
 endif
 
