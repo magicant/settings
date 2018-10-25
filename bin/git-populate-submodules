@@ -121,6 +121,11 @@ esac
 cdup=$(git rev-parse --show-cdup)
 cd -P -- "./$cdup"
 
+if ! [ -s .gitmodules ]; then
+    # No submodules, nothing to do
+    exit
+fi
+
 ${dry_run:+echo} mkdir -p -- "$GIT_CLONES_DIR"
 
 if $init; then
