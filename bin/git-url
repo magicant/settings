@@ -7,7 +7,8 @@ print_help() {
 ${0}: print a formatted reference to Git commits.
 
 Syntax:
-    ${0##*/} [-[gmtu]] [-n] [-v] [-p <prefix>] [-s <suffix>] [<operand>...]
+    ${0##*/} [-[gmtu]] [-n] [-v] [-r <remote>] [-p <prefix>] [-s <suffix>]
+        [<operand>...]
 
 Format options:
     -g      GitHub-flavored markdown reference (foo/bar@1234567)
@@ -18,6 +19,7 @@ Format options:
 Other options:
     -n      Omit the last newline
     -p ...  Prepend the specified format to the result
+    -r ...  Use the specified remote (default: origin)
     -s ...  Append the specified format to the result
     -v      Append commit subject
 
@@ -25,8 +27,8 @@ Operands are intactly passed as arguments to "git log".
 END
 }
 
-format=url newline=true prefix= suffix= verbose=false
-while getopts ghmnp:s:tuv opt
+format=url newline=true prefix= suffix= remote=origin verbose=false
+while getopts ghmnp:r:s:tuv opt
 do
     case ${opt} in
         (g)
@@ -39,6 +41,8 @@ do
             newline=false ;;
         (p)
             prefix=${OPTARG} ;;
+        (r)
+            remote=${OPTARG} ;;
         (s)
             suffix=${OPTARG} ;;
         (t)
@@ -54,30 +58,34 @@ done
 shift $((OPTIND - 1))
 
 # Determine the remote
-remoteurl=$(git config --get \
-    "$(git config --get-regexp --name-only 'remote\..*\.url' '.*github\.com.*' |
-        head -n 1)")
+remoteurl=$(git config --get "remote.${remote}.url")
 case ${remoteurl} in
-    (git@github.com:*.git)
-        remote=${remoteurl#git@github.com:} ;;
-    (ssh://git@github.com/*.git)
-        remote=${remoteurl#ssh://git@github.com/} ;;
-    (https://*github.com/*.git)
-        remote=${remoteurl#https://*github.com/} ;;
+    (ssh://?*/*.git)
+        site=${remoteurl#ssh://}
+        site=${site%%/*}
+        remotepath=${remoteurl#ssh://?*/} ;;
+    (https://?*/*.git)
+        site=${remoteurl#https://}
+        site=${site%%/*}
+        remotepath=${remoteurl#https://?*/} ;;
+    (?*:*.git)
+        site=${remoteurl%%:*}
+        remotepath=${remoteurl#?*:} ;;
     (*)
-        remote= ;;
+        remotepath= ;;
 esac
-remote=${remote%.git}
-if ! [ "${remote}" ]; then
-    printf 'No github.com in remotes\n' 1>&2
+site=${site#git@}
+remotepath=${remotepath%.git}
+if ! [ "${remotepath}" ]; then
+    printf '%s: cannot handle remote URL "%s"\n' "$0" "${remoteurl}" 1>&2
     exit 1
 fi
 
 # Construct format
-commiturlformat="https://github.com/${remote}/commit/%H"
+commiturlformat="https://${site}/${remotepath}/commit/%H"
 case ${format} in
     (github)
-        format="${remote}@%h" ;;
+        format="${remotepath}@%h" ;;
     (markdown)
         format="[%h](${commiturlformat})" ;;
     (textile)
