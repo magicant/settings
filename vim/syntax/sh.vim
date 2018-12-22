@@ -71,7 +71,7 @@ sy cluster shWordsList contains=@shInnerWordsList,shWordParenError
 sy cluster shInnerWordsList contains=shDollarError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shExtGlob
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
-sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase
+sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase,shDTest
 sy cluster shTrailersList contains=shSeparator,shPipe,shTrailerLineCont,shAndOr,shTrailerRedir
 sy cluster shErrorList contains=shSepError,shThenError,shElifError,shElseError,shFiError,shDoError,shDoneError,shInError,shCaseError,shEsacError,shCurlyError,shParenError,shDTestError
 
@@ -281,8 +281,11 @@ else
 endif
 
 " [[ construct {{{2
-if exists("b:is_kornshell") || exists("b:is_bash")
-    sy region shDTest transparent matchgroup=shKeyword start=/[^[:blank:]|&;<>()]\@<!\[\[[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!]][^[:blank:]|&;<>()]\@!/ contains=@shWordsList skipwhite nextgroup=@shTrailersList
+if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
+    sy region shDTest transparent matchgroup=shDTestBracket start=/[^[:blank:]|&;<>()]\@<!\[\[[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!]][^[:blank:]|&;<>()]\@!/ end=/$/ contains=@shInnerWordsList,shDTestOperator skipwhite nextgroup=@shTrailersList
+    sy match shDTestOperator contained /[()]/
+    sy match shDTestOperator contained /&&/
+    sy match shDTestOperator contained /||/
 endif
 
 " Synchronization {{{1
@@ -380,7 +383,8 @@ hi def link shCase              shConditional
 hi def link shCaseComment       shComment
 hi def link shCasePipe          shSeparator
 hi def link shCaseDSemi         shSeparator
-hi def link shDTestWord         shOperator
+hi def link shDTestBracket      shOperator
+hi def link shDTestOperator     shOperator
 
 " set b:current_syntax {{{1
 if exists("b:is_yash")
