@@ -37,6 +37,11 @@ fi
 # I prefer Vim
 set --vi
 
+# I love aggressive prediction
+if [ -o \?le-predict-empty ]; then
+  set --le-predict-empty
+fi
+
 # define aliases/functions that are missing in initialization/common
 alias C='LC_ALL=C '
 alias be='bundle exec '
