@@ -19,7 +19,7 @@ do
         echo
     fi
     printf '==> %s <==\n' "$shell"
-    $shell "$@"
+    SHELL=$shell $shell "$@"
 done
 
 # vim: ft=sh et sw=4 sts=4
