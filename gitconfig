@@ -28,6 +28,7 @@
 	verbose = true
 [core]
 	excludesFile = ~/.settings/gitignore
+	quotePath = false
 [diff]
 	wordRegex = [[:upper:][:lower:][:digit:]]+|[[:graph:]]
 	# [:alnum:] includes non-alphabetic characters that should be separated
