@@ -53,6 +53,10 @@ endif
 set noequalalways
 if has("windows")
     set winheight=3
+    set splitbelow
+endif
+if has("vertsplit")
+    set splitright
 endif
 set hidden
 

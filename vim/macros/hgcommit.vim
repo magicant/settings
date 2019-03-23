@@ -1,5 +1,5 @@
 " excerpts from http://d.hatena.ne.jp/ursm/20080908/1220888194
-" modified by magicant <magicant.starmen AT nifty.com>
+" modified by magicant <magicant@wonderwand.net>
 "
 " To use this file, put the following line in the [ui] section of ~/.hgrc:
 " editor = vim -S <path to this file>
@@ -23,14 +23,13 @@ function! Hg_diff_window()
     end
     call map(files, 'fnameescape(v:val)')
 
-    new
+    belowright new
     setlocal filetype=diff bufhidden=delete buftype=nofile previewwindow nobackup noswapfile
     execute 'normal! :0read!hg diff ' . join(files) . "\<CR>\n"
     $delete
     setlocal nomodifiable
     goto
     redraw
-    wincmd R
     wincmd p
     redraw
 endfunction
