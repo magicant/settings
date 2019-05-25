@@ -4,6 +4,9 @@
 #export LANG="$(locale -uU)"
 #ulimit -S -c 0
 
+# For MinGW
+#: ${LOGNAME:="$(logname)"}
+
 # Normalize home directory path
 #case $HOME in /home/*)
 #    case $PWD in
@@ -64,17 +67,19 @@ fi
 
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01'
 
-#if [ -r ~/.ssh/agent@"$HOSTNAME" ]; then
-#    . ~/.ssh/agent@"$HOSTNAME"
+#__agent=~/.ssh/agent@"$(uname)"@"$HOSTNAME"
+#if [ -r "$__agent" ]; then
+#    . "$__agent"
 #fi
 #if ! ssh-add; then
 #    echo Starting new ssh-agent.
 #    find /tmp -depth -name 'ssh-*' -type d -user "${LOGNAME:-$USER}" \
 #        -exec rm -fr {} \;
-#    ssh-agent >| ~/.ssh/agent@"$HOSTNAME"
-#    . ~/.ssh/agent@"$HOSTNAME"
+#    ssh-agent >| "$__agent"
+#    . "$__agent"
 #    ssh-add
 #fi
+#unset __agent
 
 # Notify status of ~/.settings
 #(
