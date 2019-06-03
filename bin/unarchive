@@ -45,6 +45,11 @@ for file do
       mkdir -- "${dir}"
       (cd -P -- "${dir}" && unzip -q "../${file##*/}")
       ;;
+    (*.7z)
+      dir=${file%.*}
+      mkdir -- "${dir}"
+      (cd -P -- "${dir}" && 7z x "../${file##*/}")
+      ;;
     (*)
       printf '%s: %s: unsupported file\n' "${0}" "${file}" >&2
       false
