@@ -196,7 +196,8 @@ fi
 
 if $recursive && ! [ "${GIT_POPULATING_RECURSIVELY-}" ]; then
     export GIT_POPULATING_RECURSIVELY=1
-    exec git submodule foreach --recursive "$self" "$@"
+    self_escaped=$(printf '%s' "$self" | sed 's|[^[:alnum:]/:,._+-]|\\&|g')
+    exec git submodule foreach --recursive "$self_escaped $*"
 fi
 
 # vim: et sw=4 sts=4
