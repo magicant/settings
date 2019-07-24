@@ -71,13 +71,13 @@ fi
 #if [ -r "$__agent" ]; then
 #    . "$__agent"
 #fi
-#if ! ssh-add; then
+#if ! ssh-add -q; then
 #    echo Starting new ssh-agent.
 #    find /tmp -depth -name 'ssh-*' -type d -user "${LOGNAME:-$USER}" \
 #        -exec rm -fr {} \;
 #    ssh-agent >| "$__agent"
 #    . "$__agent"
-#    ssh-add
+#    ssh-add -q
 #fi
 #unset __agent
 
