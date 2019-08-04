@@ -12,6 +12,10 @@ In this repository are my "dotfiles".
 1. Run `git remote update`
 1. Run `setup.sh`.
 1. Run `vim/update.sh`.
+1. Optionally update `~/.profile` in accordance with change in `profile`.
+
+## Notes
+- The default user/email in gitconfig may be unsuitable at work.
 
 ## License
 All files are in the public domain unless otherwise noted in each file.
