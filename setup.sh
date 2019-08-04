@@ -112,15 +112,13 @@ if command -v vim >/dev/null 2>&1; then
     fi
 fi
 
-mkdir -p "${HOME%/}/.ssh"
+mkdir -m go-w -p "${HOME%/}/.ssh"
 if [ -e "${HOME%/}/.ssh/config" ]; then
     echo "~/.ssh/config already exists"
 else
     (umask go-w && cp ssh_config "${HOME%/}/.ssh/config")
     echo "Created ~/.ssh/config"
 fi
-
-chmod go-w "$HOME" "${HOME%/}/.ssh"
 
 for file in .profile .hgrc
 do
@@ -132,6 +130,15 @@ for file in .bash_profile .bash_login
 do
     if [ -e "${HOME%/}/$file" ]; then
         echo "WARNING: ~/$file exists."
+    fi
+done
+for file in "$HOME" "${HOME%/}/.ssh"
+do
+    if [ "$(ls -dgo -- "$file" | cut -c 6)" != - ]; then
+        echo "WARNING: $file is group-writable."
+    fi
+    if [ "$(ls -dgo -- "$file" | cut -c 9)" != - ]; then
+        echo "WARNING: $file is world-writable."
     fi
 done
 
