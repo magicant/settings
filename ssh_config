@@ -1,3 +1,7 @@
+Host github.com
+	CheckHostIP no
+	ForwardAgent no
+
 Host *
 	ControlMaster auto
 	ControlPath ~/.ssh/%r@%h:%p
