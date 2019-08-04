@@ -50,6 +50,16 @@ echo Home directory is "$HOME"
 echo Settings directory is "$PWD"
 
 makelinkhome bashrc .bashrc
+for file in .bash_profile .bash_login
+do
+    if [ -e "${HOME%/}/$file" ]; then
+        if [ -e "${HOME%/}/$file.bak" ]; then
+            echo "WARNING: ~/$file exists."
+        elif mv -- "${HOME%/}/$file" "${HOME%/}/$file.bak"; then
+            echo "Moved ${HOME%/}/$file to ${HOME%/}/$file.bak"
+        fi
+    fi
+done
 makelinkhome byobu .byobu
 makelinkhome colordiffrc .colordiffrc
 if command -v dircolors >/dev/null 2>&1; then
@@ -124,12 +134,6 @@ for file in .profile .hgrc
 do
     if ! [ -r "${HOME%/}/$file" ]; then
         echo "WARNING: ~/$file does not exist or is not readable."
-    fi
-done
-for file in .bash_profile .bash_login
-do
-    if [ -e "${HOME%/}/$file" ]; then
-        echo "WARNING: ~/$file exists."
     fi
 done
 for file in "$HOME" "${HOME%/}/.ssh"
