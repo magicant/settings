@@ -29,6 +29,7 @@ if has("linebreak")
         set breakindent
     endif
 endif
+set scrolloff=0
 set display=lastline
 set cmdheight=1
 set nolist listchars=eol:$,tab:>.
