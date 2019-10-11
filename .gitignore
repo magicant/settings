@@ -19,22 +19,16 @@
 
 /vim/autoload/Align.vim
 /vim/autoload/AlignMaps.vim
-/vim/autoload/AnsiEsc.vim
-/vim/autoload/repeat.vim
 
 /vim/doc/Align.txt
-/vim/doc/AnsiEsc.txt
 /vim/doc/cecutil.txt
-/vim/doc/surround.txt
 /vim/doc/tags
 
 /vim/pack/_/
 
 /vim/plugin/AlignMapsPlugin.vim
 /vim/plugin/AlignPlugin.vim
-/vim/plugin/AnsiEscPlugin.vim
 /vim/plugin/cecutil.vim
 /vim/plugin/less.vim
-/vim/plugin/surround.vim
 
 /vim/spell/*.spl

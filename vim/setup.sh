@@ -37,11 +37,8 @@ if ! [ -e "$GLVS" ]; then
 --------------------------' >"$GLVS"
 fi
 checkgetlatest  294 ':AutoInstall: Align.vim'
-checkgetlatest  302 ':AutoInstall: AnsiEsc.vim'
 checkgetlatest  978 'ftplugin/svn.vim'
 checkgetlatest 1066 ':AutoInstall: cecutil.vim'
-checkgetlatest 1697 ':AutoInstall: surround.vim'
 checkgetlatest 2063 'syntax/coq.vim'
-checkgetlatest 2136 ':AutoInstall: autoload/repeat.vim'
 
 # vim: ft=sh et sw=4 sts=4
