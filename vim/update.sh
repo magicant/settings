@@ -13,7 +13,7 @@ mkdir -p "$clone_dir"
 cd "$clone_dir"
 
 update() (
-    printf '* %s\n' "$1"
+    printf '===== %s\n' "$1"
     name="$1"
     name="${name%/}"
     name="${name%.git}"
