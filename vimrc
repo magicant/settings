@@ -248,6 +248,12 @@ if has("gui_macvim")
     map <D-7> 7gt
     map <D-8> 8gt
     map <D-9> 9gt
+    anoremenu 1.100 TouchBar.Paste\ mode :set paste! paste?<CR>
+    anoremenu 1.110 TouchBar.List :set list! list?<CR>
+    anoremenu 1.120 TouchBar.Spell :set spell! spell?<CR>
+    anoremenu 1.130 TouchBar.Ambiwidth :call <SID>switchambiwidth()<CR>
+    anoremenu 1.140 TouchBar.Wrap :set wrap! wrap?<CR>
+    anoremenu 1.145 TouchBar.Linebreak :set linebreak! linebreak?<CR>
 endif
 
 
