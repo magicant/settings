@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:             sh, POSIX shell, ksh, bash, yash
 " Maintainer:           Watanabe, Yuki <magicant.starmen AT nifty.com>
-" Last Change:          Mar 03, 2013
+" Last Change:          Jan 05, 2020
 
 " The following variables affect syntax highlighting:
 "   b:is_bourneshell  If set, only the original Bourne shell's syntax is
@@ -247,9 +247,10 @@ sy region shElse transparent contained matchgroup=shConditional start=/[^[:blank
 
 " For statement {{{2
 sy match shFor /[^[:blank:]|&;<>()]\@<!for[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shForWord,shForDParen
-sy match shForWord contained /[^[:blank:]|&;<>()]\@<!\h\w*[^[:blank:]|&;<>()]\@!/ skipwhite skipempty nextgroup=shForIn,shForComment,shForDo,shForSemi
-sy region shForIn contained transparent matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!in[^[:blank:]|&;<>()]\@!/ matchgroup=shSeparator end=/$/ end=/;/ contains=@shWordsList,shComment skipwhite skipempty nextgroup=shForDo
-sy region shForComment contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shForIn,shForDo
+sy match shForWord contained /[^[:blank:]|&;<>()]\@<!\h\w*[^[:blank:]|&;<>()]\@!/ skipwhite skipempty nextgroup=shForCommentIn,shForIn,shForDo,shForSemi
+sy region shForCommentIn contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shForIn,shForDo,shForCommentIn
+sy region shForIn contained transparent matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!in[^[:blank:]|&;<>()]\@!/ matchgroup=shSeparator end=/$/ end=/;/ contains=@shWordsList,shComment skipwhite skipempty nextgroup=shForCommentDo,shForDo
+sy region shForCommentDo contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shForDo,shForCommentDo
 sy region shForDo contained transparent fold matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!do[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/ contains=@shCommandsList skipwhite nextgroup=@shTrailersList
 sy match shForSemi contained /;/ skipwhite skipempty nextgroup=shForDo
 if exists("b:is_kornshell") || exists("b:is_bash")
@@ -377,7 +378,8 @@ hi def link shGroupRegion       shKeyword
 hi def link shSubShRegion       shOperator
 hi def link shFor               shRepeat
 hi def link shForWord           shIdentifier
-hi def link shForComment        shComment
+hi def link shForCommentIn      shComment
+hi def link shForCommentDo      shComment
 hi def link shForSemi           shSeparator
 hi def link shCase              shConditional
 hi def link shCaseComment       shComment

@@ -74,7 +74,9 @@ for _        #comment
 		:    #comment
 	done     #comment
 for _        #comment
+	#comment
 	in a b c #comment
+	#comment
 	do       #comment
 		:    #comment
 	done     #comment
