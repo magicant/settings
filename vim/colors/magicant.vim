@@ -1,6 +1,6 @@
 " Magicant's vim color file
 " Maintainer:   Watanabe Yuki aka Magicant <magicant.wonderwand@gmail.com>
-" Last Change:  2014 Oct 23
+" Last Change:  Apr 30, 2020
 
 set background=dark
 highlight clear
@@ -15,10 +15,10 @@ highlight Normal guifg=LightGray guibg=Black
 highlight Comment ctermfg=Blue
 highlight Constant ctermfg=174 guifg=#D78787
 highlight Cursor cterm=bold ctermfg=Black ctermbg=Green gui=bold guifg=Black guibg=LightGreen
-highlight DiffAdd ctermbg=18 guibg=#000077
-highlight DiffChange ctermbg=53 guibg=#440055
-highlight DiffDelete ctermfg=Black ctermbg=52 guifg=Black guibg=#550000
-highlight DiffText cterm=NONE ctermbg=127 gui=NONE guibg=#9900AA
+highlight DiffAdd ctermbg=23 guibg=#112A33
+highlight DiffChange ctermbg=58 guibg=#2A3311
+highlight DiffDelete ctermfg=Black ctermbg=53 guifg=Black guibg=#33112A
+highlight DiffText cterm=NONE ctermbg=64 gui=NONE guibg=#447722
 highlight! link FoldColumn Folded
 highlight Folded ctermfg=White ctermbg=242 guifg=White guibg=#555555
 highlight Identifier cterm=NONE ctermfg=Cyan guifg=#40FFFF
