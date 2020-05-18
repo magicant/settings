@@ -10,4 +10,4 @@
 ^W	word-backspace
 
 #env
-LESS = -FiMR -z-3 -Pm?m%i/%m ?f:<stdin> ..?f%f .?e(END)?x - Next\\: %x.:?PB%PB\\%..%t$-PM?m%i/%m ?f:<stdin> ..?f%f .%lt-%lb?L/%L. ?e(END)?x - Next\\: %x.:?PB%PB\\%..%t$-P=%i/%m ?f%f:<stdin>. lines %lt-%lb/%L bytes %bt-%bb/%B ?e(END):%pB\\%.%t
+LESS = -iMR -z-3 -Pm?m%i/%m ?f:<stdin> ..?f%f .?e(END)?x - Next\\: %x.:?PB%PB\\%..%t$-PM?m%i/%m ?f:<stdin> ..?f%f .%lt-%lb?L/%L. ?e(END)?x - Next\\: %x.:?PB%PB\\%..%t$-P=%i/%m ?f%f:<stdin>. lines %lt-%lb/%L bytes %bt-%bb/%B ?e(END):%pB\\%.%t
