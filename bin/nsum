@@ -1,0 +1,16 @@
+#!/usr/bin/env yash
+# Copyright (C) Watanabe Yuki 2020
+
+if [ $# -ne 0 ]; then
+    while [ $# -ne 0 ]; do
+        : $((sum+=$1))
+        shift
+    done
+else
+    while read -r n _; do
+        : $((sum+=n))
+    done
+fi
+printf '%s\n' "$sum"
+
+# vim: ft=sh et sw=4 sts=4
