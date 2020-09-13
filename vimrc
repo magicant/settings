@@ -149,6 +149,7 @@ if has("quickfix")
     set errorformat-=%f:%l:%m
     set errorformat+=%-G%f:%l:\ error:\ (Each\ undeclared\ identifier\ is\ reported\ only\ once
     set errorformat+=%-G%f:%l:\ error:\ for\ each\ function\ it\ appears\ in.)
+    set errorformat+=%-G%.%#:\ ***\ [%.%#]%.%#
     set errorformat+=%f:%l:%c:%m
     set errorformat+=%f:%l:%m
     set errorformat+=%D%*\\a[%*\\d]:\ ディレクトリ\ %[`']%f'\ に入ります
