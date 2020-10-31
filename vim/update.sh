@@ -37,6 +37,7 @@ update() (
 
 update https://github.com/keith/swift.vim.git
 update https://github.com/neovimhaskell/haskell-vim.git
+update https://github.com/ryym/vim-viler.git
 update https://github.com/tpope/vim-commentary.git
 update https://github.com/tpope/vim-fugitive.git
 update https://github.com/tpope/vim-repeat.git
