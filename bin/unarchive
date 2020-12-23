@@ -40,7 +40,7 @@ for file do
       mkdir -- "${dir}"
       (cd -P -- "${dir}" && xz -cd "../${file##*/}" | tar -x -f -)
       ;;
-    (*?.zip|*?.[ajw]ar|*?.epub|*?.apk|*?.ipa)
+    (*?.zip|*?.[ajw]ar|*?.epub|*?.apk|*?.aab|*?.ipa)
       dir=${file%.*}
       mkdir -- "${dir}"
       (cd -P -- "${dir}" && unzip -q "../${file##*/}")
