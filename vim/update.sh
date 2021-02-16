@@ -41,6 +41,7 @@ update https://github.com/ryym/vim-viler.git
 update https://github.com/tpope/vim-commentary.git
 update https://github.com/tpope/vim-fugitive.git
 update https://github.com/tpope/vim-repeat.git
+update https://github.com/tpope/vim-rhubarb.git
 update https://github.com/tpope/vim-surround.git
 update https://github.com/udalov/kotlin-vim.git
 update https://github.com/vim-scripts/AnsiEsc.vim.git
