@@ -66,6 +66,7 @@ fi
 #export CLICOLOR=true
 
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01'
+#export JQ_COLORS='0;37:0;33:0;33:0;33:0;32:1;39:1;39'
 
 #__agent=~/.ssh/agent@"$(uname)"@"$HOSTNAME"
 #if [ -r "$__agent" ]; then
