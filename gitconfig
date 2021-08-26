@@ -37,8 +37,6 @@
 	prune = true
 [gc]
 	worktreePruneExpire = now
-[log]
-	decorate = short
 [merge]
 	defaultToUpstream = true
 [mergetool]
