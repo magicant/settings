@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -Ceu
+
+number="$1"
+
+if base=$(gh pr view "$number" --json baseRefName) &&
+    base=$(printf '%s\n' "$base" | jq -r .baseRefName); then
+    :
+else
+    base=HEAD
+fi 2>/dev/null
+
+git fetch origin "$base"
+git checkout --detach FETCH_HEAD
+git pull --ff --no-edit origin "refs/pull/$number/head" ||
+git pull --ff --no-edit origin "refs/merge-requests/$number/head"
+
+# vim: set et sw=4:
