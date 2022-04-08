@@ -2,7 +2,33 @@
 
 set -Ceu
 
+force=false
+
+while getopts fh opt; do
+    case $opt in
+        (f)
+            force=true
+            ;;
+        (h)
+            printf 'git review usage:\n\n'
+            printf '    git review [-f] pull_request_number\n\n'
+            printf '    -f: force if the working directory is dirty\n'
+            exit
+            ;;
+        (*)
+            exit 2
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
 number="$1"
+
+if ! git diff --quiet && ! $force; then
+    printf 'git review: the working directory is dirty\n' >&2
+    printf '(hint: use `-f` to force)\n' >&2
+    exit 1
+fi
 
 if base=$(gh pr view "$number" --json baseRefName) &&
     base=$(printf '%s\n' "$base" | jq -r .baseRefName); then
