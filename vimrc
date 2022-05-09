@@ -97,6 +97,7 @@ set confirm
 set backspace=indent,eol,start
 set virtualedit=block
 set formatoptions+=tcronlBj formatoptions-=mM
+set nrformats+=unsigned
 set noshowmatch
 set nojoinspaces
 set tabstop& shiftwidth& softtabstop& noexpandtab shiftround
