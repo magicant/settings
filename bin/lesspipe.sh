@@ -23,12 +23,13 @@ case "$1" in
     *)  s1="./$1" ;;
 esac
 case "$1" in
-    *.taz) r1="${1%.taz}.tar.Z" ;;
-    *.tbz) r1="${1%.tbz}.tar.bz2" ;;
-    *.tgz) r1="${1%.tgz}.tar.gz" ;;
-    *.tlz) r1="${1%.tlz}.tar.lzma" ;;
-    *.txz) r1="${1%.txz}.tar.xz" ;;
-    *)     r1="$1" ;;
+    *.taz)  r1="${1%.taz}.tar.Z"    ;;
+    *.tbz)  r1="${1%.tbz}.tar.bz2"  ;;
+    *.tgz)  r1="${1%.tgz}.tar.gz"   ;;
+    *.tlz)  r1="${1%.tlz}.tar.lzma" ;;
+    *.txz)  r1="${1%.txz}.tar.xz"   ;;
+    *.tzst) r1="${1%.tzst}.tar.zst" ;;
+    *)      r1="$1"                 ;;
 esac
 case "$r1" in
     *.bz2)  u1="${r1%.bz2}"  decomp="bzcat" ;;
@@ -36,6 +37,7 @@ case "$r1" in
     *.[zZ]) u1="${r1%.[zZ]}" decomp="zcat" ;;
     *.lzma) u1="${r1%.lzma}" decomp="lzma -dc" ;;
     *.xz)   u1="${r1%.xz}"   decomp="xz -dc" ;;
+    *.zst)  u1="${r1%.zst}"  decomp="zstd -dc" ;;
     *)      u1="$r1"         decomp="cat" ;;
 esac
 case "$u1" in
