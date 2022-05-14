@@ -2,72 +2,42 @@
 
 # Configuration file for dircolors, a utility to help you set the
 # LS_COLORS environment variable used by GNU ls with the --color option.
-# Copyright (C) 1996, 1999-2010 Free Software Foundation, Inc.
+# Copyright (C) 1996-2021 Free Software Foundation, Inc.
 # Copying and distribution of this file, with or without modification,
 # are permitted provided the copyright notice and this notice are preserved.
 # The keywords COLOR, OPTIONS, and EIGHTBIT (honored by the
 # slackware version of dircolors) are recognized but ignored.
-# Below, there should be one TERM entry for each termtype that is colorizable
+# Below are TERM entries, which can be a glob patterns, to match
+# against the TERM environment variable to determine if it is colorizable.
 TERM Eterm
-TERM color-xterm
-TERM con132x25
-TERM con132x30
-TERM con132x43
-TERM con132x60
-TERM con80x25
-TERM con80x28
-TERM con80x30
-TERM con80x43
-TERM con80x50
-TERM con80x60
+TERM ansi
+TERM *color*
+TERM con[0-9]*x[0-9]*
 TERM cons25
 TERM console
 TERM cygwin
+TERM *direct*
 TERM dtterm
-TERM eterm-color
 TERM gnome
-TERM gnome-16color
-TERM gnome-256color
+TERM hurd
 TERM jfbterm
 TERM konsole
 TERM kterm
 TERM linux
 TERM linux-c
-TERM mach-color
 TERM mlterm
 TERM putty
-TERM putty-16color
-TERM putty-256color
-TERM putty-vt100
-TERM rxvt
-TERM rxvt-16color
-TERM rxvt-256color
-TERM rxvt-cygwin
-TERM rxvt-cygwin-native
-TERM rxvt-unicode
-TERM screen
-TERM screen-16color
-TERM screen-16color-bce
-TERM screen-16color-bce-s
-TERM screen-16color-s
-TERM screen-256color
-TERM screen-256color-bce
-TERM screen-256color-bce-s
-TERM screen-256color-s
-TERM screen-bce
-TERM screen-bce-s
-TERM screen-s
-TERM screen-w
-TERM screen.linux
+TERM rxvt*
+TERM screen*
+TERM st
+TERM terminator
+TERM tmux*
 TERM vt100
-TERM xterm
-TERM xterm-16color
-TERM xterm-256color
-TERM xterm-88color
-TERM xterm-color
-TERM xterm-debian
-# Below are the color init strings for the basic file types. A color init
-# string consists of one or more of the following numeric codes:
+TERM xterm*
+# Below are the color init strings for the basic file types.
+# One can use codes for 256 or more colors supported by modern terminals.
+# The default color codes use the capabilities of an 8 color terminal
+# with some additional attributes as per the following codes:
 # Attribute codes:
 # 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
 # Text color codes:
@@ -87,6 +57,7 @@ DOOR 01;35 # door
 BLK 33;01 # block device driver
 CHR 33;01 # character device driver
 ORPHAN 01;36;41 # symlink to nonexistent file, or non-stat'able file
+MISSING 01;30;41 # ... and the files they point to
 SETUID 37;41 # file that is setuid (u+s)
 SETGID 30;43 # file that is setgid (g+s)
 CAPABILITY 30;41 # file with capability
@@ -95,29 +66,43 @@ OTHER_WRITABLE 34;42 # dir that is other-writable (o+w) and not sticky
 STICKY 37;44 # dir with the sticky bit set (+t) and not other-writable
 # This is for files with execute permission:
 EXEC 01;32
+# List any file extensions like '.gz' or '.tar' that you would like ls
+# to colorize below. Put the extension, a space, and the color init string.
+# (and any comments you want to add after a '#')
 # executables
 .cmd 32
 .exe 32
 .com 32
 .btm 32
 .bat 32
+.ps1 32
 .sh 32
 .csh 32
 # archives or compressed
 .tar 31
 .tgz 31
+.arc 31
 .arj 31
 .taz 31
+.lha 31
+.lz4 31
 .lzh 31
 .lzma 31
 .tlz 31
 .txz 31
+.tzo 31
+.t7z 31
 .zip 31
 .z 31
 .Z 31
 .dz 31
 .gz 31
+.lrz 31
+.lz 31
+.lzo 31
 .xz 31
+.zst 31
+.tzst 31
 .bz2 31
 .bz 31
 .tbz 31
@@ -126,75 +111,87 @@ EXEC 01;32
 .deb 31
 .rpm 31
 .jar 31
+.war 31
+.ear 31
+.sar 31
 .rar 31
+.alz 31
 .ace 31
 .zoo 31
 .cpio 31
 .7z 31
 .rz 31
-.lz 31
+.cab 31
+.wim 31
+.swm 31
+.dwm 31
+.esd 31
 # image formats
-.jpg 33
-.jpeg 33
-.gif 33
-.bmp 33
-.pbm 33
-.pgm 33
-.ppm 33
-.tga 33
-.xbm 33
-.xpm 33
-.tif 33
-.tiff 33
-.png 33
-.svg 33
-.svgz 33
-.mng 33
-.pcx 33
-.mov 33
-.mpg 33
-.mpeg 33
-.m2v 33
-.mkv 33
-.ogm 33
-.mp4 33
-.m4v 33
-.mp4v 33
-.vob 33
-.qt 33
-.nuv 33
-.wmv 33
-.asf 33
-.rm 33
-.rmvb 33
-.flc 33
-.avi 33
-.fli 33
-.flv 33
-.gl 33
-.dl 33
-.xcf 33
-.xwd 33
-.yuv 33
-.cgm 33
-.emf 33
-.axv 33
-.anx 33
-.ogv 33
-.ogx 33
+.jpg 35
+.jpeg 35
+.mjpg 35
+.mjpeg 35
+.gif 35
+.bmp 35
+.pbm 35
+.pgm 35
+.ppm 35
+.tga 35
+.xbm 35
+.xpm 35
+.tif 35
+.tiff 35
+.png 35
+.svg 35
+.svgz 35
+.mng 35
+.pcx 35
+.mov 35
+.mpg 35
+.mpeg 35
+.m2v 35
+.mkv 35
+.webm 35
+.webp 35
+.ogm 35
+.mp4 35
+.m4v 35
+.mp4v 35
+.vob 35
+.qt 35
+.nuv 35
+.wmv 35
+.asf 35
+.rm 35
+.rmvb 35
+.flc 35
+.avi 35
+.fli 35
+.flv 35
+.gl 35
+.dl 35
+.xcf 35
+.xwd 35
+.yuv 35
+.cgm 35
+.emf 35
+.ogv 35
+.ogx 35
 # audio formats
-.aac 33
-.au 33
-.flac 33
-.mid 33
-.midi 33
-.mka 33
-.mp3 33
-.mpc 33
-.ogg 33
-.ra 33
-.wav 33
-.axa 33
-.oga 33
-.spx 33
-.xspf 33
+.aac 35
+.au 35
+.flac 35
+.m4a 35
+.mid 35
+.midi 35
+.mka 35
+.mp3 35
+.mpc 35
+.ogg 35
+.ra 35
+.wav 35
+.axa 35
+.oga 35
+.opus 35
+.spx 35
+.xspf 35
