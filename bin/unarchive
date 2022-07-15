@@ -30,22 +30,22 @@ for file do
   fi
 
   case ${file} in
-    (*?.tar.gz)
+    (?*.tar.gz)
       dir=${file%.tar.gz}
       mkdir -- "${dir}"
       (cd -P -- "${dir}" && gzip -cd "../${file##*/}" | tar -x -f -)
       ;;
-    (*?.tar.xz)
+    (?*.tar.xz)
       dir=${file%.tar.xz}
       mkdir -- "${dir}"
       (cd -P -- "${dir}" && xz -cd "../${file##*/}" | tar -x -f -)
       ;;
-    (*?.zip|*?.[ajw]ar|*?.epub|*?.apk|*?.aab|*?.ipa)
+    (?*.zip|?*.[ajw]ar|?*.epub|?*.apk|?*.aab|?*.ipa)
       dir=${file%.*}
       mkdir -- "${dir}"
       (cd -P -- "${dir}" && unzip -q "../${file##*/}")
       ;;
-    (*.7z)
+    (?*.7z)
       dir=${file%.*}
       mkdir -- "${dir}"
       (cd -P -- "${dir}" && 7z x "../${file##*/}")
