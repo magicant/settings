@@ -1,0 +1,19 @@
+#!/bin/sh
+# Performs `ssh -O stop` for all existing connections
+
+set -Ceu
+
+cd ~/.ssh
+for connection in ?*@?*:[[:digit:]]*
+do
+    case $connection in
+        (*@*@*)
+            ;;
+        (*[[:digit:]])
+            userhost=${connection%%:*} port=${connection#*:}
+            ssh -O stop -p "$port" "$userhost"
+            ;;
+    esac
+done
+
+# vim: ft=sh et sw=4 sts=4
