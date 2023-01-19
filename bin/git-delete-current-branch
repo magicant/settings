@@ -2,7 +2,7 @@
 
 set -Ceu
 
-branch=$(git rev-parse --symbolic-full-name --abbrev-ref=loose HEAD)
+branch=$(git branch --show-current)
 git checkout --detach
 git branch -d "$branch"
 
