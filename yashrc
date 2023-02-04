@@ -33,6 +33,7 @@ esac
 if [ "/proc/$PPID/exe" -ef /usr/bin/mintty.exe ]; then
   export TERM_PROGRAM=mintty
 fi
+HISTRMDUP=1
 
 # I prefer Vim
 set --vi
