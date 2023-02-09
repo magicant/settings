@@ -92,6 +92,7 @@ if has("cmdline_info")
     set showcmd
 endif
 set confirm
+set shortmess-=S shortmess+=s
 
 " editing options
 set backspace=indent,eol,start
