@@ -9,5 +9,5 @@ Host *
 	ForwardAgent yes
 	HashKnownHosts no
 	ServerAliveCountMax 3
-	ServerAliveInterval 300
+	ServerAliveInterval 30
 	SendEnv TERM_PROGRAM
