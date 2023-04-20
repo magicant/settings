@@ -110,6 +110,29 @@ if [ "${TMUX-}" ]; then
   tmux set-window-option automatic-rename on
 fi
 
+# rtx support
+if command --identify rtx >/dev/null 2>&1; then
+  export RTX_SHELL=bash
+  rtx()
+  case "${1-}" in
+    deactivate)
+      eval "$(exec rtx "$@")"
+      printf 'Warning: "rtx deactivate" leaves PROMPT_COMMAND broken!\n'
+      ;;
+    shell)
+      eval "$(exec rtx "$@")"
+      ;;
+    *)
+      command rtx "$@"
+      ;;
+  esac
+  _rtx_hook() {
+    eval "$(trap '' SIGINT; exec rtx hook-env -s bash)";
+  }
+  PROMPT_COMMAND=("$PROMPT_COMMAND" _rtx_hook)
+  YASH_AFTER_CD=("$YASH_AFTER_CD" _rtx_hook)
+fi
+
 # read local settings
 if [ -r ~/.yashrc_local ]; then
   . ~/.yashrc_local

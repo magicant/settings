@@ -265,6 +265,11 @@ case $- in *i*)
         PAGER=more
     fi
 
+    # rtx support
+    if command -v rtx >/dev/null 2>&1; then
+        eval "$(rtx activate bash)"
+    fi
+
 esac
 
 if [ -r ~/.bashrc_local ]; then
