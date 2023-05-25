@@ -127,7 +127,7 @@ if command --identify rtx >/dev/null 2>&1; then
       ;;
   esac
   _rtx_hook() {
-    eval "$(trap '' SIGINT; exec rtx hook-env -s bash)";
+    eval "$(exec rtx hook-env -s bash)"
   }
   PROMPT_COMMAND=("$PROMPT_COMMAND" _rtx_hook)
   YASH_AFTER_CD=("$YASH_AFTER_CD" _rtx_hook)
