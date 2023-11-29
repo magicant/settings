@@ -24,3 +24,4 @@ ForegroundColour=191,191,191
 TekCursorColour=255,255,255
 BackgroundColour=0,0,0
 TekWriteThruColour=255,255,255
+KeyAlphaMode=no
