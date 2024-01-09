@@ -110,27 +110,27 @@ if [ "${TMUX-}" ]; then
   tmux set-window-option automatic-rename on
 fi
 
-# rtx support
-if command --identify rtx >/dev/null 2>&1; then
-  export RTX_SHELL=bash
-  rtx()
+# mise support
+if command --identify mise >/dev/null 2>&1; then
+  export MISE_SHELL=bash
+  mise()
   case "${1-}" in
     deactivate)
-      eval "$(exec rtx "$@")"
-      printf 'Warning: "rtx deactivate" leaves PROMPT_COMMAND broken!\n'
+      eval "$(exec mise "$@")"
+      printf 'Warning: "mise deactivate" leaves PROMPT_COMMAND broken!\n'
       ;;
     shell)
-      eval "$(exec rtx "$@")"
+      eval "$(exec mise "$@")"
       ;;
     *)
-      command rtx "$@"
+      command mise "$@"
       ;;
   esac
-  _rtx_hook() {
-    eval "$(exec rtx hook-env -s bash)"
+  _mise_hook() {
+    eval "$(exec mise hook-env -s bash)"
   }
-  PROMPT_COMMAND=("$PROMPT_COMMAND" _rtx_hook)
-  YASH_AFTER_CD=("$YASH_AFTER_CD" _rtx_hook)
+  PROMPT_COMMAND=("$PROMPT_COMMAND" _mise_hook)
+  YASH_AFTER_CD=("$YASH_AFTER_CD" _mise_hook)
 fi
 
 # read local settings
