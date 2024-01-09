@@ -112,25 +112,29 @@ fi
 
 # mise support
 if command --identify mise >/dev/null 2>&1; then
-  export MISE_SHELL=bash
-  mise()
-  case "${1-}" in
-    deactivate)
-      eval "$(exec mise "$@")"
-      printf 'Warning: "mise deactivate" leaves PROMPT_COMMAND broken!\n'
-      ;;
-    shell)
-      eval "$(exec mise "$@")"
-      ;;
-    *)
-      command mise "$@"
-      ;;
-  esac
+  export MISE_SHELL=bash __MISE_ORIG_PATH="$PATH"
+  mise() {
+    case "${1-}" in
+      (deactivate|sh|shell)
+        if ! [[ " $* " =~ " --help " ]] && ! [[ " $* " =~ " -h " ]]; then
+          eval "$(exec mise "$@")"
+          return
+        fi
+    esac
+    command mise "$@"
+  }
   _mise_hook() {
     eval "$(exec mise hook-env -s bash)"
   }
   PROMPT_COMMAND=("$PROMPT_COMMAND" _mise_hook)
   YASH_AFTER_CD=("$YASH_AFTER_CD" _mise_hook)
+  _mise_not_found()
+  if command mise hook-not-found -s bash "$1"; then
+    _mise_hook
+    HANDLED=true
+    "$@"
+  fi
+  COMMAND_NOT_FOUND_HANDLER=('_mise_not_found "$@"' "$COMMAND_NOT_FOUND_HANDLER")
 fi
 
 # read local settings
