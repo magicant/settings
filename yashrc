@@ -129,7 +129,7 @@ if command --identify mise >/dev/null 2>&1; then
   PROMPT_COMMAND=("$PROMPT_COMMAND" _mise_hook)
   YASH_AFTER_CD=("$YASH_AFTER_CD" _mise_hook)
   _mise_not_found()
-  if command mise hook-not-found -s bash "$1"; then
+  if command mise hook-not-found -s bash -- "$1"; then
     _mise_hook
     HANDLED=true
     "$@"
