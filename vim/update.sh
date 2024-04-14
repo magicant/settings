@@ -44,6 +44,9 @@ update https://github.com/tpope/vim-repeat.git
 update https://github.com/tpope/vim-rhubarb.git
 update https://github.com/tpope/vim-surround.git
 update https://github.com/udalov/kotlin-vim.git
+update https://github.com/vim-scripts/Align.git
 update https://github.com/vim-scripts/AnsiEsc.vim.git
+#update https://github.com/vim-scripts/cecutil.git
+update https://github.com/vim-scripts/coq-syntax.git
 
 # vim: ft=sh et sw=4 sts=4

@@ -1,17 +1,5 @@
 #!/bin/sh
 
-checkgetlatest () {
-    # $1 = ScriptID (decimal integer)
-    # $2 = Script name (any string, which may start with ":AutoInstall:")
-    printf '%s: ' "$GLVSfile"
-    if grep "^$1 " "$GLVS"; then
-        :
-    else
-        echo "$1 1 $2" >>"$GLVS"
-        echo "$1 1 $2 (added)"
-    fi
-}
-
 set -Ceu
 cd -- "$(dirname -- "$0")"
 
@@ -27,17 +15,5 @@ echo vim: mkspell cjk.ascii
 echo "verbose mkspell! cjk.ascii.spl cjk.ascii" | vim -e -s -u NONE
 echo
 )
-
-GLVSfile="GetLatestVimScripts.dat"
-GLVSdir="GetLatest"
-GLVS="$GLVSdir/$GLVSfile"
-if ! [ -e "$GLVS" ]; then
-    mkdir -p "$GLVSdir"
-    echo 'ScriptID SourceID Filename
---------------------------' >"$GLVS"
-fi
-checkgetlatest  294 ':AutoInstall: Align.vim'
-checkgetlatest 1066 ':AutoInstall: cecutil.vim'
-checkgetlatest 2063 'syntax/coq.vim'
 
 # vim: ft=sh et sw=4 sts=4
