@@ -39,6 +39,11 @@ fi
 #    . ~/.settings/setterm
 #fi
 
+# For Windows Terminal
+#if [ "${WT_SESSION:+set}" = set ] && [ "${TERM_PROGRAM-}" = "" ]; then
+#    export TERM_PROGRAM=winterm # This value is unofficial
+#fi
+
 #export PATH="$HOME/bin:$HOME/.settings/bin:$PATH"
 #export PAGER='less' LESSOPEN='|lesspipe.sh %s'
 #unset  LESSCLOSE

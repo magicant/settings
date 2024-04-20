@@ -68,8 +68,8 @@ if &t_ts == '' && &t_fs == ''
     endif
 endif
 if exists('+t_SI') && exists('+t_EI') && &t_SI == '' && &t_EI == ''
-    if &term =~? '^gnome\>' ||
-                \ $TERM_PROGRAM =~? '\<\(mintty\|Apple_Terminal\|iTerm\)\>'
+    if &term =~? '^gnome\>' || $TERM_PROGRAM =~?
+                \ '\<\(winterm\|mintty\|Apple_Terminal\|iTerm\)\>'
         let [&t_SI, &t_EI] = ["\<Esc>[5 q", "\<Esc>[0 q"]
         if exists('+t_SR')
             let &t_SR = "\<Esc>[3 q"
