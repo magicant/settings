@@ -108,18 +108,20 @@ fi
 #    tmux list-sessions 2>/dev/null
 #fi
 
-#case $- in
-#    (*c*)
-#        ;;
-#    (*i*)
-#        if [ "${YASH_VERSION+yash}" != "yash" ]; then
-#            if yash --version >/dev/null 2>&1; then
-#                export SHELL="$(command -v yash)"
-#                exec yash
+#if [ -z "${ZSH_EXECUTION_STRING+set}" ]; then
+#    case $- in
+#        (*c*)
+#            ;;
+#        (*i*)
+#            if [ "${YASH_VERSION+yash}" != "yash" ]; then
+#                if yash --version >/dev/null 2>&1; then
+#                    export SHELL="$(command -v yash)"
+#                    exec yash
+#                fi
 #            fi
-#        fi
-#        ;;
-#esac
+#            ;;
+#    esac
+#fi
 if [ "${BASH_VERSION+bash}" = "bash" ] && [ -r ~/.bashrc ]; then
     . ~/.bashrc
 fi
