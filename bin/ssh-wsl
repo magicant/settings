@@ -1,0 +1,24 @@
+#!/bin/bash
+# SSH into WSL on a remote Windows host
+
+while getopts '46AaCfGgKkMNnqsTtVvXxYyB:b:c:D:E:e:F:I:i:J:L:l:m:O:o:P:p:Q:R:S:W:w:' opt; do
+    :
+done
+
+args=("$@")
+
+if [ "$#" -ge "$OPTIND" ]; then
+    # Prepend "wsl --" to the command line words so that the command is run in
+    # WSL rather than by Windows's shell
+    args=("${args[@]:0:$OPTIND}" wsl -- "${args[@]:$OPTIND}")
+
+    if [ "$#" -eq "$OPTIND" ]; then
+        # When the command is empty, the default shell should be run with a
+        # terminal.
+        args=(-t "${args[@]}")
+    fi
+fi
+
+exec ssh "${args[@]}"
+
+# vim: ft=sh et sw=4 sts=4
