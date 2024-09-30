@@ -32,7 +32,7 @@ endif
 set scrolloff=0
 set display=lastline
 set cmdheight=1
-set nolist listchars=eol:$,tab:>.
+set nolist listchars=eol:$,tab:..>,trail:_,precedes:<,extends:>
 set nonumber
 
 " syntax, highlighting and spelling options
