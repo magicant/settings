@@ -24,6 +24,7 @@ highlight Folded ctermfg=White ctermbg=242 guifg=White guibg=#555555
 highlight Identifier cterm=NONE ctermfg=Cyan guifg=#40FFFF
 highlight! link IncSearch Search
 highlight LineNr ctermfg=Yellow ctermbg=242 guifg=Yellow guibg=#555555
+highlight NonText term=NONE ctermfg=Blue gui=Bold guifg=#2222BB
 highlight Pmenu ctermfg=Black ctermbg=Gray guifg=Black guibg=#DDDDDD
 highlight PmenuSel ctermfg=Black ctermbg=Green guifg=Black guibg=#70EE70
 highlight PmenuSbar ctermbg=Brown guibg=Brown
