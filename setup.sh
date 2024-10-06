@@ -87,7 +87,7 @@ if command -v lesskey >/dev/null 2>&1; then
     fi
 fi
 makelinkhome minttyrc .minttyrc
-if echo q | top -v 2>/dev/null | grep -q procps; then
+if echo q | top -V 2>/dev/null | grep -q procps; then
     makelinkhome toprc .toprc
 fi
 makelinkhome vimrc .vimrc
