@@ -8,7 +8,8 @@ if [ $# -eq 0 ]; then
 fi
 
 first=true
-for shell in sh bash 'bash --posix' 'busybox sh' dash ksh \
+for shell in sh bash 'bash --posix' 'busybox sh' dash \
+    ksh 'ksh -o posix' \
     mksh 'mksh -o posix' 'mksh -o sh' \
     yash 'yash -o posix' \
     zsh 'zsh --emulate sh' 'zsh --emulate ksh'
