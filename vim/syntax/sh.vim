@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:             sh, POSIX shell, ksh, bash, yash
 " Maintainer:           Watanabe, Yuki <magicant.starmen AT nifty.com>
-" Last Change:          Jan 05, 2020
+" Last Change:          Nov 13, 2024
 
 " The following variables affect syntax highlighting:
 "   b:is_bourneshell  If set, only the original Bourne shell's syntax is
@@ -273,12 +273,18 @@ sy region shCaseComment contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ c
 sy region shCasePattern contained transparent matchgroup=NONE start=/[^[:blank:]#|&;<>()]/ matchgroup=shOperator start=/(/ end=/)/ contains=@shWordsList,shSepError,shCaseCommentError,shCasePipe skipwhite skipempty nextgroup=shCaseCommand,shCaseDSemi
 sy match shCaseCommentError contained /[^[:blank:]|&;<>()]\@<!#/
 sy match shCasePipe contained /|/
-if !exists("b:is_bash")
+if exists("b:is_yash")
+    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;\(;&\=\|&\||\)/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
+    sy match shCaseDSemi contained /;\(;&\=\|&\||\)/
+elseif exists("b:is_bash")
+    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;\(;&\=\|&\)/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
+    sy match shCaseDSemi contained /;\(;&\=\|&\)/
+elseif exists("b:is_posix")
+    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;[;&]/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
+    sy match shCaseDSemi contained /;[;&]/
+else
     sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;;/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
     sy match shCaseDSemi contained /;;/
-else
-    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;\(;\?&\|;\)/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
-    sy match shCaseDSemi contained /;\(;\?&\|;\)/
 endif
 
 " [[ construct {{{2

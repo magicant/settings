@@ -156,13 +156,15 @@ s;3) echo;; ;;
 (#) bad comment;;
 i|#) bad comment;;
 esac
-case bash-only in
+case portability in
 	1) echo ;;
 	2) ;;
 	3) echo ;&
 	4) ;&
 	5) echo ;;&
 	6) ;;&
+	7) echo ;|
+	8) ;|
 	*) echo
 esac
 
