@@ -3,17 +3,6 @@
 
 set -Ceu
 
-cd ~/.ssh
-for connection in ?*@?*:[[:digit:]]*
-do
-    case $connection in
-        (*@*@*)
-            ;;
-        (*[[:digit:]])
-            userhost=${connection%%:*} port=${connection#*:}
-            ssh -O stop -p "$port" "$userhost"
-            ;;
-    esac
-done
+exec find ~/.ssh -type s -exec sh -c 'ssh -O stop -o "ControlPath=$1" X' X {} \;
 
 # vim: ft=sh et sw=4 sts=4
