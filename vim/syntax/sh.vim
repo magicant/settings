@@ -68,7 +68,7 @@ endif
 
 " Clusters {{{1
 sy cluster shWordsList contains=@shInnerWordsList,shWordParenError
-sy cluster shInnerWordsList contains=shDollarError,shLineCont,shBackslash,shSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shExtGlob
+sy cluster shInnerWordsList contains=shDollarError,shLineCont,shBackslash,shSingleQuote,shDollarSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shExtGlob
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
 sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase,shDTest
@@ -93,7 +93,23 @@ sy match shWordParenError contained /(/
 sy match shParamError contained /[^}[:alnum:]_@*#?$!:=+-]/
 sy match shBackslash  contained /\\./
 sy region shSingleQuote contained matchgroup=shSingleQuoteMark start=/'/ end=/'/ contains=@Spell
-sy region shDoubleQuote contained matchgroup=shDoubleQuoteMark start=/"/ end=/"/ contains=@Spell,shDollarError,shLineCont,shBackslashDQ,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith
+if exists("b:is_posix")
+    sy region shDollarSingleQuote contained matchgroup=shDollarQuoteMark start=/\$'/ end=/'/ contains=@Spell,shBackslashDSQError,shBackslashDSQ
+    if exists("b:is_kornshell")
+        sy match shBackslashDSQ contained /\\./
+        sy match shBackslashDSQ contained /\\u\x\{,4}/
+        sy match shBackslashDSQ contained /\\U\x\{,8}/
+    else
+        sy match shBackslashDSQError contained /\\/
+        sy match shBackslashDSQ contained /\\[abefnrtv"'\\]/
+        if exists("b:is_bash") || exists("b:is_yash")
+            sy match shBackslashDSQ contained /\\[E?]/
+            sy match shBackslashDSQ contained /\\u\x\{1,4}/
+            sy match shBackslashDSQ contained /\\U\x\{1,8}/
+        endif
+    endif
+endif
+sy region shDoubleQuote contained matchgroup=shDoubleQuoteMark start=/"/ end=/"/ contains=@Spell,shDollarError,shLineCont,shBackslashDQ,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shLiteralDSQ
 sy match shBackslashDQ contained /\\["`$\\]/
 sy region shBackquote contained start=/`/ end=/`/ contains=shBackslashBQ,shCmdSub,shParameter,shParameterBrace,shArith
 sy match shBackslashBQ contained /\\[$`\\]/
@@ -132,6 +148,7 @@ if exists("b:is_posix")
     sy region shArith contained matchgroup=shParameter start=/\$((\([^()]*))\@!\)\@!/ end=/))/ contains=@shInnerWordsList,shArithParen
     sy region shArithParen contained transparent start=/(/ end=/)/ contains=@shInnerWordsList,shArithParen
 endif
+sy match shLiteralDSQ contained transparent /\$'/ contains=NONE
 sy region shComment start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo
 " We use end=/\n\@=/ rather than end=/$/. Otherwise some syntax doesn't match
 " properly after the comment.
@@ -329,6 +346,7 @@ hi def link shSpecialChar       SpecialChar
 hi def link shString            String
 hi def link shTodo              Todo
 
+hi def link shBackslashDSQError shError
 hi def link shBangError         shError
 hi def link shCaseError         shError
 hi def link shCaseCommentError  shError
@@ -350,8 +368,10 @@ hi def link shDTestError        shError
 
 hi def link shBackslash         shSpecialChar
 hi def link shSingleQuote       shString
+hi def link shDollarSingleQuote shString
 hi def link shDoubleQuote       shString
 hi def link shSingleQuoteMark   shOperator
+hi def link shDollarQuoteMark   shOperator
 hi def link shDoubleQuoteMark   shOperator
 hi def link shBackslashDQ       shSpecialChar
 hi def link shBackquote         shParameter

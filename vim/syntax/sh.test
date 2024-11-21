@@ -228,7 +228,7 @@ bash only
 <<-
 
 <<END
-foo $(date) `command` $((1+3)) ${TERM}
+foo $(date) `command` $((1+3)) ${TERM} $'not dollar-single-quote'
 \$backslash-escape \\ \` \` \\
 line-continuation \
 	END
@@ -297,6 +297,8 @@ quoted text
 '
 "\$\\\"\a\`\
 \x";
+[$'foo\\bar\E\e\a\'\"\t\y\#\?'] [$'0\uaB345\UAb3456789']
+"[$'not dollar-single-quote']"
 echo `echo ok`
 echo `echo \`echo ok\``
 echo `echo \\\\\"hello\"\\\\`
