@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:             sh, POSIX shell, ksh, bash, yash
 " Maintainer:           Watanabe, Yuki <magicant.starmen AT nifty.com>
-" Last Change:          Nov 23, 2024
+" Last Change:          Nov 13, 2024
 
 " The following variables affect syntax highlighting:
 "   b:is_bourneshell  If set, only the original Bourne shell's syntax is
@@ -12,8 +12,11 @@
 "   b:is_bash         If set, bash-specific features are allowed.
 "   b:is_yash         If set, yash-specific features are allowed.
 
-if !has("patch-7.4.1142")
-    runtime syntax/old/vim.sh
+" For version 5.x: Clear all syntax items and abort {{{1
+" For version 6.x: Quit when a syntax file was already loaded
+if version < 600
+    syntax clear
+    echoerr "Sorry, your Vim is too old to execute this script."
     finish
 elseif exists("b:current_syntax")
     finish
@@ -62,16 +65,13 @@ syntax case match
 if has("spell")
     syntax spell notoplevel
 endif
-if !exists("g:sh_syntax_isk") || g:sh_syntax_isk
-    syntax iskeyword @,!-%,',*-:,=,?-{,}-~
-endif
 
 " Clusters {{{1
 sy cluster shWordsList contains=@shInnerWordsList,shWordParenError
 sy cluster shInnerWordsList contains=shDollarError,shLineCont,shBackslash,shSingleQuote,shDollarSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shExtGlob
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
-sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shSelect,shWhile,shCase,shDTest
+sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shWhile,shCase,shDTest
 sy cluster shTrailersList contains=shSeparator,shPipe,shTrailerLineCont,shAndOr,shTrailerRedir
 sy cluster shErrorList contains=shSepError,shThenError,shElifError,shElseError,shFiError,shDoError,shDoneError,shInError,shCaseError,shEsacError,shCurlyError,shParenError,shDTestError
 
@@ -160,48 +160,43 @@ if exists("b:is_posix")
     sy region shArithParen contained transparent start=/(/ end=/)/ contains=@shInnerWordsList,shArithParen
 endif
 sy match shLiteralDSQ contained transparent /\$'/ contains=NONE
-sy region shComment start=/\<#/ end=/\n\@=/ contains=@Spell,shTodo
+sy region shComment start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo
 " We use end=/\n\@=/ rather than end=/$/. Otherwise some syntax doesn't match
 " properly after the comment.
-sy match shTodo contained /\w\@1<!\(FIXME\|TODO\|XXX\)\w\@!/
-" We use \w\@1< and \w\@! instead of \< and \> to find these keywords adjacent
-" to a punctuation like a colon and dot.
+sy keyword shTodo contained FIXME TODO XXX
 
 " Redirection {{{1
-" TODO shRedir should have skipwhite nextgroup=shRedirOperandError to detect
-" an invalid operand that may follow the redirection operator.
-" TODO IO_LOCATION
 if !exists("b:is_kornshell")
-    sy match shRedir contained /\(\<\d\+\)\?>[>&|]\?/
-    sy match shRedir contained /\(\<\d\+\)\?<[>&]\?/
-    sy match shRedir contained /\(\<\d\+\)\?[<>]&\(\d\+\|-\)\>/
+    sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?>[>&|]\?/
+    sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?<[>&]\?/
+    sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?[<>]&\(\d\+\|-\)[^[:blank:]|&;<>()]\@!/
     if exists("b:is_bash") || exists("b:is_yash")
-        sy match shRedir contained /\(\<\d\+\)\?<<</
+        sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?<<</
     endif
     if exists("b:is_bash")
         sy match shRedir contained /&>>\?/
     endif
     if exists("b:is_yash")
-        sy match shRedir contained /\(\<\d\+\)\?>>|\(\d\+\>\)\?/
-        sy region shRedirCmd contained matchgroup=shRedir start=/\(\<\d\+\)\?[<>](/ end=/)/ contains=@shCommandsList
+        sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\+\)\?>>|\(\d\+[^[:blank:]|&;<>()]\@!\)\?/
+        sy region shRedirCmd contained matchgroup=shRedir start=/\([^[:blank:]|&;<>()]\@<!\d\+\)\?[<>](/ end=/)/ contains=@shCommandsList
     endif
 else
-    sy match shRedir contained /\(\<\d\)\?>[>&|]\?/
-    sy match shRedir contained /\(\<\d\)\?<[>&]\?/
-    sy match shRedir contained /\(\<\d\)\?[<>]&\(\d\+\|-\)\>/
-    sy match shRedir contained /\(\<\d\)\?<<</
+    sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\)\?>[>&|]\?/
+    sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\)\?<[>&]\?/
+    sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\)\?[<>]&\(\d\+\|-\)[^[:blank:]|&;<>()]\@!/
+    sy match shRedir contained /\([^[:blank:]|&;<>()]\@<!\d\)\?<<</
 endif
 if exists("b:is_kornshell") || exists("b:is_bash")
     sy region shRedirCmd contained matchgroup=shParameter start=/[<>](/ end=/)/ contains=@shCommandsList
 endif
 
 " Here-document {{{1
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\z(\k\+\)$/ end=/^\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\z(\k\+\)$/ end=/^\t*\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
+sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
+sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\t*\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\(["']\)\z([^"'\\]\+\)\1$/ end=/^\z1\n\@=/
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\(["']\)\z([^"'\\]\+\)\1$/ end=/^\t*\z1\n\@=/
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\\\z(\k\+\)$/ end=/^\z1\n\@=/
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\\\z(\k\+\)$/ end=/^\t*\z1\n\@=/
+sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\\\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\z1\n\@=/
+sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\\\z([^[:blank:]|&;<>()"'\\]\+\)$/ end=/^\t*\z1\n\@=/
 sy match shBackslashHD contained /\\[$`\\]/
 
 " Simple command {{{1
@@ -209,12 +204,10 @@ sy region shSimpleCmd transparent start=/[^[:blank:]|&;()]/ end=/$/ end=/[;&|)]/
 if exists("b:is_bash")
     sy region shSimpleCmd transparent start=/&>/ end=/$/ end=/[;&|)]/me=e-1 contains=@shWordsList,@shRedirsList,shAssign,shComment nextgroup=@shTrailersList
 endif
-sy match shAssign contained /\<\h\w*=\@=/ nextgroup=shAssignArray
+sy match shAssign contained /[^[:blank:]|&;<>()]\@<!\h\w*=\@=/ nextgroup=shAssignArray
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
     sy region shAssignArray contained transparent matchgroup=shOperator start=/=(/hs=s+1 end=/)/ contains=@shWordsList,shComment
 endif
-" TODO Consider using $ instead of \n for better continuation handling
-" (see :h :syn-excludenl)
 sy match shLineCont /\\\n/
 sy match shTrailerLineCont contained /\\\n/ skipwhite nextgroup=@shTrailersList
 
@@ -223,44 +216,39 @@ sy match shFunction /\h\w*\s*(\s*)/ contains=shFunctionParen
 sy match shFunctionParen contained /[()]/
 sy match shFunctionNoParen contained /\h\w*/
 if exists("b:is_kornshell")
-    sy keyword shFunctionKW function skipwhite nextgroup=shFunctionNoParen
+    sy match shFunctionKW /[^[:blank:]|&;<>()]\@<!function[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shFunctionNoParen
 endif
 if exists("b:is_bash")
-    sy keyword shFunctionKW function skipwhite nextgroup=shFunction,shFunctionNoParen
+    sy match shFunctionKW /[^[:blank:]|&;<>()]\@<!function[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shFunction,shFunctionNoParen
 endif
 if exists("b:is_yash")
-    sy keyword shFunctionKW function skipwhite nextgroup=shFunctionName
-    sy region shFunctionName contained start=/\k/ end=/\k\@!/ contains=@shWordsList skipwhite skipempty nextgroup=shFunctionParenPair
-    " For unknown reasons start=/\</ does not work. The end cannot be /\>/
-    " because the word $(cat) must end after the ) but iskeyword does not
-    " contain ) so /\>/ would not match after the ).
+    sy match shFunctionKW /[^[:blank:]|&;<>()]\@<!function[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shFunctionName
+    sy region shFunctionName contained transparent start=/[^[:blank:]|&;<>()]/ end=/[^[:blank:]|&;<>()]\@!/ contains=@shWordsList skipwhite skipempty nextgroup=shFunctionParenPair
     sy match shFunctionParenPair contained /(\s*)/
 endif
 
 " Errors {{{1
 " shDollarError, shSeparator, shWordParenError and shParamError are defined
 " above. shBangError and shCaseCommentError are defined later.
-" We use match instead of keyword so other matches and regions can override
-" these error cases for highlighting correct occurrences of these keywords.
-sy match shThenError  /\<then\>/
-sy match shElifError  /\<elif\>/
-sy match shElseError  /\<else\>/
-sy match shFiError    /\<fi\>/
-sy match shDoError    /\<do\>/
-sy match shDoneError  /\<done\>/
-sy match shInError    /\<in\>/
+sy match shThenError  /[^[:blank:]|&;<>()]\@<!then[^[:blank:]|&;<>()]\@!/
+sy match shElifError  /[^[:blank:]|&;<>()]\@<!elif[^[:blank:]|&;<>()]\@!/
+sy match shElseError  /[^[:blank:]|&;<>()]\@<!else[^[:blank:]|&;<>()]\@!/
+sy match shFiError    /[^[:blank:]|&;<>()]\@<!fi[^[:blank:]|&;<>()]\@!/
+sy match shDoError    /[^[:blank:]|&;<>()]\@<!do[^[:blank:]|&;<>()]\@!/
+sy match shDoneError  /[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/
+sy match shInError    /[^[:blank:]|&;<>()]\@<!in[^[:blank:]|&;<>()]\@!/
 sy match shCaseError  /;;/
-sy match shEsacError  /\<esac\>/
-sy match shCurlyError /\<}\>/
+sy match shEsacError  /[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/
+sy match shCurlyError /[^[:blank:]|&;<>()]\@<!}[^[:blank:]|&;<>()]\@!/
 sy match shParenError /)/
 if exists("b:is_bash")
-    sy match shDTestError /\<\]\]\>/
+    sy match shDTestError /[^[:blank:]|&;<>()]\@<!\]\][^[:blank:]|&;<>()]\@!/
 endif
 
 " Bang {{{1
 if exists("b:is_posix")
-    sy keyword shBang ! skipwhite nextgroup=@shCommandsList,shBangError
-    sy keyword shBangError ! contained
+    sy match shBang /[^[:blank:]|&;<>()]\@<!![^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=@shCommandsList,shBangError
+    sy match shBangError contained /[^[:blank:]|&;<>()]\@<!![^[:blank:]|&;<>()]\@!/
 endif
 
 " Pipe, and-or list and asynchronous list {{{1
@@ -276,22 +264,22 @@ sy region shTrailerRedir transparent start=/\d*[<>]/ end=/$/ end=/[;&|)]/me=e-1 
 
 " Compound commands {{{1
 " Parentheses and braces {{{2
-sy region shGroup transparent fold matchgroup=shGroupRegion start=/\<{\>/ end=/\<}\>/ contains=@shCommandsList skipwhite nextgroup=@shTrailersList
+sy region shGroup transparent fold matchgroup=shGroupRegion start=/[^[:blank:]|&;<>()]\@<!{[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!}[^[:blank:]|&;<>()]\@!/ contains=@shCommandsList skipwhite nextgroup=@shTrailersList
 sy region shSubSh transparent fold matchgroup=shSubShRegion start=/(/ end=/)/ contains=@shCommandsList skipwhite nextgroup=@shTrailersList
 
 " If statement {{{2
-sy region shIf transparent fold matchgroup=shConditional start=/\<if\>/ end=/\<fi\>/ contains=@shCommandsList,shThen skipwhite nextgroup=@shTrailersList
-sy region shThen transparent contained matchgroup=shConditional start=/\<then\>/ end=/\<fi\>/me=e-2 contains=@shCommandsList,shElif,shElse
-sy region shElif transparent contained matchgroup=shConditional start=/\<elif\>/ end=/\<fi\>/me=e-2 contains=@shCommandsList,shThen
-sy region shElse transparent contained matchgroup=shConditional start=/\<else\>/ end=/\<fi\>/me=e-2 contains=@shCommandsList
+sy region shIf transparent fold matchgroup=shConditional start=/[^[:blank:]|&;<>()]\@<!if[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!fi[^[:blank:]|&;<>()]\@!/ contains=@shCommandsList,shThen skipwhite nextgroup=@shTrailersList
+sy region shThen transparent contained matchgroup=shConditional start=/[^[:blank:]|&;<>()]\@<!then[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!fi[^[:blank:]|&;<>()]\@!/me=e-2 contains=@shCommandsList,shElif,shElse
+sy region shElif transparent contained matchgroup=shConditional start=/[^[:blank:]|&;<>()]\@<!elif[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!fi[^[:blank:]|&;<>()]\@!/me=e-2 contains=@shCommandsList,shThen
+sy region shElse transparent contained matchgroup=shConditional start=/[^[:blank:]|&;<>()]\@<!else[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!fi[^[:blank:]|&;<>()]\@!/me=e-2 contains=@shCommandsList
 
 " For statement {{{2
-sy keyword shFor for skipwhite nextgroup=shForWord,shForDParen
-sy match shForWord contained /\<\h\w*\>/ skipwhite skipempty nextgroup=shForCommentIn,shForIn,shForDo,shForSemi
-sy region shForCommentIn contained start=/\<#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shForIn,shForDo,shForCommentIn
-sy region shForIn contained transparent matchgroup=shRepeat start=/\<in\>/ matchgroup=shSeparator end=/$/ end=/;/ contains=@shWordsList,shComment skipwhite skipempty nextgroup=shForCommentDo,shForDo
-sy region shForCommentDo contained start=/\<#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shForDo,shForCommentDo
-sy region shForDo contained transparent fold matchgroup=shRepeat start=/\<do\>/ end=/\<done\>/ contains=@shCommandsList skipwhite nextgroup=@shTrailersList
+sy match shFor /[^[:blank:]|&;<>()]\@<!for[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shForWord,shForDParen
+sy match shForWord contained /[^[:blank:]|&;<>()]\@<!\h\w*[^[:blank:]|&;<>()]\@!/ skipwhite skipempty nextgroup=shForCommentIn,shForIn,shForDo,shForSemi
+sy region shForCommentIn contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shForIn,shForDo,shForCommentIn
+sy region shForIn contained transparent matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!in[^[:blank:]|&;<>()]\@!/ matchgroup=shSeparator end=/$/ end=/;/ contains=@shWordsList,shComment skipwhite skipempty nextgroup=shForCommentDo,shForDo
+sy region shForCommentDo contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shForDo,shForCommentDo
+sy region shForDo contained transparent fold matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!do[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/ contains=@shCommandsList skipwhite nextgroup=@shTrailersList
 sy match shForSemi contained /;/ skipwhite skipempty nextgroup=shForDo
 if exists("b:is_kornshell") || exists("b:is_bash")
     sy region shForDParen contained transparent matchgroup=shFor start=/((/ end=/))/ contains=@shWordsList,shArithParen skipwhite skipempty nextgroup=shForDo,shForSemi
@@ -299,39 +287,37 @@ endif
 
 " Select statement {{{2
 if exists("b:is_kornshell") || exists("b:is_bash")
-    sy keyword shSelect select skipwhite nextgroup=shForWord
+    sy match shFor /[^[:blank:]|&;<>()]\@<!select[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shForWord
 endif
 
 " While and until statements {{{2
-sy region shWhile transparent fold matchgroup=shRepeat start=/\<while\>/ start=/\<until\>/ end=/\<done\>/ contains=@shCommandsList,shWhileDo skipwhite nextgroup=@shTrailersList
-sy region shWhileDo contained transparent matchgroup=shRepeat start=/\<do\>/ end=/\<done\>/me=e-4 contains=@shCommandsList
-
+sy region shWhile transparent fold matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!while[^[:blank:]|&;<>()]\@!/ start=/[^[:blank:]|&;<>()]\@<!until[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/ contains=@shCommandsList,shWhileDo skipwhite nextgroup=@shTrailersList
+sy region shWhileDo contained transparent matchgroup=shRepeat start=/[^[:blank:]|&;<>()]\@<!do[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!done[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
 " Case statement {{{2
-sy keyword shCase case skipwhite nextgroup=shCaseWord
-sy region shCaseWord contained transparent start=/\k/ end=/\k\@!/ contains=@shWordsList skipwhite skipempty nextgroup=shCaseIn,shCaseComment
-" See the comment for shFunctionName above
-sy region shCaseIn contained transparent fold matchgroup=shConditional start=/\<in\>/ end=/\<esac\>/ contains=shCasePattern,shComment,@shErrorList skipwhite nextgroup=@shTrailersList
-sy region shCaseComment contained start=/\<#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shCaseIn
-sy region shCasePattern contained transparent matchgroup=NONE start=/#\@!\k/ matchgroup=shOperator start=/(/ end=/)/ contains=@shWordsList,shSepError,shCaseCommentError,shCasePipe skipwhite skipempty nextgroup=shCaseCommand,shCaseDSemi
-sy match shCaseCommentError contained /\<#/
+sy match shCase /[^[:blank:]|&;<>()]\@<!case[^[:blank:]|&;<>()]\@!/ skipwhite nextgroup=shCaseWord
+sy region shCaseWord contained transparent start=/[^[:blank:]|&;<>()]/ end=/[^[:blank:]|&;<>()]\@!/ contains=@shWordsList skipwhite skipempty nextgroup=shCaseIn,shCaseComment
+sy region shCaseIn contained transparent fold matchgroup=shConditional start=/[^[:blank:]|&;<>()]\@<!in[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/ contains=shCasePattern,shComment,@shErrorList skipwhite nextgroup=@shTrailersList
+sy region shCaseComment contained start=/[^[:blank:]|&;<>()]\@<!#/ end=/\n\@=/ contains=@Spell,shTodo skipwhite skipempty nextgroup=shCaseIn
+sy region shCasePattern contained transparent matchgroup=NONE start=/[^[:blank:]#|&;<>()]/ matchgroup=shOperator start=/(/ end=/)/ contains=@shWordsList,shSepError,shCaseCommentError,shCasePipe skipwhite skipempty nextgroup=shCaseCommand,shCaseDSemi
+sy match shCaseCommentError contained /[^[:blank:]|&;<>()]\@<!#/
 sy match shCasePipe contained /|/
 if exists("b:is_yash")
-    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;\(;&\=\|&\||\)/ end=/\<esac\>/me=e-4 contains=@shCommandsList
+    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;\(;&\=\|&\||\)/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
     sy match shCaseDSemi contained /;\(;&\=\|&\||\)/
 elseif exists("b:is_bash")
-    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;\(;&\=\|&\)/ end=/\<esac\>/me=e-4 contains=@shCommandsList
+    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;\(;&\=\|&\)/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
     sy match shCaseDSemi contained /;\(;&\=\|&\)/
 elseif exists("b:is_posix")
-    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;[;&]/ end=/\<esac\>/me=e-4 contains=@shCommandsList
+    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;[;&]/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
     sy match shCaseDSemi contained /;[;&]/
 else
-    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;;/ end=/\<esac\>/me=e-4 contains=@shCommandsList
+    sy region shCaseCommand contained transparent matchgroup=NONE start=/\S/ matchgroup=shSeparator end=/;;/ end=/[^[:blank:]|&;<>()]\@<!esac[^[:blank:]|&;<>()]\@!/me=e-4 contains=@shCommandsList
     sy match shCaseDSemi contained /;;/
 endif
 
 " [[ construct {{{2
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
-    sy region shDTest transparent matchgroup=shDTestBracket start=/\<\[\[\>/ end=/\<]]\>/ end=/$/ contains=@shInnerWordsList,shDTestOperator skipwhite nextgroup=@shTrailersList
+    sy region shDTest transparent matchgroup=shDTestBracket start=/[^[:blank:]|&;<>()]\@<!\[\[[^[:blank:]|&;<>()]\@!/ end=/[^[:blank:]|&;<>()]\@<!]][^[:blank:]|&;<>()]\@!/ end=/$/ contains=@shInnerWordsList,shDTestOperator skipwhite nextgroup=@shTrailersList
     sy match shDTestOperator contained /[()]/
     sy match shDTestOperator contained /&&/
     sy match shDTestOperator contained /||/
@@ -361,7 +347,6 @@ hi def link shComment           Comment
 hi def link shConditional       Conditional
 hi def link shError             Error
 hi def link shFunction          Function
-hi def link shFunctionName      Function
 hi def link shIdentifier        Identifier
 hi def link shKeyword           Keyword
 hi def link shLabel             Label
@@ -433,7 +418,6 @@ hi def link shForWord           shIdentifier
 hi def link shForCommentIn      shComment
 hi def link shForCommentDo      shComment
 hi def link shForSemi           shSeparator
-hi def link shSelect            shRepeat
 hi def link shCase              shConditional
 hi def link shCaseComment       shComment
 hi def link shCasePipe          shSeparator

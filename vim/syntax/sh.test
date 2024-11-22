@@ -15,6 +15,7 @@ elif ! true; then
 else
 	false
 	# comment test FIXME TODO XXX
+	echo not#comment
 fi >redir-ok;
 if true; then
 	echo 1
@@ -156,17 +157,21 @@ s;3) echo;; ;;
 (#) bad comment;;
 i|#) bad comment;;
 esac
-case portability in
+case posix-only in
 	1) echo ;;
 	2) ;;
 	3) echo ;&
 	4) ;&
-	5) echo ;;&
+	5) bash/yash-only ;;&
 	6) ;;&
-	7) echo ;|
+	7) yash-only ;|
 	8) ;|
 	*) echo
 esac
+
+[[ ]]
+[[ -e foo ]]
+[[ -e foo && -f foo || a = a ]]
 
 echo below are errors
 do
@@ -180,6 +185,8 @@ fi
 ;;;;;;;
 error;; error 2;;
 echo above are errors
+
+]] # error if bash
 
 { echo ok; }  {echo dummies; {: {- :} }: _}_ o} }-
 (echo ok)&  ( echo ok )>/dev/null </dev/null;
@@ -287,6 +294,7 @@ function func() { ksh/bash/yash only; }
 function func { ksh/bash/yash only; }
 function func"$tion"() { yash only; }
 function func"$((tion))" { yash only; }
+function func$((tion))() { yash only; }
 
 | ! error
 
@@ -297,8 +305,9 @@ quoted text
 '
 "\$\\\"\a\`\
 \x";
-[$'foo\\bar\E\e\a\'\"\t\y\#\?'] [$'0\uaB345\UAb3456789'] [$'\0123\789']
-*$'\cA\cb\c\\\c@\c?\c\a'*
+[$'foo\\bar\e*\a*\'*\"*\t*\0123\789\cA*\cb*\c?*\c\\*\xFG\x12']
+ksh/bash/yash-only$'\E*\?*\c@*\xEF0\uaB345\UAb3456789'
+ksh-only$'\y*\#*\c\a*'
 "[$'not dollar-single-quote']"
 echo `echo ok`
 echo `echo \`echo ok\``
