@@ -70,10 +70,10 @@ endif
 sy cluster shWordsList contains=@shInnerWordsList,shWordParenError
 sy cluster shInnerWordsList contains=shDollarError,shLineCont,shBackslash,shSingleQuote,shDollarSingleQuote,shDoubleQuote,shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shExtGlob
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
-sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirHere
+sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirLocation,shRedirHere
 sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shSelect,shWhile,shCase,shDTest
 sy cluster shTrailersList contains=shSeparator,shPipe,shTrailerLineCont,shAndOr,shTrailerRedir
-sy cluster shErrorList contains=shSepError,shThenError,shElifError,shElseError,shFiError,shDoError,shDoneError,shInError,shCaseError,shEsacError,shCurlyError,shParenError,shDTestError
+sy cluster shErrorList contains=shSepError,shRedirError,shThenError,shElifError,shElseError,shFiError,shDoError,shDoneError,shInError,shCaseError,shEsacError,shCurlyError,shParenError,shDTestError
 
 " Word {{{1
 " These are 'contained' in shInnerWordsList so that they are treated as part of
@@ -168,32 +168,35 @@ sy match shTodo contained /\w\@1<!\(FIXME\|TODO\|XXX\)\w\@!/
 " to a punctuation like a colon and dot.
 
 " Redirection {{{1
-" TODO shRedir should have skipwhite nextgroup=shRedirOperandError to detect
-" an invalid operand that may follow the redirection operator.
-" TODO IO_LOCATION
 if !exists("b:is_kornshell")
-    sy match shRedir contained /\(\<\d\+\)\?>[>&|]\?/
-    sy match shRedir contained /\(\<\d\+\)\?<[>&]\?/
-    sy match shRedir contained /\(\<\d\+\)\?[<>]&\(\d\+\|-\)\>/
+    sy match shRedir contained /\<\d\+[<>]\@=/
+    sy match shRedir contained />[>&|]\?/ skipwhite nextgroup=shRedirOperandError
+    sy match shRedir contained /<[>&]\?/ skipwhite nextgroup=shRedirOperandError
+    sy match shRedir contained /[<>]&\(\d\+\|-\)\>/
     if exists("b:is_bash") || exists("b:is_yash")
-        sy match shRedir contained /\(\<\d\+\)\?<<</
+        sy match shRedir contained /<<</ skipwhite nextgroup=shRedirOperandError
     endif
     if exists("b:is_bash")
-        sy match shRedir contained /&>>\?/
+        sy match shRedir contained /&>>\?/ skipwhite nextgroup=shRedirOperandError
     endif
     if exists("b:is_yash")
-        sy match shRedir contained /\(\<\d\+\)\?>>|\(\d\+\>\)\?/
-        sy region shRedirCmd contained matchgroup=shRedir start=/\(\<\d\+\)\?[<>](/ end=/)/ contains=@shCommandsList
+        sy match shRedir contained />>|\(\d\+\>\)\?/
+        sy region shRedirCmd contained matchgroup=shRedir start=/[<>](/ end=/)/ contains=@shCommandsList
     endif
 else
-    sy match shRedir contained /\(\<\d\)\?>[>&|]\?/
-    sy match shRedir contained /\(\<\d\)\?<[>&]\?/
-    sy match shRedir contained /\(\<\d\)\?[<>]&\(\d\+\|-\)\>/
-    sy match shRedir contained /\(\<\d\)\?<<</
+    sy match shRedir contained /\<\d[<>]\@=/
+    sy match shRedir contained />[>&|]\?/ skipwhite nextgroup=shRedirOperandError
+    sy match shRedir contained /<[>&]\?/ skipwhite nextgroup=shRedirOperandError
+    sy match shRedir contained /[<>]&\(\d\+\|-\)\>/
+    sy match shRedir contained /<<</ skipwhite nextgroup=shRedirOperandError
 endif
 if exists("b:is_kornshell") || exists("b:is_bash")
     sy region shRedirCmd contained matchgroup=shParameter start=/[<>](/ end=/)/ contains=@shCommandsList
+    sy region shRedirLocation contained matchgroup=shRedir start=/\<{\(\k\+}[<>]\)\@=/ end=/}[<>]\@=/
+elseif exists("b:is_posix") && !exists("b:is_yash")
+    sy region shRedirLocation contained matchgroup=shRedirError start=/\<{\(\k\+}[<>]\)\@=/ end=/}[<>]\@=/
 endif
+sy match shRedirOperandError contained /[^[:blank:][:keyword:]]\+/
 
 " Here-document {{{1
 sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\z(\k\+\)$/ end=/^\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
@@ -387,6 +390,8 @@ hi def link shFiError           shError
 hi def link shInError           shError
 hi def link shParamError        shError
 hi def link shParenError        shError
+hi def link shRedirError        shError
+hi def link shRedirOperandError shError
 hi def link shSepError          shError
 hi def link shThenError         shError
 hi def link shWordParenError    shError
@@ -412,6 +417,7 @@ hi def link shExtGlob           shSpecialChar
 
 hi def link shRedir             shOperator
 hi def link shRedirCmd          Normal
+hi def link shRedirLocation     shIdentifier
 hi def link shRedirHere         shString
 hi def link shBackslashHD       shSpecialChar
 hi def link shLineCont          shOperator
