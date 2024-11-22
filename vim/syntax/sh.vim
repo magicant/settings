@@ -97,15 +97,26 @@ if exists("b:is_posix")
     sy region shDollarSingleQuote contained matchgroup=shDollarQuoteMark start=/\$'/ end=/'/ contains=@Spell,shBackslashDSQError,shBackslashDSQ
     if exists("b:is_kornshell")
         sy match shBackslashDSQ contained /\\./
+        sy match shBackslashDSQ contained /\\c[@A-Za-z[\]^_?]/
+        sy match shBackslashDSQ contained /\\c\\./
+        sy match shBackslashDSQ contained /\\\o\{1,3}/
+        sy match shBackslashDSQ contained /\\x\x\{,2}/
         sy match shBackslashDSQ contained /\\u\x\{,4}/
         sy match shBackslashDSQ contained /\\U\x\{,8}/
     else
         sy match shBackslashDSQError contained /\\/
         sy match shBackslashDSQ contained /\\[abefnrtv"'\\]/
+        sy match shBackslashDSQ contained /\\c[A-Za-z[\]^_?]/
+        sy match shBackslashDSQ contained /\\c\\\\/
+        sy match shBackslashDSQ contained /\\\o\{1,3}/
+        sy match shBackslashDSQ contained /\\x\x\{1,2}/
         if exists("b:is_bash") || exists("b:is_yash")
             sy match shBackslashDSQ contained /\\[E?]/
+            sy match shBackslashDSQ contained /\\c@/
             sy match shBackslashDSQ contained /\\u\x\{1,4}/
             sy match shBackslashDSQ contained /\\U\x\{1,8}/
+        else
+            sy match shBackslashDSQError contained /\\x\x\{3,}/
         endif
     endif
 endif
