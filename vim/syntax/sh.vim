@@ -216,9 +216,7 @@ sy match shAssign contained /\<\h\w*=\@=/ nextgroup=shAssignArray
 if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
     sy region shAssignArray contained transparent matchgroup=shOperator start=/=(/hs=s+1 end=/)/ contains=@shWordsList,shComment
 endif
-" TODO Consider using $ instead of \n for better continuation handling
-" (see :h :syn-excludenl)
-sy match shLineCont /\\\n/
+sy match shLineCont /\\$/
 sy match shTrailerLineCont contained /\\\n/ skipwhite nextgroup=@shTrailersList
 
 " Function definition {{{1
@@ -420,7 +418,7 @@ hi def link shRedirCmd          Normal
 hi def link shRedirLocation     shIdentifier
 hi def link shRedirHere         shString
 hi def link shBackslashHD       shSpecialChar
-hi def link shLineCont          shOperator
+hi def link shLineCont          shSpecialChar
 hi def link shTrailerLineCont   shLineCont
 hi def link shAssign            shIdentifier
 hi def link shFunctionParen     shOperator
