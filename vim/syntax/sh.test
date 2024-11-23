@@ -283,6 +283,10 @@ cat <<- \END
 		the last one   $((dummy))
 		END
 
+{foo}<< END
+supported by ksh/bash, unspecified in posix, not a location in yash
+END
+
 <(echo 1) ksh,bash,yash
 >(tee log) ksh,bash,yash
 

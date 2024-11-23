@@ -203,12 +203,12 @@ endif
 sy match shRedirOperandError contained /[^[:blank:][:keyword:]]\+/
 
 " Here-document {{{1
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\z(\k\+\)$/ end=/^\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\z(\k\+\)$/ end=/^\t*\z1\n\@=/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\(["']\)\z([^"'\\]\+\)\1$/ end=/^\z1\n\@=/
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\(["']\)\z([^"'\\]\+\)\1$/ end=/^\t*\z1\n\@=/
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\@!\s*\\\z(\k\+\)$/ end=/^\z1\n\@=/
-sy region shRedirHere contained fold matchgroup=shRedir start=/[<>]\@<!\d*<<-\s*\\\z(\k\+\)$/ end=/^\t*\z1\n\@=/
+sy region shRedirHere contained fold matchgroup=shRedir start=/<<-\@!\s*\z(\k\+\)$/ excludenl end=/^\z1$/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
+sy region shRedirHere contained fold matchgroup=shRedir start=/<<-\s*\z(\k\+\)$/ excludenl end=/^\t*\z1$/ contains=shBackquote,shCmdSub,shParameter,shParameterBrace,shArith,shBackslashHD,shLineCont
+sy region shRedirHere contained fold matchgroup=shRedir start=/<<-\@!\s*\(["']\)\z([^"'\\]\+\)\1$/ excludenl end=/^\z1$/
+sy region shRedirHere contained fold matchgroup=shRedir start=/<<-\s*\(["']\)\z([^"'\\]\+\)\1$/ excludenl end=/^\t*\z1$/
+sy region shRedirHere contained fold matchgroup=shRedir start=/<<-\@!\s*\\\z(\k\+\)$/ excludenl end=/^\z1$/
+sy region shRedirHere contained fold matchgroup=shRedir start=/<<-\s*\\\z(\k\+\)$/ excludenl end=/^\t*\z1$/
 sy match shBackslashHD contained /\\[$`\\]/
 
 " Simple command {{{1
