@@ -72,7 +72,7 @@ sy cluster shInnerWordsList contains=shDollarError,shLineCont,shBackslash,shSing
 sy cluster shParamOpsList contains=shParamOp,shParamModifier,shLineCont,shParamError
 sy cluster shRedirsList contains=shRedir,shRedirCmd,shRedirLocation,shRedirHere
 sy cluster shCommandsList contains=@shErrorList,shComment,shLineCont,shSimpleCmd,shFunction,shFunctionKW,shBang,shGroup,shSubSh,shIf,shFor,shSelect,shWhile,shCase,shDTest
-sy cluster shTrailersList contains=shSeparator,shPipe,shTrailerLineCont,shAndOr,shTrailerRedir
+sy cluster shTrailersList contains=shSeparator,shPipe,shAndOr,shTrailerRedir
 sy cluster shErrorList contains=shSepError,shRedirError,shThenError,shElifError,shElseError,shFiError,shDoError,shDoneError,shInError,shCaseError,shEsacError,shCurlyError,shParenError,shDTestError
 
 " Word {{{1
@@ -217,7 +217,6 @@ if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
     sy region shAssignArray contained transparent matchgroup=shOperator start=/=(/hs=s+1 end=/)/ contains=@shWordsList,shComment
 endif
 sy match shLineCont /\\$/
-sy match shTrailerLineCont contained /\\\n/ skipwhite nextgroup=@shTrailersList
 
 " Function definition {{{1
 sy match shFunction /\h\w*\s*(\s*)/ contains=shFunctionParen
@@ -273,7 +272,7 @@ if exists("b:is_bash")
 endif
 sy match shAndOr contained /&&/ skipwhite skipempty nextgroup=@shCommandsList
 sy match shAndOr contained /||/ skipwhite skipempty nextgroup=@shCommandsList
-sy region shTrailerRedir transparent start=/\d*[<>]/ end=/$/ end=/[;&|)]/me=e-1 contains=@shWordsList,@shRedirsList,shComment nextgroup=@shTrailersList
+sy region shTrailerRedir transparent start=/\d*[<>]/ start=/\\/ end=/$/ end=/[;&|)]/me=e-1 contains=@shWordsList,@shRedirsList,shComment nextgroup=@shTrailersList
 
 " Compound commands {{{1
 " Parentheses and braces {{{2
@@ -419,7 +418,6 @@ hi def link shRedirLocation     shIdentifier
 hi def link shRedirHere         shString
 hi def link shBackslashHD       shSpecialChar
 hi def link shLineCont          shSpecialChar
-hi def link shTrailerLineCont   shLineCont
 hi def link shAssign            shIdentifier
 hi def link shFunctionParen     shOperator
 hi def link shFunctionParenPair shOperator
