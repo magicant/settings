@@ -133,16 +133,16 @@ sy match shParameter contained /\$[@*#?$!-]/
 sy region shParameterBrace contained matchgroup=shParameter start=/\${/ end=/}/ contains=@shParamOpsList
 sy region shParamModifier contained matchgroup=shParamOp start=/:\?[-+?=]/ end=/}\@=/ contains=@shInnerWordsList
 if exists("b:is_posix")
-    sy match shParamOp contained /{\@<=#/
+    sy match shParamOp contained /{\@1<=#/
     sy region shParamModifier contained matchgroup=shParamOp start=/##\?/ start=/%%\?/ end=/}\@=/ contains=@shInnerWordsList
 endif
 if exists("b:is_kornshell") || exists("b:is_bash")
-    sy match shParamOp contained /{\@<=!/
+    sy match shParamOp contained /{\@1<=!/
     sy region shParamModifier contained matchgroup=shParamOp start=/:[-+?=]\@!/ end=/}\@=/ contains=@shInnerWordsList,shParamColon
     sy region shParamColon contained matchgroup=shParamOp start=/:/ end=/}\@=/ contains=@shInnerWordsList
 endif
 if exists("b:is_kornshell")
-    sy match shParamOp contained /{\@<=@/
+    sy match shParamOp contained /{\@1<=@/
     sy region shParamModifier contained matchgroup=shParamOp start=/:#/ end=/}\@=/ contains=@shInnerWordsList
 endif
 if exists("b:is_yash")
