@@ -15,7 +15,8 @@ elif ! true; then
 else
 	false
 	# comment test FIXME TODO XXX
-	echo not#comment
+	echo $(foo)#not-a-comment $FOO#neither ${FOO}#neither $((1))#neither \
+		`foo`#not-a-comment
 fi >redir-ok;
 if true; then
 	echo 1

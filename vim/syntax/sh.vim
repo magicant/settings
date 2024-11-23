@@ -125,7 +125,7 @@ sy match shBackslashDQ contained /\\["`$\\]/
 sy region shBackquote contained start=/`/ end=/`/ contains=shBackslashBQ,shCmdSub,shParameter,shParameterBrace,shArith
 sy match shBackslashBQ contained /\\[$`\\]/
 if exists("b:is_posix")
-    sy region shCmdSub contained matchgroup=shParameter start=/\$(/ end=/)/ contains=@shCommandsList
+    sy region shCmdSub contained matchgroup=shParameter start=/\$(/ end=/)/ contains=@shCommandsList nextgroup=shLiteralHash
 endif
 sy match shParameter contained /\$\h\w*/
 sy match shParameter contained /\$\d/
@@ -156,7 +156,7 @@ if exists("b:is_kornshell") || exists("b:is_bash") || exists("b:is_yash")
     sy region shParamModifier contained matchgroup=shParamOp start=/\[/ end=/]/ contains=@shInnerWordsList,shArithParen
 endif
 if exists("b:is_posix")
-    sy region shArith contained matchgroup=shParameter start=/\$((\([^()]*))\@!\)\@!/ end=/))/ contains=@shInnerWordsList,shArithParen
+    sy region shArith contained matchgroup=shParameter start=/\$((\([^()]*))\@!\)\@!/ end=/))/ contains=@shInnerWordsList,shArithParen nextgroup=shLiteralHash
     sy region shArithParen contained transparent start=/(/ end=/)/ contains=@shInnerWordsList,shArithParen
 endif
 sy match shLiteralDSQ contained transparent /\$'/ contains=NONE
@@ -166,6 +166,12 @@ sy region shComment start=/\<#/ end=/\n\@=/ contains=@Spell,shTodo
 sy match shTodo contained /\w\@1<!\(FIXME\|TODO\|XXX\)\w\@!/
 " We use \w\@1< and \w\@! instead of \< and \> to find these keywords adjacent
 " to a punctuation like a colon and dot.
+sy match shLiteralHash contained transparent /#/ contains=NONE
+" Since we define shComment as start=/\<#/, a comment basically does not start
+" in the middle of a word. Exceptionally, the \< cannot prevent a #
+" immediately following a $(...) from begin regarded as a comment. To work
+" around this, shLiteralHash is specified as the nextgroup of shCmdSub and
+" shArith so that such a # is not matched by shComment.
 
 " Redirection {{{1
 if !exists("b:is_kornshell")
