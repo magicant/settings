@@ -160,9 +160,7 @@ if exists("b:is_posix")
     sy region shArithParen contained transparent start=/(/ end=/)/ contains=@shInnerWordsList,shArithParen
 endif
 sy match shLiteralDSQ contained transparent /\$'/ contains=NONE
-sy region shComment start=/\<#/ end=/\n\@=/ contains=@Spell,shTodo
-" We use end=/\n\@=/ rather than end=/$/. Otherwise some syntax doesn't match
-" properly after the comment.
+sy region shComment start=/\<#/ excludenl end=/$/ contains=@Spell,shTodo
 sy match shTodo contained /\w\@1<!\(FIXME\|TODO\|XXX\)\w\@!/
 " We use \w\@1< and \w\@! instead of \< and \> to find these keywords adjacent
 " to a punctuation like a colon and dot.
