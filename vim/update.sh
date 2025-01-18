@@ -35,6 +35,7 @@ update() (
     fi
 )
 
+update https://github.com/github/copilot.vim.git
 update https://github.com/keith/swift.vim.git
 update https://github.com/neovimhaskell/haskell-vim.git
 update https://github.com/ryym/vim-viler.git
