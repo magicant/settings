@@ -242,6 +242,7 @@ if has("eval")
     noremap ]l :call <SID>execcommandrange("lnext")<CR>
 endif
 if has("gui_macvim")
+    let g:macvim_skip_cmd_opt_movement = 1
     map <D-1> 1gt
     map <D-2> 2gt
     map <D-3> 3gt
