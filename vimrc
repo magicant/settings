@@ -189,6 +189,10 @@ endif
 set viminfo& viminfo+=/50,:300,@50
 set pastetoggle=<F5>
 
+" GitHub Copilot options
+if has("patch-9.0.185")
+    let g:copilot_filetypes = { '*': v:true }
+endif
 
 " mappings and commands
 imap <C-@> <Esc>
