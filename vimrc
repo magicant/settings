@@ -201,6 +201,12 @@ vmap <C-@> <Esc>
 map  <C-Space> <C-@>
 map! <C-Space> <C-@>
 inoremap <C-B> <C-G>u
+imap <C-G><C-G> <C-G>g
+inoremap <C-G>g <Plug>(copilot-accept-word)
+inoremap <C-G>n <Plug>(copilot-next)
+inoremap <C-G>p <Plug>(copilot-previous)
+inoremap <C-G>$ <Plug>(copilot-accept-line)
+inoremap <C-G>? <Plug>(copilot-suggest)
 inoremap <C-U> <C-G>u<C-U>
 noremap Y y$
 map n /<Return>
