@@ -178,7 +178,9 @@ if !exists("b:is_kornshell")
     sy match shRedir contained /<[>&]\?/ skipwhite nextgroup=shRedirOperandError
     sy match shRedir contained /[<>]&\(\d\+\|-\)\>/
     if exists("b:is_bash") || exists("b:is_yash")
-        sy match shRedir contained /<<</ skipwhite nextgroup=shRedirOperandError
+        sy match shRedir contained /<<[-<]\=/ skipwhite nextgroup=shRedirOperandError
+    else
+        sy match shRedir contained /<<-\=/ skipwhite nextgroup=shRedirOperandError
     endif
     if exists("b:is_bash")
         sy match shRedir contained /&>>\?/ skipwhite nextgroup=shRedirOperandError
@@ -192,7 +194,7 @@ else
     sy match shRedir contained />[>&|]\?/ skipwhite nextgroup=shRedirOperandError
     sy match shRedir contained /<[>&]\?/ skipwhite nextgroup=shRedirOperandError
     sy match shRedir contained /[<>]&\(\d\+\|-\)\>/
-    sy match shRedir contained /<<</ skipwhite nextgroup=shRedirOperandError
+    sy match shRedir contained /<<[-<]\=/ skipwhite nextgroup=shRedirOperandError
 endif
 if exists("b:is_kornshell") || exists("b:is_bash")
     sy region shRedirCmd contained matchgroup=shParameter start=/[<>](/ end=/)/ contains=@shCommandsList

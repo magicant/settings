@@ -283,6 +283,14 @@ cat <<- \END
 		the last one   $((dummy))
 		END
 
+cat << FOO <<- BAR << BAZ
+123
+FOO
+456
+BAR
+789
+BAZ
+
 {foo}<< END
 supported by ksh/bash, unspecified in posix, not a location in yash
 END
