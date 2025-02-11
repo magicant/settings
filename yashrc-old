@@ -148,7 +148,12 @@ fi
 { SHLVL=$((SHLVL+1)) || SHLVL=1; } 2>/dev/null
 export SHLVL
 if [ ~ -ef . ]; then PWD=~; fi
-HISTFILE=~/.yash_history HISTSIZE=5000 HISTRMDUP=500
+if [ -f ~/.local/state/yash/history ]; then
+    HISTFILE=~/.local/state/yash/history
+else
+    HISTFILE=~/.yash_history
+fi
+HISTSIZE=5000 HISTRMDUP=500
 MAILCHECK=0
 : ${EDITOR:=vi} ${FCEDIT:=$EDITOR}
 : ${LOGNAME:=$(logname)}
