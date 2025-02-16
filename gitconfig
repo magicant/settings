@@ -3,6 +3,8 @@
 	graph = log --graph --oneline
 	incoming = log ..@{u}
 	outgoing = log @{u}..
+[checkout]
+	workers = 0
 [color]
 	ui = auto
 [color "diff"]
@@ -34,6 +36,7 @@
 	# [:alnum:] includes non-alphabetic characters that should be separated
 	# one by one, hence [:upper:][:lower:][:digit:]
 [fetch]
+	parallel = 0
 	prune = true
 [gc]
 	worktreePruneExpire = now
@@ -56,6 +59,8 @@
 	showPatch = true
 [status]
 	branch = true
+[submodule]
+	fetchJobs = 0
 [svn]
 	pushmergeinfo = true
 [tig]
