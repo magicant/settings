@@ -11,7 +11,7 @@ first=true
 for shell in sh bash 'bash --posix' 'busybox sh' dash \
     ksh 'ksh -o posix' \
     mksh 'mksh -o posix' 'mksh -o sh' \
-    yash 'yash -o posix' \
+    yash 'yash -o posix' yash3 \
     zsh 'zsh --emulate sh' 'zsh --emulate ksh'
 do
     if "$first"; then
