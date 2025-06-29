@@ -3,6 +3,7 @@
 	graph = log --graph --oneline
 	incoming = log ..@{u}
 	outgoing = log @{u}..
+	safe-force-push = push --force-with-lease --force-if-includes
 [checkout]
 	workers = 0
 [color]
