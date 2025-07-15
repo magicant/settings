@@ -92,22 +92,8 @@ fi
 #fi
 #unset __agent
 
-# Notify status of ~/.settings
-#(
-#    set -Ceu
-#    cd ~/.settings
-#    git diff --quiet origin/master || echo '~/.settings is out of sync!'
-#    (
-#        gitdir=$(git rev-parse --git-dir)
-#        now=$(date +%Y-%m-%d)
-#        prevcheck=$(cat "$gitdir/.updatestamp" 2>/dev/null) || prevcheck=
-#        if [ "$prevcheck" = "$now" ]; then
-#            exit
-#        fi
-#        echo "$now" >| "$gitdir/.updatestamp"
-#        git remote update >/dev/null 2>&1
-#    )&
-#)
+# Check for outdated packages
+#(~/.settings/libexec/outdated settings dnf npm-global <>/dev/null 1>&0 2>&1 &)
 
 #if ! [ "${TMUX-}" ]; then
 #    tmux list-sessions 2>/dev/null

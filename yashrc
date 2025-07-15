@@ -110,6 +110,14 @@ if [ "${TMUX-}" ]; then
   tmux set-window-option automatic-rename on
 fi
 
+# notify outdated packages
+_outdated()
+if [ -s ~/.outdated ]; then
+  cat ~/.outdated >&2
+  >| ~/.outdated
+fi
+PROMPT_COMMAND=("$PROMPT_COMMAND" _outdated)
+
 # mise support
 if command --identify mise >/dev/null 2>&1; then
   export MISE_SHELL=bash __MISE_ORIG_PATH="$PATH"

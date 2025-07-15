@@ -1,0 +1,65 @@
+set -Ceu
+
+force=false
+while getopts f option; do
+    case $option in
+        (f) force=true ;;
+        (*) exit 2 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [ "$#" -eq 0 ]; then
+    echo "Specify at least one target to check for updates." >&2
+    exit 2
+fi
+
+if ! $force && find ~/.outdated -prune -mtime 0 2>/dev/null | grep -q .; then
+    echo "Already checked for updates within the last 24 hours." >&2
+    exit
+fi
+
+trap 'rm -f -- ~/.outdated.tmp' EXIT
+trap 'rm -f -- ~/.outdated.tmp; trap - INT; kill -INT $$' INT
+trap 'rm -f -- ~/.outdated.tmp; trap - TERM; kill -TERM $$' TERM
+trap 'rm -f -- ~/.outdated.tmp; trap - QUIT; kill -QUIT $$' QUIT
+trap 'rm -f -- ~/.outdated.tmp; trap - HUP; kill -HUP $$' HUP
+if $force; then
+    set +C
+fi
+if ! exec 3> ~/.outdated.tmp; then
+    echo "Another instance of outdated is running." >&2
+    exit
+fi
+set -C
+
+for target do
+    case $target in
+        (settings)
+            (
+                cd ~/.settings
+                git fetch origin
+                if ! git diff --quiet origin/master; then
+                    echo "~/.settings is out of sync!" >&3
+                fi
+            )
+            ;;
+
+        (dnf)
+            if ! dnf check-upgrade; then
+                echo "dnf packages are outdated!" >&3
+            fi
+            ;;
+
+        (npm-global)
+            if ! npm outdated --global; then
+                echo "npm global packages are outdated!" >&3
+            fi
+            ;;
+    esac
+done
+
+exec 3>&-
+mv -f -- ~/.outdated.tmp ~/.outdated
+
+# vim: ft=sh et sw=4 sts=4
