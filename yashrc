@@ -112,9 +112,9 @@ fi
 
 # notify outdated packages
 _outdated()
-if [ -s ~/.outdated ]; then
+if [ -s ~/.outdated ] && ! [ ~/.outdated -ot ~/.outdated.last ]; then
   cat ~/.outdated >&2
-  >| ~/.outdated
+  touch ~/.outdated.last
 fi
 PROMPT_COMMAND=("$PROMPT_COMMAND" _outdated)
 
