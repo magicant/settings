@@ -5,7 +5,7 @@
 set -Ceu
 umask u+rwx
 unset CDPATH
-cd -P -- "$(dirname "$0")"
+cd -P -- "$(dirname -- "$0")"
 
 clone_dir='pack/_/start'
 

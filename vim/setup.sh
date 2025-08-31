@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -Ceu
-cd -- "$(dirname "$0")"
+cd -- "$(dirname -- "$0")"
 
 (
 cd spell

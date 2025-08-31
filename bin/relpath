@@ -67,7 +67,7 @@ fi
 if [ -d "$to" ]; then
     absto=$(cd -P -- "$to" && pwd -P)
 else
-    abstodir=$(cd -P -- "$(dirname "$to")" && pwd -P)
+    abstodir=$(cd -P -- "$(dirname -- "$to")" && pwd -P)
     tobase=$(basename -- "$to")
     absto=${abstodir%/}/${tobase}
 fi
@@ -75,7 +75,7 @@ fi
 if [ -d "$from" ]; then
     fromdir=$from
 else
-    fromdir=$(dirname "$from")
+    fromdir=$(dirname -- "$from")
 fi
 absfrom=$(cd -P -- "$fromdir" && pwd -P)
 
