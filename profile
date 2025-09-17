@@ -95,7 +95,7 @@ fi
 #unset __agent
 
 # Check for outdated packages
-#(~/.settings/libexec/outdated settings dnf npm-global <>/dev/null 1>&0 2>&1 &)
+#(nice sh ~/.settings/libexec/outdated settings dnf npm-global <>/dev/null 1>&0 2>&1 &)
 
 #if ! [ "${TMUX-}" ]; then
 #    tmux list-sessions 2>/dev/null
