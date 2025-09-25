@@ -117,6 +117,7 @@
 	status = s ?git stash save
 [tig "color"]
 	cursor = default default bold underline
+	cursor-blur = default default underline
 [user]
 	name = WATANABE Yuki
 	email = magicant@wonderwand.net
