@@ -27,7 +27,7 @@ trap 'rm -f -- ~/.outdated.tmp; trap - HUP; kill -HUP $$' HUP
 if $force; then
     set +C
 fi
-if ! exec 3> ~/.outdated.tmp; then
+if ! command exec 3> ~/.outdated.tmp; then
     echo "Another instance of outdated is running." >&2
     exit
 fi
