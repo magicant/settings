@@ -1,6 +1,6 @@
 " detect bvemap file
 
-autocmd! BufRead,BufNewFile * call s:DetectTypeBveMap()
+autocmd BufRead,BufNewFile * call s:DetectTypeBveMap()
 
 function! s:DetectTypeBveMap()
     if did_filetype() && &filetype != "text"
