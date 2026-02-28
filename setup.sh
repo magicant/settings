@@ -96,6 +96,16 @@ makelinkhome yashrc .yashrc
 makelinkhome zshrc .zshrc
 makelinkhome "${HOME%/}/.profile" .yash_profile "~/.profile"
 
+if [ -L ~/.yash_history ]; then
+    echo "Symbolic link ~/.yash_history already exists"
+elif [ -e ~/.yash_history ]; then
+    echo "File ~/.yash_history already exists"
+elif ln -s .local/state/yash/history ~/.yash_history; then
+    echo "Symbolic link ~/.yash_history -> .local/state/yash/history created"
+else
+    exit
+fi
+
 # Install my own "which" if the system-provided "which" does not support the -a
 # option
 if [ "$(PATH=$PATH:$PATH which -a which 2>/dev/null)" = \
