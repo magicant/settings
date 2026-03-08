@@ -104,6 +104,18 @@ if [ ~ -ef . ]; then PWD=~; fi
 # use more as pager in dumb terminal
 if [ x"$TERM" = x"dumb" ]; then
   PAGER=more
+  unset MANPAGER GIT_PAGER
+fi
+
+# When run in VS Code's hidden terminal...
+if [ "${TERM_PROGRAM-}" = vscode ] &&
+  { [ "${GIT_PAGER-}" = cat ] || [ "${VSCODE_PREVENT_SHELL_HISTORY-}" ]; }
+then
+  # don't save command history
+  unset HISTFILE
+  # avoid using interactive pagers
+  export PAGER=cat
+  unset MANPAGER GIT_PAGER
 fi
 
 if [ "${TMUX-}" ]; then
