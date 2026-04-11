@@ -18,6 +18,11 @@ YASH_LOADPATH=("${SETTINGSDIR:-$HOME/.settings}/yash" "$_old_loadpath")
 
 HISTRMDUP=1
 
+# if the parent process does not have a controlling terminal, reset SHLVL
+if ! [ -c "/dev/$(LC_ALL=C ps -o tty= -p "$PPID" 2>/dev/null)" ]; then
+  SHLVL=1
+fi
+
 # I prefer Vim
 set --vi
 
