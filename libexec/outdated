@@ -56,6 +56,11 @@ for target do
                 echo "npm global packages are outdated!" >&3
             fi
             ;;
+        (pnpm-global)
+            if ! pnpm outdated --global; then
+                echo "pnpm global packages are outdated!" >&3
+            fi
+            ;;
     esac
 done
 
