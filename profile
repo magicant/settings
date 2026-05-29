@@ -75,24 +75,8 @@ fi
 
 #export BROWSER='rundll32.exe url.dll,FileProtocolHandler'
 
-#__agent=~/.ssh/agent@"$(uname)"@"$HOSTNAME"
-#if [ -r "$__agent" ]; then
-#    . "$__agent"
-#fi
-#if ! ssh-add -q; then
-#    echo Starting new ssh-agent.
-#    (
-#        for dir in /tmp/ssh-*/; do
-#            if [ -O "$dir" ]; then
-#                rm -fr "$dir"
-#            fi
-#        done
-#    )
-#    ssh-agent >| "$__agent"
-#    . "$__agent"
-#    ssh-add -q
-#fi
-#unset __agent
+#__agent=~/.ssh/@"$(uname)"@"$HOSTNAME"
+#. ~/.settings/libexec/ssh-agent
 
 # Check for outdated packages
 #(nice sh ~/.settings/libexec/outdated settings dnf npm-global pnpm-global <>/dev/null 1>&0 2>&1 &)

@@ -1,0 +1,57 @@
+# starts ssh-agent atomically
+# to be sourced in ~/.profile
+
+# do nothing if we have a working ssh-agent already
+if [ "${SSH_AUTH_SOCK:+set}" ] && ssh-add -l >/dev/null 2>&1; then
+    return
+fi
+
+# define the pathname of the file to store the output of ssh-agent
+__agent=${__agent-~/.ssh/@"$HOSTNAME"}
+
+# read the file, which may fail if the file does not exist
+# if successful, the file will define $SSH_AUTH_SOCK and $SSH_AGENT_PID
+. -- "$__agent" >/dev/null 2>&1
+
+# done if the current $SSH_AUTH_SOCK works
+if ssh-add -l >/dev/null 2>&1; then
+    unset __agent
+    return
+fi
+
+# okay, $SSH_AUTH_SOCK is not valid, so we need to start a new ssh-agent
+# but before doing so, acquire a virtual lock by creating a dummy directory
+# to ensure atomicity of ssh-agent startup
+mkdir -- "$__agent~" 2>/dev/null || {
+    sleep 1
+    mkdir -- "$__agent~" 2>/dev/null || {
+        sleep 2
+        mkdir -- "$__agent~" 2>/dev/null || {
+            sleep 3
+            mkdir -- "$__agent~"
+            # if mkdir fails so many times, go on without locking, which may
+            # cause multiple ssh-agent instances to be started, but that's
+            # better than giving up
+        }
+    }
+}
+
+# re-read the file since another shell instance may have started ssh-agent
+. -- "$__agent" >/dev/null 2>&1
+ssh-add -l >/dev/null 2>&1
+if [ "$?" -gt 1 ]; then
+    # ssh-agent is not running, so we need to start it
+    ssh-agent >| "$__agent" &&
+    # import the new $SSH_AUTH_SOCK and $SSH_AGENT_PID variables
+    . -- "$__agent"
+fi &&
+
+# load the agent with the key (assuming no passphrase required)
+ssh-add
+
+# unlock
+rmdir -- "$__agent~"
+
+unset __agent
+
+# vim: ft=sh et sw=4 sts=4
