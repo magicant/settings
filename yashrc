@@ -17,6 +17,10 @@ fi
 YASH_LOADPATH=("${SETTINGSDIR:-$HOME/.settings}/yash" "$_old_loadpath")
 
 HISTRMDUP=1
+if [ "${VSCODE_PREVENT_SHELL_HISTORY-}" ]; then
+  # don't save command history
+  unset HISTFILE
+fi
 
 # if the parent process does not have a controlling terminal, reset SHLVL
 if ! [ -c "/dev/$(LC_ALL=C ps -o tty= -p "$PPID" 2>/dev/null)" ]; then
@@ -95,28 +99,23 @@ if [ x"$TERM" = x"dumb" ]; then
   unset MANPAGER GIT_PAGER
 fi
 
-# When run in VS Code's hidden terminal...
-if [ "${TERM_PROGRAM-}" = vscode ] &&
-  { [ "${GIT_PAGER-}" = cat ] || [ "${VSCODE_PREVENT_SHELL_HISTORY-}" ]; }
-then
-  # don't save command history
-  unset HISTFILE
-  # avoid using interactive pagers
-  export PAGER=cat
-  unset MANPAGER GIT_PAGER
+if [ "${TERM_PROGRAM-}" = vscode ] && command -v code >/dev/null 2>&1; then
+    EDITOR='code --wait' VISUAL='code --wait'
 fi
 
 if [ "${TMUX-}" ]; then
   tmux set-window-option automatic-rename on
 fi
 
-# notify outdated packages
-_outdated()
-if [ -s ~/.outdated ] && ! [ ~/.outdated -ot ~/.outdated.last ]; then
-  cat ~/.outdated >&2
-  touch ~/.outdated.last
+if ! [ "${COPILOT_AGENT-}" ]; then
+  # notify outdated packages
+  _outdated()
+  if [ -s ~/.outdated ] && ! [ ~/.outdated -ot ~/.outdated.last ]; then
+    cat ~/.outdated >&2
+    touch ~/.outdated.last
+  fi
+  PROMPT_COMMAND=("$PROMPT_COMMAND" _outdated)
 fi
-PROMPT_COMMAND=("$PROMPT_COMMAND" _outdated)
 
 # mise support
 if command --identify mise >/dev/null 2>&1; then
@@ -143,6 +142,16 @@ if command --identify mise >/dev/null 2>&1; then
     "$@"
   fi
   COMMAND_NOT_FOUND_HANDLER=('_mise_not_found "$@"' "$COMMAND_NOT_FOUND_HANDLER")
+fi
+
+if [ "${COPILOT_AGENT-}" ]; then
+  # no aliases
+  unalias -a
+  # avoid using interactive pagers
+  PAGER=cat
+  unset MANPAGER GIT_PAGER
+  # no automatic suggestion
+  set +o le-predict
 fi
 
 # read local settings
