@@ -17,7 +17,7 @@ fi
 YASH_LOADPATH=("${SETTINGSDIR:-$HOME/.settings}/yash" "$_old_loadpath")
 
 HISTRMDUP=1
-if [ "${VSCODE_PREVENT_SHELL_HISTORY-}" ]; then
+if [ "${VSCODE_PREVENT_SHELL_HISTORY-}" ] || [ "${COPILOT_AGENT-}" ]; then
   # don't save command history
   unset HISTFILE
 fi
