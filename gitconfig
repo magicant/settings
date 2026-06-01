@@ -49,6 +49,8 @@
 	branch = false
 	config = false
 	ls-files = true
+[push]
+	autoSetupRemote = true
 [pull]
 	ff = only
 [rebase]
