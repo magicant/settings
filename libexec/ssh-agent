@@ -47,11 +47,11 @@ if [ "$?" -gt 1 ]; then
 fi &&
 
 # load the agent with the key (assuming no passphrase required)
-ssh-add
+ssh-add ${__ssh_add_opts-}
 
 # unlock
 rmdir -- "$__agent~"
 
-unset __agent
+unset __agent __ssh_add_opts
 
 # vim: ft=sh et sw=4 sts=4

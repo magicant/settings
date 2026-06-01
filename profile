@@ -76,6 +76,7 @@ fi
 #export BROWSER='rundll32.exe url.dll,FileProtocolHandler'
 
 #__agent=~/.ssh/@"$(uname)"@"$HOSTNAME"
+#__ssh_add_opts='--apple-load-keychain'
 #. ~/.settings/libexec/ssh-agent
 
 # Check for outdated packages
