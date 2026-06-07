@@ -44,7 +44,7 @@ fi
 #    export TERM_PROGRAM=winterm # This value is unofficial
 #fi
 
-#export PATH="$HOME/bin:$HOME/.settings/bin:$PATH"
+#export PATH="$HOME/.local/bin:$HOME/.settings/bin:$PATH"
 #export PAGER='less' LESSOPEN='|lesspipe.sh %s'
 #unset  LESSCLOSE
 #export MANPAGER='less -s'
