@@ -132,7 +132,7 @@ if command -v vim >/dev/null 2>&1; then
     fi
 fi
 
-mkdir -m go-w -p "${HOME%/}/.ssh"
+mkdir -m go-w -p "${HOME%/}/.ssh/control"
 if [ -e "${HOME%/}/.ssh/config" ]; then
     echo "~/.ssh/config already exists"
 else

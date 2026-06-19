@@ -3,6 +3,6 @@
 
 set -Ceu
 
-exec find ~/.ssh -type s -exec sh -c 'ssh -O stop -o "ControlPath=$1" X' X {} \;
+exec find ~/.ssh/control -type s -exec sh -c 'ssh -O stop -o "ControlPath=$1" X' X {} \;
 
 # vim: ft=sh et sw=4 sts=4

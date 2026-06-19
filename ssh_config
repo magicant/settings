@@ -4,8 +4,9 @@ Host github.com
 
 Host *
 	ControlMaster auto
-	ControlPath ~/.ssh/%r@%h:%p
-#	ControlPath ~/.ssh/ctrl-%C
+	ControlPath ~/.ssh/control/%r@%h:%p
+#	For better security (but less convenient):
+#	ControlPath ~/.ssh/control/%C
 	ControlPersist 300
 	ForwardAgent yes
 	HashKnownHosts no
