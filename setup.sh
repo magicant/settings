@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# $1 = pathname of target
-# $2 = pathname of new symlink
+# $1 = pathname of target, relative to $PWD or absolute
+# $2 = pathname of new symlink, relative to $PWD or absolute
 # $3 = user-friendly representation of $2, optional
 # $4 = user-friendly representation of $1, optional
 makelink () {
@@ -50,6 +50,7 @@ echo Home directory is "$HOME"
 echo Settings directory is "$PWD"
 
 makelinkhome agents .agents
+makelinkhome agents/skills .claude/skills
 makelinkhome bashrc .bashrc
 for file in .bash_profile .bash_login
 do
