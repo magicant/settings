@@ -49,6 +49,7 @@ cd -- "$(dirname -- "$0")"
 echo Home directory is "$HOME"
 echo Settings directory is "$PWD"
 
+makelinkhome agents .agents
 makelinkhome bashrc .bashrc
 for file in .bash_profile .bash_login
 do
