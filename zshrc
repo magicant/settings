@@ -185,9 +185,9 @@ if [ x"$TERM" = x"dumb" ]; then
     PAGER=more
 fi
 
-# rtx support
-if command -v rtx >/dev/null 2>&1; then
-    eval "$(rtx activate zsh)"
+# mise support
+if command -v mise >/dev/null 2>&1; then
+    eval "$(mise activate zsh)"
 fi
 
 if [ -r ~/.zshrc_local ]; then
