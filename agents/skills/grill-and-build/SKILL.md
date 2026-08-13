@@ -60,4 +60,14 @@ If the user objects to an entry mid-build, rework what that entry touched. No sp
 
 When the implementation is done, present a **decision-to-diff map**: each decision you made without asking, paired with where it landed — file, section, rough size. The user then checks decisions one by one instead of reading the whole diff to find them.
 
+**Never cite a line number from memory.** Any number you noted while editing is stale: every later insertion or deletion above it shifts it, and those shifts accumulate silently across a multi-file build. A map full of off-by-a-few links costs the user exactly the navigation time the map was supposed to save.
+
+So resolve every location **after the last edit**, from the file as it now stands:
+
+- Run `git diff` (or `git diff --stat` plus the hunks) once at the end and read the locations off the **new-file** side of the hunk headers — the `+` number in `@@ -old,n +new,m @@`. That is the authoritative post-edit numbering.
+- Or, for a specific anchor, grep the finished file for a unique string from the change and use the line number the grep reports.
+- Verify before writing each link, not once for the batch. Re-running the same file's numbers is cheap; a wrong link is not.
+
+**Prefer anchors that cannot drift.** Name the function, type, heading, or test case, and attach the line number as a convenience: "the `--strict` branch in `parse_args` (`src/cli.rs:212`)". If the name and the number ever disagree, the name still lands the user in the right place. Give a line range only when the change genuinely spans one, and take both ends from the same final read.
+
 Keep the decision review separate from correctness review. Present the map; let the user choose how to verify the code itself.
