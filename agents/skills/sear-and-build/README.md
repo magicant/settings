@@ -1,4 +1,4 @@
-# Grill and build
+# Sear and build
 
 A sibling of [grill-me](../grill-me/), aimed at lead time rather than exhaustiveness.
 

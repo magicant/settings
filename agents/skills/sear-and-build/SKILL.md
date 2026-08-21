@@ -1,5 +1,5 @@
 ---
-name: grill-and-build
+name: sear-and-build
 description: Settle a design by interviewing the user only about the decisions they alone can make, then implement speculatively while they review the rest, and hand back a map from each decision to the diff that realizes it. Use when the user wants a change designed and built with the shortest possible time to a reviewable implementation.
 argument-hint: The change we want to design and implement.
 ---
