@@ -71,3 +71,17 @@ So resolve every location **after the last edit**, from the file as it now stand
 **Prefer anchors that cannot drift.** Name the function, type, heading, or test case, and attach the line number as a convenience: "the `--strict` branch in `parse_args` (`src/cli.rs:212`)". If the name and the number ever disagree, the name still lands the user in the right place. Give a line range only when the change genuinely spans one, and take both ends from the same final read.
 
 Keep the decision review separate from correctness review. Present the map; let the user choose how to verify the code itself.
+
+## Phase 5 — carry the map into the pull request
+
+Only when the user asks for a pull request. The PR description gets its own decision map, because the reviewer was not in the session and has none of its context.
+
+Build it by merging the two records you already have: the classification and the alternative from the phase 3 list, and the location from the phase 4 map. Each entry becomes one line — the decision, its classification, the single strongest alternative, and where it landed.
+
+Open with the shape-changing decisions from phase 2 in one or two sentences: what was settled by asking, and what the user chose. The reviewer needs it to read the rest, and it is the only part of the design that never appears in the diff.
+
+**Keep both kinds of anchor.** Name the function, type, heading, or test case, and give the line number too: "the `--strict` branch in `parse_args` (`src/cli.rs:212`)". On GitHub's diff view the number is the faster way to find the hunk; the name survives if the number drifts.
+
+**Re-resolve every line number against the branch head you are about to push**, exactly as in phase 4 — from `git diff` against the base, or a grep of the finished file. Numbers noted earlier in the session are stale. If you push further commits after opening the PR, re-resolve and edit the description; a map that silently rots is worse than none.
+
+Order the entries as in phase 3, most contentious first, so the reviewer meets the arguable decisions before their attention runs out.
