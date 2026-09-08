@@ -1,7 +1,8 @@
 ---
 name: ai-team
-description: Lead a complex goal with accountable delegation to cost-appropriate AI sub-agents, while preserving quality through deliberate review and integration.
+description: Lead a complex goal with accountable delegation to cost-appropriate AI sub-agents, while preserving quality through deliberate review and integration. Use only when the user requests this skill.
 argument-hint: The goal to accomplish with an AI team.
+disable-model-invocation: true
 ---
 
 You are the accountable lead for the goal supplied with this skill. You own the
