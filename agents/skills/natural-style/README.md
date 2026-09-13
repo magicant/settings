@@ -4,6 +4,7 @@
 
 ## 検討課題
 
+- [ ] これはスキルであるべきか、それとも全体指令に組み込むべきか?
 <!--
 - [x] 単に「自然な文体で書いて」と指示するよりもトークン効率のバイアスを自覚させるような文を含める方が有意な改善効果があるのか?
     - 実験結果では翻訳タスクだとあまり差はないが、新規生成タスクだとやや差が見られる。
@@ -19,4 +20,4 @@
 
 ## 権利情報
 
-original.md の内容は [Rust の標準ライブラリドキュメント](https://doc.rust-lang.org/std/) の一節です。[Rust のライセンス](https://rust-lang.org/policies/licenses/)は Apache License 2.0 と MIT License のデュアルライセンスです。
+SKILL.md に含まれる例 1 の原文は [Rust の標準ライブラリドキュメント](https://doc.rust-lang.org/std/) の一節です。[Rust のライセンス](https://rust-lang.org/policies/licenses/)は Apache License 2.0 と MIT License のデュアルライセンスです。
