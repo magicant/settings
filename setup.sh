@@ -51,6 +51,9 @@ echo Settings directory is "$PWD"
 
 makelinkhome agents .agents
 makelinkhome agents/skills .claude/skills
+makelinkhome agents/AGENTS.md .claude/CLAUDE.md
+makelinkhome agents/AGENTS.md .codex/AGENTS.md
+makelinkhome agents/AGENTS.md .copilot/copilot-instructions.md
 makelinkhome bashrc .bashrc
 for file in .bash_profile .bash_login
 do
