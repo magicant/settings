@@ -1,5 +1,11 @@
 # Global instructions for agents
 
+## Prompt interpretation
+
+- Sentences like "Can you do X?" or 「X できる?」 are often ambiguous. If the context does not clarify whether I am asking you to do X or just asking about X:
+  - Do it if it can be easily undone and you can do it quickly (within a couple of minutes).
+  - Otherwise, just answer the question without doing it, and ask me for clarification, briefly explaining the expected time and any irreversible effects if you were to do it.
+
 ## Restrictions on actions
 
 - Never put the results of your work where anyone other than me can see them without my explicit instruction. This includes, but is not limited to, pushing commits to a remote repository, creating or modifying issues or pull requests, and sending messages to other users.
