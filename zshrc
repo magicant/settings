@@ -4,10 +4,22 @@ setopt autocd
 setopt nolistbeep listpacked
 setopt pushdignoredups
 setopt histignoredups histignorespace sharehistory
-setopt noclobber correct
+setopt correct
 setopt nohup
 setopt promptsubst nopromptbang promptpercent
 setopt kshtypeset shwordsplit
+
+# detect whether the shell is run by an AI agent
+if [ -n "${AI_AGENT-}${AGENT-}${CLAUDECODE-}${CODEX_THREAD_ID-}${COPILOT_CLI-}${CURSOR_AGENT-}${GEMINI_CLI-}" ]; then
+    _in_ai_agent=true
+else
+    _in_ai_agent=false
+fi
+
+# prevent redirections from overwriting existing files, except in AI agents
+if ! $_in_ai_agent; then
+    setopt noclobber
+fi
 
 bindkey    '\f'    redisplay
 bindkey -e '\eOH'  beginning-of-line
@@ -58,9 +70,12 @@ fi
 termcolor=$(tput colors 2>/dev/null)
 : ${PAGER:=more} ${termcolor:=-1}
 
-alias cp='cp -i'  # IMPORTANT!
-alias mv='mv -i'
-alias rm='rm -i'
+# don't ask for confirmation when run by an AI agent
+if ! $_in_ai_agent; then
+    alias cp='cp -i'
+    alias mv='mv -i'
+    alias rm='rm -i'
+fi
 
 alias -- -='cd -'
 alias _vcs='${${vcs_info_msg_0_:?not in version-controlled directory}%%@*}'
@@ -198,6 +213,6 @@ if [ -r "${DESK_ENV-}" ]; then
     . "${DESK_ENV}"
 fi
 
-unset termcolor
+unset termcolor _in_ai_agent
 
 # vim: ft=zsh et sw=4 sts=4
