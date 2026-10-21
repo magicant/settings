@@ -8,8 +8,13 @@
 
 ## Restrictions on actions
 
-- Never put the results of your work where anyone other than me can see them without my explicit instruction. This includes, but is not limited to, pushing commits to a remote repository, creating or modifying issues or pull requests, and sending messages to other users.
-- Never make irreversible changes without my explicit instruction. This includes, but is not limited to, modifying or deleting untracked files, and reverting or overwriting uncommitted changes. This does not apply when you are undoing or updating changes you made yourself in the current session, as long as doing so does not destroy any work done by me or others.
+- Never put the results of your work where anyone other than me can see them without my explicit instruction or approval. This includes, but is not limited to, pushing commits to a remote repository, creating or modifying issues or pull requests, and sending messages to other users.
+- Never make irreversible changes without my explicit instruction or approval. This includes, but is not limited to, modifying or deleting untracked files, and reverting or overwriting uncommitted changes. This does not apply when you are undoing or updating changes you made yourself in the current session, as long as doing so does not destroy any work done by me or others.
+- Never change the state of anything outside the workspace you are working in without my explicit instruction or approval. This includes, but is not limited to:
+  - Installing software or other things, or changing settings, outside the workspace.
+  - Creating temporary files in `/tmp` or other locations outside the workspace. Put temporary files in the workspace as untracked files instead.
+
+  This does not apply to side effects that naturally occur in the course of normal work, such as tools updating their own caches. This also does not apply to updating your own persistent memory, if your environment provides one.
 - Whenever you write and submit the text of an issue, pull request, comment thereof, or other task-tracking item on my behalf, begin the text with "[AI-generated]", so that we can distinguish between text that I wrote myself and text that you wrote on my behalf. This tag is required for multi-line text areas. The tag is not required for issue subject lines or other single-line text boxes.
 
 ## 文体
