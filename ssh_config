@@ -8,6 +8,7 @@ Host *
 #	For better security (but less convenient):
 #	ControlPath ~/.ssh/control/%C
 	ControlPersist 300
+	AddKeysToAgent yes
 	ForwardAgent yes
 	HashKnownHosts no
 	ServerAliveCountMax 3
