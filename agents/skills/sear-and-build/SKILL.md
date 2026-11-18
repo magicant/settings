@@ -62,11 +62,7 @@ When the implementation is done, present a **decision-to-diff map**: each decisi
 
 **Never cite a line number from memory.** Any number you noted while editing is stale: every later insertion or deletion above it shifts it, and those shifts accumulate silently across a multi-file build. A map full of off-by-a-few links costs the user exactly the navigation time the map was supposed to save.
 
-So resolve every location **after the last edit**, from the file as it now stands:
-
-- Run `git diff` (or `git diff --stat` plus the hunks) once at the end and read the locations off the **new-file** side of the hunk headers — the `+` number in `@@ -old,n +new,m @@`. That is the authoritative post-edit numbering.
-- Or, for a specific anchor, grep the finished file for a unique string from the change and use the line number the grep reports.
-- Verify before writing each link, not once for the batch. Re-running the same file's numbers is cheap; a wrong link is not.
+So resolve every location **after the last edit**, from the files as they now stand, and check each link against the current file before writing it. Use whatever method reads the current state reliably; the only requirement is that no number comes from your memory of an earlier state.
 
 **Prefer anchors that cannot drift.** Name the function, type, heading, or test case, and attach the line number as a convenience: "the `--strict` branch in `parse_args` (`src/cli.rs:212`)". If the name and the number ever disagree, the name still lands the user in the right place. Give a line range only when the change genuinely spans one, and take both ends from the same final read.
 
@@ -82,6 +78,6 @@ Open with the shape-changing decisions from phase 2 in one or two sentences: wha
 
 **Keep both kinds of anchor.** Name the function, type, heading, or test case, and give the line number too: "the `--strict` branch in `parse_args` (`src/cli.rs:212`)". On GitHub's diff view the number is the faster way to find the hunk; the name survives if the number drifts.
 
-**Re-resolve every line number against the branch head you are about to push**, exactly as in phase 4 — from `git diff` against the base, or a grep of the finished file. Numbers noted earlier in the session are stale. If you push further commits after opening the PR, re-resolve and edit the description; a map that silently rots is worse than none.
+**Re-resolve every line number against the branch head you are about to push**, exactly as in phase 4. Numbers noted earlier in the session are stale. If you push further commits after opening the PR, re-resolve and edit the description; a map that silently rots is worse than none.
 
 Order the entries as in phase 3, most contentious first, so the reviewer meets the arguable decisions before their attention runs out.
