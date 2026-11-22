@@ -15,6 +15,22 @@ In this repository are my "dotfiles".
    }
    ```
    The script requires `jq`.
+1. On WSL, add the following to `~/.claude/settings.json` to get a Windows notification when Claude Code finishes responding while the VS Code or Windows Terminal window hosting the session is not focused:
+   ```json
+   "hooks": {
+     "Stop": [
+       {
+         "hooks": [
+           {
+             "type": "command",
+             "command": "~/.settings/claude/hooks/notify-when-unfocused.sh"
+           }
+         ]
+       }
+     ]
+   }
+   ```
+   The script requires `jq`.
 
 ## Update
 1. Run `git remote update`
