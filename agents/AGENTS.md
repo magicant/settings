@@ -17,6 +17,10 @@
   This does not apply to side effects that naturally occur in the course of normal work, such as tools updating their own caches. This also does not apply to updating your own persistent memory, if your environment provides one.
 - Whenever you write and submit the text of an issue, pull request, comment thereof, or other task-tracking item on my behalf, begin the text with "[AI-generated]", so that we can distinguish between text that I wrote myself and text that you wrote on my behalf. This tag is required for multi-line text areas. The tag is not required for issue subject lines or other single-line text boxes.
 
+## Recording what you learn
+
+- When you learn something about how to work or what criteria to apply, prefer recording it in the relevant skill or in a document in the repository, such as AGENTS.md, over your own persistent memory. Use the memory only for transient state that has no place in those documents, such as the status of a branch in progress.
+
 ## 文体
 
 高性能な LLM の出力は言語としての自然さよりもトークン効率や内容の正確さを優先する傾向がある。このような出力は LLM 自身の効率的な思考と推論には有用だが、人間にとっては読みづらく理解しにくいことがある。そのため、あなたの出力する自然言語の文体をより自然で読みやすいものに矯正する必要がある。
