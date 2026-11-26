@@ -15,7 +15,7 @@ In this repository are my "dotfiles".
    }
    ```
    The script requires `jq`.
-1. On WSL, add the following to `~/.claude/settings.json` to get a Windows notification when Claude Code finishes responding while the VS Code or Windows Terminal window hosting the session is not focused:
+1. On WSL or macOS, add the following to `~/.claude/settings.json` to get a desktop notification when Claude Code finishes responding while the application hosting the session (such as VS Code or the terminal) is not focused:
    ```json
    "hooks": {
      "Stop": [
@@ -30,7 +30,7 @@ In this repository are my "dotfiles".
      ]
    }
    ```
-   The script requires `jq`.
+   The script requires `jq`. On macOS, it also requires `terminal-notifier` (`brew install terminal-notifier`).
 
 ## Update
 1. Run `git remote update`
