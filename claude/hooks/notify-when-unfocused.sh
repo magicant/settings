@@ -6,11 +6,38 @@
 
 set -u
 
-# The hook input is a JSON object on stdin that contains the session's cwd.
-cwd=$(jq -r '.cwd // empty' 2>/dev/null)
+# The hook input is a JSON object on stdin that contains the session ID, the
+# session's cwd and the text of Claude's last response. jq prints the session
+# ID on the first line, the cwd on the second and a summary of the response on
+# the third: its first non-empty line with common Markdown markup removed,
+# truncated to 200 characters. Code blocks are skipped.
+{
+    IFS= read -r session
+    IFS= read -r cwd
+    IFS= read -r summary
+} <<EOF
+$(jq -r '
+    (.session_id // "" | gsub("\n"; " ")),
+    (.cwd // "" | gsub("\n"; " ")),
+    (.last_assistant_message // ""
+        | reduce splits("\n") as $line ({in_code: false, lines: []};
+            if $line | test("^\\s*```") then .in_code |= not
+            elif .in_code then .
+            else .lines += [$line]
+            end)
+        | [.lines[]
+            | sub("^\\s*(#+|>|[-*+]|[0-9]+\\.)\\s+"; "")
+            | gsub("\\[(?<text>[^]]*)\\]\\([^)]*\\)"; .text)
+            | gsub("\\*\\*|`"; "")
+            | sub("^\\s+"; "") | sub("\\s+$"; "")
+            | select(length > 0)]
+        | first // ""
+        | if length > 200 then .[:200] + "…" else . end)
+' 2>/dev/null)
+EOF
 
-title='Claude Code'
-message="Finished responding${cwd:+ in ${cwd##*/}}"
+title="Claude Code${cwd:+ (${cwd##*/})}"
+message=${summary:-Finished responding}
 
 if [ "$(uname -s)" = Darwin ]; then
     command -v terminal-notifier >/dev/null 2>&1 || exit 0
@@ -32,11 +59,17 @@ if [ "$(uname -s)" = Darwin ]; then
     fi
 
     # Clicking the notification brings the host application to the front.
+    # A new notification replaces the previous one from the same session.
+    # terminal-notifier fails to parse a message that begins with a character
+    # such as "-", "[" or a quote, unless it is escaped with a backslash. The
+    # leading backslash is removed before the message is shown, so one is
+    # always prepended.
     terminal-notifier \
         -title "$title" \
-        -message "$message" \
+        -message "\\$message" \
         -sound default \
         ${host:+-activate "$host"} \
+        ${session:+-group "claude-code-$session"} \
         </dev/null >/dev/null 2>&1 &
 elif command -v wslpath >/dev/null 2>&1; then
     # Guess which Windows application hosts this session. If it cannot be
