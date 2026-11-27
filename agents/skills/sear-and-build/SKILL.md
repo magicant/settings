@@ -76,8 +76,10 @@ Build it by merging the two records you already have: the classification and the
 
 Open with the shape-changing decisions from phase 2 in one or two sentences: what was settled by asking, and what the user chose. The reviewer needs it to read the rest, and it is the only part of the design that never appears in the diff.
 
-**Keep both kinds of anchor.** Name the function, type, heading, or test case, and give the line number too: "the `--strict` branch in `parse_args` (`src/cli.rs:212`)". On GitHub's diff view the number is the faster way to find the hunk; the name survives if the number drifts.
+**Keep both kinds of anchor.** Name the function, type, heading, or test case, and give the line number too: "the `--strict` branch in `parse_args` (`src/cli.rs:212`)". The name survives if the number drifts.
 
-**Re-resolve every line number against the branch head you are about to push**, exactly as in phase 4. Numbers noted earlier in the session are stale. If you push further commits after opening the PR, re-resolve and edit the description; a map that silently rots is worse than none.
+**Link each entry to the hunk in the PR's diff view.** A bare file name and line number still make the reviewer open the diff and scroll to the spot; a link takes them there in one click. Make the `path:line` text itself the link. On GitHub the URL is `https://github.com/OWNER/REPO/pull/NUMBER/files#diff-HASH` followed by `R` and the line number, where `HASH` is the lowercase hex SHA-256 of the file's repository-relative path (for example, `printf '%s' src/cli.rs | sha256sum`). Use `R` with the new file's line number for added or kept lines, `L` with the old file's line number for a decision that landed as a deletion, and `R212-R230` for a range. The link needs the PR number, which exists only after the PR is created, so open the PR first and then edit its description to add the links. On another hosting service, use its equivalent anchor format; if it has none, fall back to the plain `path:line`.
+
+**Re-resolve every line number against the branch head you are about to push**, exactly as in phase 4. Numbers noted earlier in the session are stale. If you push further commits after opening the PR, re-resolve and edit the description, links included; a map that silently rots is worse than none.
 
 Order the entries as in phase 3, most contentious first, so the reviewer meets the arguable decisions before their attention runs out.
