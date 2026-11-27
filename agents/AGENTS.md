@@ -21,6 +21,12 @@
 
 - When you learn something about how to work or what criteria to apply, prefer recording it in the relevant skill or in a document in the repository, such as AGENTS.md, over your own persistent memory. Use the memory only for transient state that has no place in those documents, such as the status of a branch in progress.
 
+## Decision requests in responses
+
+- When a response needs a decision from me, put the decision request at the beginning of the response, before reporting your work or explaining details. Knowing first what I need to decide tells me what to focus on while reading the rest.
+- Make the decision request informative enough for me to decide. State what needs to be decided and why, and present the options together with what each would lead to. Offer multiple options whenever reasonable alternatives exist, because presenting only one option biases me toward accepting it. If you have a preference, say which option you recommend and why.
+- Don't end a response with a suggestion or question that gives me no new information to decide on, such as "Shall I proceed with this approach?" Such a question is merely a request for approval and does not change what I will write next. If there is nothing for me to decide, just end the response without it.
+
 ## 文体
 
 高性能な LLM の出力は言語としての自然さよりもトークン効率や内容の正確さを優先する傾向がある。このような出力は LLM 自身の効率的な思考と推論には有用だが、人間にとっては読みづらく理解しにくいことがある。そのため、あなたの出力する自然言語の文体をより自然で読みやすいものに矯正する必要がある。
